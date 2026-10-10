@@ -1,0 +1,35 @@
+import { configureStore } from "@reduxjs/toolkit";
+import menuReducer from "../Features/MenuSlice";
+import loginReducer from "../Features/LoginSlice";
+import registerReducer from "../Features/RegisterSlice";
+import productReducer from "../Features/ProductSlice";
+import productdetailReducer from "../Features/ProductDetailSlice";
+import cartReducer from "../Features/AddToCartSlice";
+import searchReducer from "../Features/SearchSlice";
+import likeReducer from "../Features/FavoriteSlice";
+import accountReducer from "../Features/AccountSlice";
+import addressReducer from "../Features/AddressSlice";
+export const store = configureStore({
+  reducer: {
+    menu: menuReducer,
+    login: loginReducer,
+    register: registerReducer,
+    product: productReducer,
+    productdetail: productdetailReducer,
+    cart: cartReducer,
+    search: searchReducer,
+    like: likeReducer,
+    account: accountReducer,
+    address:addressReducer,
+  },
+  //////optional////////
+});
+store.subscribe(() => {
+  try {
+    localStorage.setItem("cart", JSON.stringify(store.getState().cart));
+    localStorage.setItem("like", JSON.stringify(store.getState().like));
+  } catch (error) {
+    console.error("خطا در ذخیره سبد خرید:", error);
+    console.error("خطا در ذخیره  علاقه مندی ها:", error);
+  }
+});
