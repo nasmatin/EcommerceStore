@@ -1,22 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../services/api.js";
 
-export const DeleteAddress = createAsyncThunk(
-  "DeleteAddress",
+export const EditAddress = createAsyncThunk(
+  "EditAddress",
   async({userId,id}, { rejectWithValue })=>{
     try{
-   console.log("DeleteAddress USER ID:", userId,id);
+   console.log("EditAddress USER ID:", userId,id);
 
-      const response = await api.delete("/address/DeleteAddress", {
+      const response = await api.put("/address/UpdateAddress", {
         params: {
           userId: userId,
              id: id,
         },
       });
-      console.log(" DeleteAddress  :", response.data);
+      console.log(" EditAddress  :", response.data);
       const result = response.data;
 
-      console.log("BEFORE DeleteAddress:", result);
+      console.log("BEFORE EditAddress:", result);
 
       return {
         userId,id,
@@ -31,8 +31,8 @@ export const DeleteAddress = createAsyncThunk(
     }
   }
 );
-const DeleteAddressSlice = createSlice({
-  name: "deleteaddress",
+const EditAddressSlice = createSlice({
+  name: "editaddress",
   initialState: {
     deleteaddresses: {},
     status: "idle",
@@ -42,21 +42,21 @@ const DeleteAddressSlice = createSlice({
   extraReducers: (builder) => {
     builder
   
-      .addCase(DeleteAddress.pending, (state) => {
+      .addCase(EditAddress.pending, (state) => {
         //state.status = "loading";
         state.error = null;
       })
       // وقتی درخواست موفق می‌شود
-      .addCase(DeleteAddress.fulfilled, (state, action) => {
+      .addCase(EditAddress.fulfilled, (state, action) => {
         state.status = "succeeded";
         const { userId,id, data } = action.payload;
-        state.addaddresses[userId,id] = data; // داده‌های آمده از سرور   
+        state.editaddress[userId,id] = data; // داده‌های آمده از سرور   
       })
       // وقتی درخواست شکست می‌خورد
-      .addCase(DeleteAddress.rejected, (state, action) => {
+      .addCase(EditAddress.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });
   },
 });
-export default DeleteAddressSlice.reducer;
+export default EditAddressSlice.reducer;

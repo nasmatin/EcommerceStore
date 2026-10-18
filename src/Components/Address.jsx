@@ -33,6 +33,8 @@ function Address() {
         id,
       })
     ).unwrap();
+     // دریافت دوباره لیست آدرس‌ها بعد از حذف موفق
+    await dispatch(GetAddress(userId)).unwrap();
   } catch (error) {
     console.error("خطا در حذف آدرس:", error);
     alert("حذف آدرس انجام نشد.");

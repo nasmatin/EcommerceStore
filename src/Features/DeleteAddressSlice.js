@@ -47,10 +47,10 @@ const DeleteAddressSlice = createSlice({
         state.error = null;
       })
       // وقتی درخواست موفق می‌شود
-      .addCase(DeleteAddress.fulfilled, (state, action) => {
+      .addCase(DeleteAddress.fulfilled, (state) => {
         state.status = "succeeded";
-        const { userId,id, data } = action.payload;
-        state.addaddresses[userId,id] = data; // داده‌های آمده از سرور   
+        //const { userId,id, data } = action.payload;
+        //state.deleteaddress[userId,id] = data; // داده‌های آمده از سرور   
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(DeleteAddress.rejected, (state, action) => {
