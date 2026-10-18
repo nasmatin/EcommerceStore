@@ -43,7 +43,6 @@ function CartCard({
           {brand && <p className="mt-1 text-sm text-gray-500">برند: {brand}</p>}
         </div>
 
-        {/* قیمت واحد و تعداد */}
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-xs text-gray-500">قیمت هر عدد</p>
@@ -84,7 +83,6 @@ function CartCard({
           </div>
         </div>
 
-        {/* جمع قیمت و حذف */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3">
           <div>
             <p className="text-xs text-gray-500">جمع قیمت این محصول</p>
