@@ -1,0 +1,62 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../services/api.js";
+
+export const PostAddress = createAsyncThunk(
+  "PostAddress",
+  async({userId,formdata}, { rejectWithValue })=>{
+    try{
+   console.log("PostAddress USER ID:", userId);
+      console.log("PostAddress FORM DATA:", formdata);
+
+      const response = await api.post("/address/CreateAddress", formdata, {
+        params: {
+          userId: userId,
+        },
+      });
+      console.log(" PostAddress  :", response.data);
+      const result = response.data;
+
+      console.log("BEFORE PostAddress:", result);
+
+      return {
+        userId,
+        data: response.data,
+      };
+    }
+    catch(error)
+    {
+            console.log("ERROR EDIT:", error);
+      console.log("ERROR RESPONSE EDIT:", error.response?.data);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+const AddAddressSlice = createSlice({
+  name: "addaddress",
+  initialState: {
+    addaddresses: {},
+    status: "idle",
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+  
+      .addCase(PostAddress.pending, (state) => {
+        //state.status = "loading";
+        state.error = null;
+      })
+      // وقتی درخواست موفق می‌شود
+      .addCase(PostAddress.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const { userId, data } = action.payload;
+        state.addaddresses[userId] = data; // داده‌های آمده از سرور   
+      })
+      // وقتی درخواست شکست می‌خورد
+      .addCase(PostAddress.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
+});
+export default AddAddressSlice.reducer;

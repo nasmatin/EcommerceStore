@@ -4,7 +4,7 @@ import Footer from "../Components/Footer";
 import AddressItem from "./AddressItem";
 import Button from "./Button";
 import NoAddress from "../Components/NoAddress";
-import { GetAddress } from "../Features/AddressSlice";
+import { GetAddress } from "../Features/AddressListSlice";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";

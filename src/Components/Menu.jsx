@@ -184,11 +184,11 @@ function Menu() {
             items-center
             gap-2
             text-lg
-          "
+          font-myfont"
         >
           <i className="fa-solid fa-bars"></i>
 
-          <span>منو</span>
+          <span >منو</span>
         </button>
       </div>
 
@@ -202,7 +202,7 @@ function Menu() {
             z-40
             bg-black/40
             md:hidden
-          "
+          font-myfont"
           onClick={closeMobileMenu}
         ></div>
       )}
@@ -234,6 +234,7 @@ function Menu() {
         <div
           className="
             flex
+            font-myfont
             items-center
             justify-between
             border-b
@@ -250,7 +251,7 @@ function Menu() {
 
           {/* عنوان */}
 
-          <div className="font-bold">{currentTitle}</div>
+          <div className="font-myfont font-bold">{currentTitle}</div>
 
           {/* برگشت */}
 
@@ -265,7 +266,7 @@ function Menu() {
 
         {/* DRAWER CONTENT */}
 
-        <div className="p-3">
+        <div className="font-myfont p-3">
           {/* ================= MAIN MENU ================= */}
 
           {currentParentId === null && (
@@ -282,7 +283,7 @@ function Menu() {
                   px-3
                   py-3
                   hover:bg-purple-700
-                "
+               font-myfont "
               >
                 <span>محصولات</span>
 
@@ -304,7 +305,7 @@ function Menu() {
               </Link>
 
               <Link
-                to="/contact"
+                to="/contactus"
                 onClick={closeMobileMenu}
                 className="
                   block

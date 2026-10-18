@@ -74,6 +74,7 @@ const handleclick =(catId)=>{
       <div
         className="
           flex
+          font-myfont
           cursor-pointer
           items-center
           justify-between
@@ -109,6 +110,7 @@ const handleclick =(catId)=>{
         <div
           className={`
             absolute
+            font-myfont
             z-50
             ${item.id === 0
               ? "right-0 top-full"

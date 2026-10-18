@@ -77,7 +77,7 @@ function CartCard({
               aria-label="کاهش تعداد"
               disabled={quantity <= 1}
               className="flex h-8 w-8 items-center justify-center rounded-lg text-lg font-bold text-gray-700 transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-40"
-            >
+            > 
               −
             </button>
           </div>

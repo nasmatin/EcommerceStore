@@ -8,7 +8,11 @@ import cartReducer from "../Features/AddToCartSlice";
 import searchReducer from "../Features/SearchSlice";
 import likeReducer from "../Features/FavoriteSlice";
 import accountReducer from "../Features/AccountSlice";
-import addressReducer from "../Features/AddressSlice";
+import addressReducer from "../Features/AddressListSlice";
+import addaddressReducer from "../Features/AddAddressSlice";
+import provinceReducer from "../Features/ProvinceSlice";
+import cityReducer from "../Features/CitySlice";
+
 export const store = configureStore({
   reducer: {
     menu: menuReducer,
@@ -20,7 +24,10 @@ export const store = configureStore({
     search: searchReducer,
     like: likeReducer,
     account: accountReducer,
-    address:addressReducer,
+    address: addressReducer,
+    addaddress: addaddressReducer,
+    province: provinceReducer,
+    city: cityReducer,
   },
   //////optional////////
 });
