@@ -3,7 +3,7 @@ function AddressCard({ id, title, fullAddress, postalCode, onEdit, onRemove }) {
     <div
       dir="rtl"
       data-address-id={id}
-      className="font-myfont flex w-full items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
+      className=" font-myfont flex w-full items-center gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md"
     >
       {/* اطلاعات آدرس در سمت راست */}
       <div className="flex-1 min-w-0">
@@ -32,7 +32,7 @@ function AddressCard({ id, title, fullAddress, postalCode, onEdit, onRemove }) {
         <button
           type="button"
           onClick={onEdit}
-          className="px-2 py-2 transition hover:bg-green-50 hover:text-green-700"
+          className="cursor-pointer px-2 py-2 transition hover:bg-green-50 hover:text-green-700"
         >
           <i className="fa-solid fa-pen text-lg text-green-600"></i>
         </button>
@@ -40,7 +40,7 @@ function AddressCard({ id, title, fullAddress, postalCode, onEdit, onRemove }) {
         <button
           type="button"
           onClick={onRemove}
-          className=" px-2 py-2  text-red-500 transition hover:bg-red-50 hover:text-red-700"
+          className="cursor-pointer px-2 py-2  text-red-500 transition hover:bg-red-50 hover:text-red-700"
         >
           <i className="fa-solid fa-trash text-lg text-red-600"></i>
         </button>

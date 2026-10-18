@@ -19,22 +19,23 @@ function AddressForm() {
   const provinces = useSelector((state) => state.province.provinces);
   const cities = useSelector((state) => state.city.cities);
   const [form, setform] = useState({
-    pid: "",
-    cid: "",
+    title:"",
+    provinceId: "",
+    cityId: "",
     address: "",
-    postalcode: "",
-    lat: "",
-    lon: "",
+    postalCode: "",
+    latitude: "",
+    longitude: "",
   });
-    const account = useSelector((state) => state.login);
+  const account = useSelector((state) => state.login);
 
-  const cityOptions = cities[form.pid] || [];
+  const cityOptions = cities[form.provinceId] || [];
 
   const handlechangeprovince = (value) => {
     setform((prev) => ({
       ...prev,
-      pid: value,
-      cid: "",
+      provinceId: value,
+      cityId: "",
     }));
 
     dispatch(GetCity(value));
@@ -43,21 +44,24 @@ function AddressForm() {
   const handlechangecity = (value) => {
     setform((prev) => ({
       ...prev,
-      cid: value,
+      cityId: value,
     }));
   };
   const handlesubmit = async (e) => {
-
-    e.preventDefault(); 
-         const id = account.id;
+    e.preventDefault();
+    const id = account.id;
 
     try {
-      const result = await dispatch(PostAddress({id:id,form:form})).unwrap();
+      const result = await dispatch(
+        PostAddress({ userId: id, formdata: form })
+      ).unwrap();
       setform(result);
-      navigate("address", { replace: true });
+      navigate("/address", { replace: true });
     } catch (error) {
       alert("ثبت‌نام ناموفق بود. اطلاعات را بررسی کن.");
-      console.error("خطای ثبت آدرس:", error);
+      console.error("خطای کامل ثبت آدرس:", error);
+      console.error("پیام خطا:", error?.message);
+      console.error("پاسخ سرور:", error?.response?.data);
     }
   };
   const handlechange = (e) => {
@@ -68,13 +72,13 @@ function AddressForm() {
       [name]: value,
     }));
   };
-  const handleLocationChange = (lat, lon) => {
-  setform((prev) => ({
-    ...prev,
-    lat,
-    lon,
-  }));
-};
+  const handleLocationChange = (latitude, longitude) => {
+    setform((prev) => ({
+      ...prev,
+      latitude,
+      longitude,
+    }));
+  };
   useEffect(() => {
     dispatch(GetProvince());
   }, [dispatch]);
@@ -100,18 +104,19 @@ function AddressForm() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* اطلاعات تماس */}
             <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-purple-100">
+            
               {/* آدرس */}
               <div className="mb-6 flex gap-4">
                 <div>
                   <h3 className="mb-1 font-bold text-gray-800">استان:</h3>
 
                   <DROPDOWN
-                    name="pid"
+                    name="provinceId"
                     options={provinces.map((province) => ({
                       value: province.id,
                       label: province.name,
                     }))}
-                    value={form.pid}
+                    value={form.provinceId}
                     onChange={handlechangeprovince}
                     placeholder="استان خود  را انتخاب کنید"
                     required
@@ -125,21 +130,34 @@ function AddressForm() {
                   <h3 className="mb-1 font-bold text-gray-800">شهر : </h3>
 
                   <DROPDOWN
-                    name="city"
+                    name="cityId"
                     options={cityOptions.map((city) => ({
                       value: city.id,
                       label: city.name,
                     }))}
-                    value={form.cid}
+                    value={form.cityId}
                     onChange={handlechangecity}
                     placeholder="شهر خود  را انتخاب کنید"
-                    disabled={!form.pid}
+                    disabled={!form.provinceId}
                     required
                   ></DROPDOWN>
                 </div>
               </div>
 
-              {/* پشتیبانی */}
+                 <div className="mb-6 flex gap-4">
+                <div>
+                  <h3 className="mb-1 font-bold text-gray-800">عنوان آدرس  :</h3>
+
+                  <Input
+                    name="title"
+                    className="border-purple-900"
+                    value={form.title}
+                    placeholder=" عنوان آدرس  "
+                    onChange={handlechange}
+                    required
+                  ></Input>
+                </div>
+              </div>
               <div className="mb-6 flex gap-4">
                 <div>
                   <h3 className="mb-1 font-bold text-gray-800">آدرس دقیق :</h3>
@@ -172,9 +190,10 @@ function AddressForm() {
                   <h3 className="mb-1 font-bold text-gray-800">کد پستی :</h3>
 
                   <Input
-                    name="postalcode"
+                  type="number"
+                    name="postalCode"
                     className="border-purple-900"
-                    value={form.postalcode}
+                    value={form.postalCode}
                     placeholder=" کد پستی "
                     onChange={handlechange}
                     required
@@ -186,7 +205,7 @@ function AddressForm() {
             {/* نقشه */}
             <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-purple-100">
               <div className=" w-full">
-               <AddressMap onLocationChange={handleLocationChange} />
+                <AddressMap onLocationChange={handleLocationChange} />
               </div>
             </div>
           </div>

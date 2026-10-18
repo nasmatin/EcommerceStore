@@ -10,6 +10,9 @@ import likeReducer from "../Features/FavoriteSlice";
 import accountReducer from "../Features/AccountSlice";
 import addressReducer from "../Features/AddressListSlice";
 import addaddressReducer from "../Features/AddAddressSlice";
+import deleteaddressReducer from "../Features/DeleteAddressSlice";
+import editaddressReducer from "../Features/EditAddressSlice";
+
 import provinceReducer from "../Features/ProvinceSlice";
 import cityReducer from "../Features/CitySlice";
 
@@ -28,6 +31,8 @@ export const store = configureStore({
     addaddress: addaddressReducer,
     province: provinceReducer,
     city: cityReducer,
+    deleteaddress:deleteaddressReducer,
+    editaddress:editaddressReducer
   },
   //////optional////////
 });

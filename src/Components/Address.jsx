@@ -8,6 +8,7 @@ import { GetAddress } from "../Features/AddressListSlice";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { DeleteAddress } from "../Features/DeleteAddressSlice";
 function Address() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,6 +23,21 @@ function Address() {
       dispatch(GetAddress(userId));
     }
   }, [dispatch, userId]);
+  const handleRemove = async (id) => {
+  if (!window.confirm("از حذف این آدرس مطمئنی؟")) return;
+
+  try {
+    await dispatch(
+      DeleteAddress({
+        userId: account.id,
+        id,
+      })
+    ).unwrap();
+  } catch (error) {
+    console.error("خطا در حذف آدرس:", error);
+    alert("حذف آدرس انجام نشد.");
+  }
+};
   return (
     <>
       <Header />
@@ -43,7 +59,7 @@ function Address() {
                 title={uaddress.title}
                 postalCode={uaddress.postalCode}
                 fullAddress={uaddress.fullAddress}
-                // link={`/address/addressdetial?userId=${userId}&id=${uaddress.id}`}
+                onRemove={() => handleRemove(uaddress.id)}
               />
             ))
           )}
