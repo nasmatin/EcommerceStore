@@ -28,7 +28,8 @@ function LoginClient() {
   const inputsubmit = async (e) => {
     e.preventDefault(); 
     try{
- await dispatch(PostLogin(loginform)).unwrap();
+   const result=await dispatch(PostLogin(loginform)).unwrap();
+ // dispatch(loadCart(result.user.id));
     navigate("/", { replace: true });
     }
    

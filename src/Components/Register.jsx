@@ -6,11 +6,11 @@ import Button from "../Components/Button";
 import Login from "../Components/Login";
 import { PostRegister } from "../Features/RegisterSlice";
 import { login } from "../Features/LoginSlice";
+// import { loadCart } from "../Features/AddToCartSlice";
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.register.isLoggedIn);
-
+const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const [Registerform, setRegisterform] = useState({
     name: "",
     familyname: "",
@@ -42,6 +42,8 @@ function Register() {
   try{
     const result = await dispatch(PostRegister(registerdata)).unwrap();
     dispatch(login(result.user));
+   // dispatch(loadCart(result.user.id));
+
 navigate("/", { replace: true });
   }
  catch{

@@ -19,13 +19,8 @@ export const EditAddress = createAsyncThunk(
         data: result,
       };
     } catch (error) {
-      console.log("ERROR EDIT:", error);
-
- return rejectWithValue(
-    error.response?.data?.message ||
-    error.message ||
-    "خطای نامشخص در ویرایش آدرس",
-  );    }
+      return rejectWithValue(error.message);
+    }
   }
 );
 const EditAddressSlice = createSlice({

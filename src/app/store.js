@@ -31,14 +31,8 @@ export const store = configureStore({
     addaddress: addaddressReducer,
     province: provinceReducer,
     city: cityReducer,
-    deleteaddress:deleteaddressReducer,
-    editaddress:editaddressReducer
+    deleteaddress: deleteaddressReducer,
+    editaddress: editaddressReducer,
   },
 });
-store.subscribe(() => {
-  try {
-    localStorage.setItem("cart", JSON.stringify(store.getState().cart));
-  } catch (error) {
-    console.error("خطا در ذخیره سبد خرید:", error);
-  }
-});
+

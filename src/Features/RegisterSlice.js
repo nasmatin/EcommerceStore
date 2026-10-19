@@ -42,14 +42,17 @@ const RegisterSlice = createSlice({
         state.error = null;
       })
       .addCase(PostRegister.fulfilled, (state, action) => {
+        const user = action.payload.user;
+
         state.status = "succeeded";
         state.isLoggedIn = true;
-        state.name = action.payload.user.name;
-        state.familyname = action.payload.user.familyname;
-
-        state.username = action.payload.user.username;
-        state.token = action.payload.user.token;
-        localStorage.setItem("token", action.payload.user.token);
+        state.name = user.name;
+        state.familyname = user.familyname;
+        state.username = user.username;
+        state.token = user.token;
+        
+        localStorage.setItem("token",user.token);
+        localStorage.setItem("user", JSON.stringify(user));
         state.error = null;
       })
       .addCase(PostRegister.rejected, (state, action) => {

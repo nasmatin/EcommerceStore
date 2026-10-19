@@ -13,7 +13,7 @@ import { GetProductDetail } from "../Features/ProductDetailSlice";
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
-import { add } from "../Features/AddToCartSlice";
+import { add, decrement, increment } from "../Features/AddToCartSlice";
 import { like, dislike } from "../Features/FavoriteSlice";
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
@@ -36,18 +36,11 @@ function ProductDetail() {
     favorites.some((item) => Number(item.id) === Number(Id));
   const existingInCart = cartItems.find((item) => item.id === Id);
 
-  useEffect(() => {
-    if (existingInCart) {
-      setSelectedQuantity(existingInCart.quantity);
-    }
-  }, [existingInCart]);
-
-  const quantity = selectedQuantity;
+  const quantity = existingInCart ? existingInCart.quantity : selectedQuantity;
 
   const ProDetails = useSelector(
     (state) => state.productdetail?.productdetails?.[Id]
   );
-  //const AddCart = useSelector((state) => state.cart);
 
   const categories = useSelector((state) => state.menu.category);
 
@@ -81,6 +74,11 @@ function ProductDetail() {
     }
   };
   const handlefavorite = () => {
+    if (!account.isLoggedIn) {
+      setShowLoginPopup(true);
+      return;
+    }
+
     if (!pdetail.id) return;
 
     if (isFavorite) {
@@ -218,12 +216,17 @@ function ProductDetail() {
                     <div className="inline-flex items-center overflow-hidden rounded-xl border border-gray-400 bg-white">
                       <button
                         type="button"
-                        onClick={() =>
-                          setSelectedQuantity((q) => Math.min(q + 1, 5))
-                        }
+                        disabled={quantity >= 5}
+                        onClick={() => {
+                          if (existingInCart) {
+                            dispatch(increment(Id));
+                          } else {
+                            setSelectedQuantity((q) => Math.min(q + 1, 5));
+                          }
+                        }}
                         aria-label="افزایش تعداد"
                         className="flex h-10 w-10  items-center justify-center text-gray-700
-      transition hover:bg-purple-50 hover:text-purple-800"
+                                   transition hover:bg-purple-50 hover:text-purple-800"
                       >
                         <span className="text-xl leading-none">+</span>
                       </button>
@@ -233,9 +236,13 @@ function ProductDetail() {
 
                       <button
                         type="button"
-                        onClick={() =>
-                          setSelectedQuantity((q) => Math.max(1, q - 1))
-                        }
+                        onClick={() => {
+                          if (existingInCart) {
+                            dispatch(decrement(Id));
+                          } else {
+                            setSelectedQuantity((q) => Math.max(1, q - 1));
+                          }
+                        }}
                         aria-label="کاهش تعداد"
                         className="flex h-10 w-10 items-center justify-center text-gray-700
                                    transition hover:bg-purple-50 hover:text-purple-800"
@@ -245,7 +252,14 @@ function ProductDetail() {
                     </div>
                   </div>
 
-                  <Button onClick={handleclick} label="افزودن به سبد خرید" />
+                  {existingInCart ? (
+                    <Button
+                      onClick={() => navigate("/cart")}
+                      label="مشاهده سبد خرید"
+                    />
+                  ) : (
+                    <Button onClick={handleclick} label="افزودن به سبد خرید" />
+                  )}
                 </div>
 
                 <div className="flex shrink-0 items-center gap-2">

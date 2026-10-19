@@ -16,10 +16,8 @@ return {
 };
 
     }
-    catch(error)
-    {
-            return rejectWithValue(error.message);
-  
+    catch (error) {
+      return rejectWithValue(error.message);
     }
 });
 const AddressSlice=createSlice({

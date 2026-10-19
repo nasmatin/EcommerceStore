@@ -6,27 +6,12 @@ const defaultCartState = {
   totalPrice: 0,
 };
 
-const loadCartFromStorage = () => {
-  try {
-    const savedCart = localStorage.getItem("cart");
-    if (!savedCart) return defaultCartState;
-
-    const parsedCart = JSON.parse(savedCart);
-
-    return {
-      ...defaultCartState,
-      ...parsedCart,
-      items: Array.isArray(parsedCart.items) ? parsedCart.items : [],
-    };
-  } catch {
-    return defaultCartState;
-  }
-};
-
 const saveCartToStorage = (state) => {
   try {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+ if (!user?.id) return;
     localStorage.setItem(
-      "cart",
+      `cart_${user.id}`,
       JSON.stringify({
         items: state.items,
         totalCount: state.totalCount,
@@ -38,12 +23,36 @@ const saveCartToStorage = (state) => {
   }
 };
 
-const initialCartState = loadCartFromStorage();
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: initialCartState,
+  initialState: defaultCartState,
   reducers: {
+    loadCart: (state, action) => {
+  const userId = action.payload;
+
+  try {
+    const savedCart = localStorage.getItem(`cart_${userId}`);
+
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+
+      state.items = Array.isArray(parsedCart.items)
+        ? parsedCart.items
+        : [];
+      state.totalCount = parsedCart.totalCount || 0;
+      state.totalPrice = parsedCart.totalPrice || 0;
+    } else {
+      state.items = [];
+      state.totalCount = 0;
+      state.totalPrice = 0;
+    }
+  } catch {
+    state.items = [];
+    state.totalCount = 0;
+    state.totalPrice = 0;
+  }
+},
     add: (state, action) => {
       const newItem = action.payload;
       const requestedQty = Number(newItem.quantity) || 1;
@@ -139,5 +148,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { add, reset, increment, decrement, clear } = cartSlice.actions;
+export const { add, reset, increment, decrement, clear,loadCart } = cartSlice.actions;
 export default cartSlice.reducer;

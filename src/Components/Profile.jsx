@@ -33,23 +33,43 @@ function Profile() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const totalCount = useSelector((state) => state.cart.totalCount);
   return (
     <div dir="ltr" className="flex  items-center gap-4 sm:gap-5 shrink-0">
-      {account.isLoggedIn ? (
-        <Link
-          to="/cart"
-          className="flex items-center justify-center cursor-pointer"
-        >
-          <i className="fa-solid fa-cart-shopping text-purple-600 text-xl sm:text-2xl"></i>
-        </Link>
-      ) : (
-        <button
-          onClick={() => setShowLoginPopup(true)}
-          className="flex items-center justify-center cursor-pointer"
-        >
-          <i className="fa-solid fa-cart-shopping text-purple-600 text-xl sm:text-2xl"></i>
-        </button>
+
+{account.isLoggedIn ? (
+  <Link
+    to="/cart"
+    className="flex items-center justify-center cursor-pointer"
+  >
+    <span className="relative inline-flex">
+      <i className="fa-solid fa-cart-shopping text-purple-600 text-xl sm:text-2xl"></i>
+
+      {totalCount > 0 && (
+        <span className="absolute -bottom-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
+          {totalCount}
+        </span>
       )}
+    </span>
+  </Link>
+) : (
+  <button
+    onClick={() => setShowLoginPopup(true)}
+    className="flex items-center justify-center cursor-pointer"
+  >
+    <span className="relative inline-flex">
+      <i className="fa-solid fa-cart-shopping text-purple-600 text-xl sm:text-2xl"></i>
+
+      {totalCount > 0 && (
+        <span className="absolute -bottom-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
+          {totalCount}
+        </span>
+      )}
+    </span>
+  </button>
+)}
+
       <div className="relative flex items-center justify-center">
         <button onClick={handleclickUser} className="p-2 cursor-pointer">
           <i

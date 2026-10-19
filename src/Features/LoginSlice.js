@@ -5,13 +5,11 @@ export const PostLogin = createAsyncThunk(
   "PostLogin",
   async (logindata, { rejectWithValue }) => {
     try {
-
       const response = await api.post("/users/loginclient", logindata);
       const result = response.data;
 
       return result;
     } catch (error) {
-
       return rejectWithValue(error.message);
     }
   }
@@ -91,7 +89,6 @@ const LoginSlice = createSlice({
         localStorage.setItem("token", action.payload.user.token);
         localStorage.setItem("user", JSON.stringify(action.payload.user));
         state.error = null;
-
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(PostLogin.rejected, (state, action) => {
