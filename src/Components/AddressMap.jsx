@@ -5,6 +5,7 @@ import {
   useMapEvents,
   useMap,
 } from "react-leaflet";
+import { useEffect } from "react";
 
 function MapEvents({ onLocationChange }) {
   const map = useMap();
@@ -19,23 +20,61 @@ function MapEvents({ onLocationChange }) {
   return null;
 }
 
-function AddressMap({ onLocationChange }) {
+function ChangeMapCenter({ latitude, longitude }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (latitude != null && longitude != null &&
+        latitude !== "" && longitude !== "") {
+      map.setView(
+        [Number(latitude), Number(longitude)],
+        15
+      );
+    }
+  }, [latitude, longitude, map]);
+
+  return null;
+}
+
+function AddressMap({
+  onLocationChange,
+  latitude,
+  longitude,
+}) {
+  const hasLocation =
+    latitude !== "" &&
+    longitude !== "" &&
+    latitude != null &&
+    longitude != null;
+
+  const initialCenter = hasLocation
+    ? [Number(latitude), Number(longitude)]
+    : [35.6892, 51.389];
+
   return (
     <div className="relative h-96 w-full">
       <MapContainer
-        center={[35.6892, 51.389]}
-        zoom={13}
-        style={{ width: "100%", height: "100%",zIndex: 0 }}
+        center={initialCenter}
+        zoom={15}
+        style={{ width: "100%", height: "100%", zIndex: 0 }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="&copy; OpenStreetMap contributors"
         />
 
+        <ChangeMapCenter
+          latitude={latitude}
+          longitude={longitude}
+        />
+
         <MapEvents onLocationChange={onLocationChange} />
       </MapContainer>
 
-      <div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center"   style={{ zIndex: 1000 }}>
+      <div
+        className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center"
+        style={{ zIndex: 1000 }}
+      >
         <svg
           viewBox="0 0 24 24"
           className="h-9 w-9 -translate-y-1/2 text-red-600 drop-shadow-md"

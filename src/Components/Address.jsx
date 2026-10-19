@@ -40,6 +40,11 @@ function Address() {
     alert("حذف آدرس انجام نشد.");
   }
 };
+const handleedit = (uaddress) => {
+  navigate("/address/addressform", {
+    state: { address: uaddress },
+  });
+};
   return (
     <>
       <Header />
@@ -62,6 +67,7 @@ function Address() {
                 postalCode={uaddress.postalCode}
                 fullAddress={uaddress.fullAddress}
                 onRemove={() => handleRemove(uaddress.id)}
+                onEdit={()=>handleedit(uaddress)}
               />
             ))
           )}

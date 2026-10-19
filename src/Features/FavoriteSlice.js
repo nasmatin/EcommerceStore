@@ -1,105 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { build } from "vite";
 
-const defaultLikeState = {
-  items: [],
-};
+const savedFavorite = JSON.parse(localStorage.getItem("like") || "null");
 
-const loadLikeFromStorage = () => {
-  try {
-    const savedLike = localStorage.getItem("like");
-    if (!savedLike) return defaultLikeState;
-
-    const parsedLike = JSON.parse(savedLike);
-
-    return {
-      ...defaultLikeState,
-      ...parsedLike,
-      items: Array.isArray(parsedLike.items) ? parsedLike.items : [],
-    };
-  } catch {
-    return defaultLikeState;
-  }
-};
-
-const saveLikeToStorage = (state) => {
-  try {
-    localStorage.setItem(
-      "like",
-      JSON.stringify({
-        items: state.items,
-
-      })
-    );
-  } catch (e) {
-    console.error("خطا در ذخیره علاقه مندی ها :", e);
-  }
-};
-
-const initialLikeState = loadLikeFromStorage();
-
-const LikeSlice = createSlice({
-  name: "like",
-  initialState: initialLikeState,
+const FavoriteSlice = createSlice({
+  name: "favorite",
+  initialState: {
+    items: [],
+    status: "idle",
+    error:"",
+  },
   reducers: {
-    add: (state, action) => {
-      const newItem = action.payload;
-      const requestedQty = Number(newItem.quantity) || 1;
-      const maxAllowed = Math.min(Number(newItem.stock) || 5, 5); // حداکثر ۵ یا موجودی
-
-      const existingItem = state.items.find((item) => item.id === newItem.id);
-
-      if (existingItem) {
-        // اگر از قبل وجود داشت، تعداد رو اضافه کن (تا سقف مجاز)
-        const newQuantity = Math.min(
-          existingItem.quantity + requestedQty,
-          maxAllowed
-        );
-        const addedQty = newQuantity - existingItem.quantity;
-
-        if (addedQty <= 0) return; // دیگه نمی‌شه اضافه کرد
-
-        existingItem.quantity = newQuantity;
-        existingItem.totalPrice = existingItem.price * newQuantity;
-
-        state.totalCount += addedQty;
-        state.totalPrice += existingItem.price * addedQty;
-      } else {
-        // محصول جدید
-        const finalQty = Math.min(requestedQty, maxAllowed);
-
-        state.items.push({
-          id: newItem.id,
-          name: newItem.name,
-          price: newItem.price,
-          quantity: finalQty,
-          stock: newItem.stock,
-          image: newItem.image,
-          link: newItem.link,
-          totalPrice: newItem.price * finalQty,
-        });
-
-        state.totalCount += finalQty;
-        state.totalPrice += newItem.price * finalQty;
-      }
-
-      saveLikeToStorage(state);
+    like: (state, action) => {
+      const likeitem = action.payload;
+      state.items.push({
+        id: likeitem.id,
+        title: likeitem.title,
+        price: likeitem.price,
+        image: likeitem.image,
+        link: likeitem.link,
+      });
     },
-
-       remove: (state, action) => {
+    dislike: (state, action) => {
       const id = action.payload;
       const item = state.items.find((item) => item.id === id);
       if (!item) return;
-
-      state.totalCount -= item.quantity;
-      state.totalPrice -= item.totalPrice;
-      state.items = state.items.filter((item) => item.id !== id);
-
-      saveLikeToStorage(state);
     },
-
-   
   },
-});
+  extraReducers:(builder)=>{
+builder
+      // وقتی درخواست شروع می‌شود
+      .addCase(savedFavorite.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      // وقتی درخواست موفق می‌شود
+      .addCase(savedFavorite.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.id = action.payload.user.id;
+        state.name = action.payload.user.name;
+        state.familyname = action.payload.user.familyname;
+        state.username = action.payload.user.username;
+        state.mobile = action.payload.user.mobile;
+        state.token = action.payload.user.token;
+        localStorage.setItem("like", JSON.stringify(action.payload.user));
 
-export const { add, remove } = LikeSlice.actions;
-export default LikeSlice.reducer;
+        state.error = null;
+        console.log(" savedFavorite fulfilled:", state.name);
+        console.log(" savedFavorite fulfilled:", state.familyname);
+      })
+      // وقتی درخواست شکست می‌خورد
+      .addCase(savedFavorite.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  }
+});
+export const { like,dislike} = FavoriteSlice.actions;
+export default FavoriteSlice.reducer;

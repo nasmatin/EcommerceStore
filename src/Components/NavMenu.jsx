@@ -4,7 +4,7 @@ import Login from "../Components/Login";
 import Cart from "../Components/Cart";
 import Account from "../Components/Account";
 import AboutUs from "../Components/AboutUs";
-
+import Favorite from "../Components/Favorite";
 import ContactUs from "../Components/ContactUs";
 import Support from "../Components/Support";
 import Register from "../Components/Register";
@@ -14,7 +14,6 @@ import ProductDetail from "../Components/ProductDetail";
 import NotFound from "../Components/NotFound";
 import AccountEdit from "../Components/AccountEdit";
 import Address from "../Components/Address";
-import AddressDetail from "../Components/AddressDetail";
 import AddressForm from "../Components/AddressForm";
 import Orders from "../Components/Orders";
 import OrdersDetail from "../Components/OrdersDetail";
@@ -27,7 +26,7 @@ function NavMenu() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/account" element={<Account />} />
             <Route path="/accountedit" element={<AccountEdit />} />
-
+  <Route path="/favorite" element={<Favorite />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/contactus" element={<ContactUs />} />
       <Route path="/support" element={<Support />} />
@@ -35,7 +34,6 @@ function NavMenu() {
       <Route path="/products" element={<Products />} />
         <Route path="/products/productdetail" element={<ProductDetail/>} />
       <Route path="/address" element={<Address />} />
-         <Route path="/address/addressdetial" element={<AddressDetail/>} />
            <Route path="address/addressform" element={<AddressForm/>} /> 
            <Route path="orders" element={<Orders />} />
          <Route path="/orders/ordersdetial" element={<OrdersDetail/>} />

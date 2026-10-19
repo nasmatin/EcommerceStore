@@ -2,7 +2,7 @@ import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "../Components/Footer";
 import AddressMap from "./AddressMap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import DROPDOWN from "./DropDown";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
@@ -11,15 +11,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetProvince } from "../Features/ProvinceSlice";
 import { GetCity } from "../Features/CitySlice";
 import { PostAddress } from "../Features/AddAddressSlice";
-import { useNavigate, Link } from "react-router";
+//import {EditAddress} from "../Features/EditAddressSlice.js"
+import { useNavigate, Link, useLocation } from "react-router";
+import { EditAddress } from "../Features/EditAddressSlice";
 
 function AddressForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const selectedAddress = location.state?.address;
+  const isEditMode = Boolean(selectedAddress);
+  console.log("آدرس انتخاب‌شده:", selectedAddress);
   const provinces = useSelector((state) => state.province.provinces);
   const cities = useSelector((state) => state.city.cities);
   const [form, setform] = useState({
-    title:"",
+    title: "",
     provinceId: "",
     cityId: "",
     address: "",
@@ -40,7 +46,6 @@ function AddressForm() {
 
     dispatch(GetCity(value));
   };
-
   const handlechangecity = (value) => {
     setform((prev) => ({
       ...prev,
@@ -52,16 +57,30 @@ function AddressForm() {
     const id = account.id;
 
     try {
-      const result = await dispatch(
-        PostAddress({ userId: id, formdata: form })
-      ).unwrap();
-      setform(result);
+      if (isEditMode) {
+        const result = await dispatch(
+          EditAddress({
+            userId: id,
+            id: selectedAddress.id,
+            formdata: form,
+          })
+        ).unwrap();
+        setform(result);
+      } else {
+        const result = await dispatch(
+          PostAddress({ userId: id, formdata: form })
+        ).unwrap();
+        setform(result);
+      }
+
       navigate("/address", { replace: true });
     } catch (error) {
-      alert("ثبت‌نام ناموفق بود. اطلاعات را بررسی کن.");
-      console.error("خطای کامل ثبت آدرس:", error);
-      console.error("پیام خطا:", error?.message);
-      console.error("پاسخ سرور:", error?.response?.data);
+    console.error("خطای کامل:", error);
+  console.error("پیام خطا:", error?.message);
+  console.error("پاسخ سرور:", error?.response?.data);
+  console.error("وضعیت پاسخ:", error?.response?.status);
+
+  alert("ذخیره آدرس انجام نشد.");
     }
   };
   const handlechange = (e) => {
@@ -79,10 +98,29 @@ function AddressForm() {
       longitude,
     }));
   };
+  const handleEditAddress = useCallback(() => {
+    if (!selectedAddress) return;
+
+    setform({
+      title: selectedAddress.title || "",
+      provinceId: String(selectedAddress.provinceId || ""),
+      cityId: String(selectedAddress.cityId || ""),
+      address: selectedAddress.address || "",
+      postalCode: selectedAddress.postalCode || "",
+      latitude: selectedAddress.latitude || "",
+      longitude: selectedAddress.longitude || "",
+    });
+
+    if (selectedAddress.provinceId) {
+      dispatch(GetCity(selectedAddress.provinceId));
+    }
+  }, [selectedAddress, dispatch]);
   useEffect(() => {
     dispatch(GetProvince());
   }, [dispatch]);
-
+  useEffect(() => {
+    handleEditAddress();
+  }, [handleEditAddress]);
   return (
     <>
       <Header />
@@ -104,7 +142,6 @@ function AddressForm() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* اطلاعات تماس */}
             <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-purple-100">
-            
               {/* آدرس */}
               <div className="mb-6 flex gap-4">
                 <div>
@@ -144,9 +181,9 @@ function AddressForm() {
                 </div>
               </div>
 
-                 <div className="mb-6 flex gap-4">
+              <div className="mb-6 flex gap-4">
                 <div>
-                  <h3 className="mb-1 font-bold text-gray-800">عنوان آدرس  :</h3>
+                  <h3 className="mb-1 font-bold text-gray-800">عنوان آدرس :</h3>
 
                   <Input
                     name="title"
@@ -190,7 +227,7 @@ function AddressForm() {
                   <h3 className="mb-1 font-bold text-gray-800">کد پستی :</h3>
 
                   <Input
-                  type="number"
+                    type="number"
                     name="postalCode"
                     className="border-purple-900"
                     value={form.postalCode}
@@ -205,13 +242,17 @@ function AddressForm() {
             {/* نقشه */}
             <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-purple-100">
               <div className=" w-full">
-                <AddressMap onLocationChange={handleLocationChange} />
+                <AddressMap
+                  onLocationChange={handleLocationChange}
+                  latitude={form.latitude}
+                  longitude={form.longitude}
+                />
               </div>
             </div>
           </div>
         </div>
         <div className="mt-6 flex justify-center">
-          <Button label="ثبت آدرس" />
+  <Button label={isEditMode ? "ذخیره تغییرات" : "ثبت آدرس"} />
 
           <Link
             to="/address"

@@ -6,7 +6,7 @@ import productReducer from "../Features/ProductSlice";
 import productdetailReducer from "../Features/ProductDetailSlice";
 import cartReducer from "../Features/AddToCartSlice";
 import searchReducer from "../Features/SearchSlice";
-import likeReducer from "../Features/FavoriteSlice";
+import favoriteReducer from "../Features/FavoriteSlice";
 import accountReducer from "../Features/AccountSlice";
 import addressReducer from "../Features/AddressListSlice";
 import addaddressReducer from "../Features/AddAddressSlice";
@@ -25,7 +25,7 @@ export const store = configureStore({
     productdetail: productdetailReducer,
     cart: cartReducer,
     search: searchReducer,
-    like: likeReducer,
+    favorite: favoriteReducer,
     account: accountReducer,
     address: addressReducer,
     addaddress: addaddressReducer,

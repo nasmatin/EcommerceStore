@@ -23,7 +23,7 @@ className="my-2 mx-2 w-full max-w-96 cursor-pointer appearance-none rounded-lg b
         ))}
       </select>
 
-      <span className="pointer-events-none absolute left-[10px] top-1/2 -translate-y-1/2">
+      <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2">
         <i className="fa-solid fa-caret-down"></i>
       </span>
     </div>

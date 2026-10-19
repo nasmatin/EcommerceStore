@@ -11,11 +11,12 @@ function AddressCard({ id, title, fullAddress, postalCode, onEdit, onRemove }) {
           {title}
         </h3>
 
-        <p className="mt-2 break-words text-balance font-medium text-gray-700">
-           {String(fullAddress ?? "").replace(
+        <p className="mt-2 min-w-0 max-w-full whitespace-normal break-all font-medium text-gray-700">
+          {String(fullAddress ?? "").replace(
             /\d/g,
             (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
-          )} - کد پستی:{" "}
+          )}
+          {" - کد پستی: "}
           {String(postalCode ?? "").replace(
             /\d/g,
             (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
