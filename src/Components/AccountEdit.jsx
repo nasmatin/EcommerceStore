@@ -34,21 +34,17 @@ const handleSubmit = async (e) => {
   const id = account.id;
 
   if (!id) {
-    console.log("شناسه کاربر پیدا نشد");
     return;
   }
-  console.log("FORM DATA:", formdata);
-  console.log("USER ID:", account.id);
+
   const result = await dispatch(
     PutAccountEdit({
       id:id,
       formdata:formdata,
     })
   );
-  console.log("RESULT:", result);
   if (PutAccountEdit.fulfilled.match(result)) {
       dispatch(updateUserInfo(formdata)); // اینجا
-    console.log("ویرایش موفق بود");
  navigate("/account", { replace: true });
   }
 

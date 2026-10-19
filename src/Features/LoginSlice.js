@@ -5,18 +5,13 @@ export const PostLogin = createAsyncThunk(
   "PostLogin",
   async (logindata, { rejectWithValue }) => {
     try {
-      console.log("THUNK START:", logindata);
 
       const response = await api.post("/users/loginclient", logindata);
-      console.log(" PostLogin :", response.data);
       const result = response.data;
-
-      console.log("BEFORE RETURN:", result);
 
       return result;
     } catch (error) {
-      console.log("ERROR:", error);
-      console.log("ERROR RESPONSE:", error.response?.data);
+
       return rejectWithValue(error.message);
     }
   }
@@ -95,10 +90,8 @@ const LoginSlice = createSlice({
         state.token = action.payload.user.token;
         localStorage.setItem("token", action.payload.user.token);
         localStorage.setItem("user", JSON.stringify(action.payload.user));
-
         state.error = null;
-        console.log(" PostLogin fulfilled:", state.name);
-        console.log(" PostLogin fulfilled:", state.familyname);
+
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(PostLogin.rejected, (state, action) => {

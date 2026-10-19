@@ -5,18 +5,12 @@ export const PostRegister = createAsyncThunk(
   "PostRegister",
   async (registerdata, { rejectWithValue }) => {
     try {
-      console.log("THUNK START:", registerdata);
 
       const response = await api.post("/users/register", registerdata);
-      console.log(" PostRegister :", response.data);
       const result = response.data;
-
-      console.log("BEFORE RETURN:", result);
 
       return result;
     } catch (error) {
-      console.log("ERROR:", error);
-      console.log("ERROR RESPONSE:", error.response?.data);
       return rejectWithValue(error.message);
     }
   }
@@ -43,12 +37,10 @@ const RegisterSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // وقتی درخواست شروع می‌شود
       .addCase(PostRegister.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
-      // وقتی درخواست موفق می‌شود
       .addCase(PostRegister.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.isLoggedIn = true;
@@ -60,7 +52,6 @@ const RegisterSlice = createSlice({
         localStorage.setItem("token", action.payload.user.token);
         state.error = null;
       })
-      // وقتی درخواست شکست می‌خورد
       .addCase(PostRegister.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;

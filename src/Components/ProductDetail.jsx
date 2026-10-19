@@ -61,17 +61,9 @@ function ProductDetail() {
     dispatch(GetProductDetail(Id));
   }, [dispatch, Id, ProDetails]);
   const pdetail = ProDetails ?? {};
-  console.log("ProDetails:", ProDetails);
-  console.log("Product detail keys:", Object.keys(ProDetails ?? {}));
+
   const handleclick = () => {
     if (account.isLoggedIn) {
-      console.log("محصولی که می‌خواهیم اضافه کنیم:", {
-        id: pdetail.id,
-        name: pdetail.name,
-        price: pdetail.price,
-        quantity: quantity,
-        stock: pdetail.quantity,
-      });
       dispatch(
         add({
           id: pdetail.id,
@@ -84,8 +76,6 @@ function ProductDetail() {
         })
       );
       setShowCartPopup(true);
-      console.log("محصول برای افزودن ارسال شد" + pdetail.name);
-      ///navigate("/cart");
     } else {
       setShowLoginPopup(true);
     }
@@ -96,7 +86,6 @@ function ProductDetail() {
     if (isFavorite) {
       dispatch(dislike(pdetail.id));
     } else {
-      console.log("عنوان محصول هنگام لایک:", pdetail.name);
       dispatch(
         like({
           id: pdetail.id,
@@ -125,7 +114,6 @@ function ProductDetail() {
   };
   const categoryPath = getCategoryPath(pdetail.catid);
 
-  console.log("CATEGORY PATH:", categoryPath);
   // قالب‌بندی قیمت
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 

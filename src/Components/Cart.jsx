@@ -10,11 +10,6 @@ import Button from "./Button";
 function Cart() {
   const dispatch = useDispatch();
   const AddCart = useSelector((state) => state.cart);
-  console.log(
-    "کل state در Cart:",
-    useSelector((state) => state)
-  );
-  console.log("سبد در Cart:", AddCart);
   const Cartitems = AddCart.items;
   const shipping = 80000;
   const post = 50000;
@@ -55,7 +50,6 @@ function Cart() {
             <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
               <section className="font-myfont space-y-4 lg:col-span-2">
                 {Cartitems.map((item) => {
-                  console.log("اطلاعات محصول برای نمایش:", item.name);
 
                   return (
                     <CartCard

@@ -5,30 +5,22 @@ export const EditAddress = createAsyncThunk(
   "EditAddress",
   async ({ userId, id, formdata }, { rejectWithValue }) => {
     try {
-      console.log("EditAddress USER ID:", userId);
-      console.log("EditAddress ID:", id);
-      console.log("EditAddress formdata:", formdata);
-
       const response = await api.put("/address/UpdateAddress", formdata, {
         params: {
           userId,
           id,
         },
       });
-      console.log(" EditAddress  :", response.data);
       const result = response.data;
-
-      console.log("BEFORE EditAddress:", result);
 
       return {
         userId,
         id,
-        data: response.data,
+        data: result,
       };
     } catch (error) {
       console.log("ERROR EDIT:", error);
-  console.log("ERROR STATUS:", error.response?.status);
-  console.log("ERROR RESPONSE:", error.response?.data);
+
  return rejectWithValue(
     error.response?.data?.message ||
     error.message ||

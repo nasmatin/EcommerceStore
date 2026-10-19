@@ -5,28 +5,22 @@ export const PutAccountEdit = createAsyncThunk(
   "PutAccountEdit",
   async({id,formdata}, { rejectWithValue })=>{
     try{
-   console.log("USER ID:", id);
-      console.log("FORM DATA:", formdata);
-
       const response = await api.put("/users/edit", formdata, {
         params: {
           id: id,
         },
       });
-      console.log(" PutAccountEdit  :", response.data);
       const result = response.data;
-
-      console.log("BEFORE EDIT:", result);
 
       return {
         id,
-        data: response.data,
+        data: result,
       };
     }
     catch(error)
     {
             console.log("ERROR EDIT:", error);
-      console.log("ERROR RESPONSE EDIT:", error.response?.data);
+  
       return rejectWithValue(error.message);
     }
   }

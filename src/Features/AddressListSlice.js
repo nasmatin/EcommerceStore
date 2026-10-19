@@ -4,7 +4,6 @@ import api from "../services/api";
 export const  GetAddress= createAsyncThunk("GetAddress",
     async(userId,{rejectWithValue})=>{
         try{
-                 console.log("userId START:", userId);
 const response=await api.get("address/UserAddress",{
     params:{
         userId:userId,

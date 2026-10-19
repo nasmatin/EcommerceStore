@@ -34,14 +34,11 @@ export const store = configureStore({
     deleteaddress:deleteaddressReducer,
     editaddress:editaddressReducer
   },
-  //////optional////////
 });
 store.subscribe(() => {
   try {
     localStorage.setItem("cart", JSON.stringify(store.getState().cart));
-   // localStorage.setItem("like", JSON.stringify(store.getState().like));
   } catch (error) {
     console.error("خطا در ذخیره سبد خرید:", error);
-    //console.error("خطا در ذخیره  علاقه مندی ها:", error);
   }
 });

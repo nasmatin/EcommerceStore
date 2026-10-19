@@ -26,27 +26,22 @@ function Products() {
   const searchProducts = useSelector(
     (state) => state.search?.searchitems?.[query]
   );
-  console.log("3. searchProducts:", searchProducts);
   const categories = useSelector((state) => state.menu.category);
   const allCategories = Object.values(categories).flat();
 
 const [sortBy, setSortBy] = useState("newest");
 
   useEffect(() => {
-    console.log("4. useEffect executed");
     // اگر جست‌وجو داریم، درخواست مربوط به دسته‌بندی اجرا نشود
     if (query) return;
     if (!catId || categoryProducts !== undefined) {
       return;
     }
 
-    console.log("5. Dispatching GetProduct:", catId);
-
     dispatch(GetProduct(catId));
   }, [dispatch, catId, categoryProducts, query]);
 
   const products = query ? searchProducts : (categoryProducts ?? []);
-  console.log("Products:", products);
 
   const getCategoryPath = (categoryId) => {
     const path = [];
@@ -65,7 +60,6 @@ const [sortBy, setSortBy] = useState("newest");
   };
   const categoryPath = query ? [] : getCategoryPath(catId);
 
-  console.log("CATEGORY PATH:", categoryPath);
 
   const sortMenuRef = useRef(null);
 

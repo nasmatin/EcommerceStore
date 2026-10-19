@@ -5,28 +5,23 @@ export const PostAddress = createAsyncThunk(
   "PostAddress",
   async({userId,formdata}, { rejectWithValue })=>{
     try{
-   console.log("PostAddress USER ID:", userId);
-      console.log("PostAddress FORM DATA:", formdata);
+
 
       const response = await api.post("/address/CreateAddress", formdata, {
         params: {
           userId: userId,
         },
       });
-      console.log(" PostAddress  :", response.data);
       const result = response.data;
-
-      console.log("BEFORE PostAddress:", result);
 
       return {
         userId,
-        data: response.data,
+        data: result,
       };
     }
     catch(error)
     {
             console.log("ERROR EDIT:", error);
-      console.log("ERROR RESPONSE EDIT:", error.response?.data);
       return rejectWithValue(error.message);
     }
   }

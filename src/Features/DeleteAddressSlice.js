@@ -5,7 +5,6 @@ export const DeleteAddress = createAsyncThunk(
   "DeleteAddress",
   async({userId,id}, { rejectWithValue })=>{
     try{
-   console.log("DeleteAddress USER ID:", userId,id);
 
       const response = await api.delete("/address/DeleteAddress", {
         params: {
@@ -13,20 +12,15 @@ export const DeleteAddress = createAsyncThunk(
              id: id,
         },
       });
-      console.log(" DeleteAddress  :", response.data);
       const result = response.data;
-
-      console.log("BEFORE DeleteAddress:", result);
-
       return {
         userId,id,
-        data: response.data,
+        data: result,
       };
     }
     catch(error)
     {
             console.log("ERROR EDIT:", error);
-      console.log("ERROR RESPONSE EDIT:", error.response?.data);
       return rejectWithValue(error.message);
     }
   }

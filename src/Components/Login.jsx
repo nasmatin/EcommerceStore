@@ -28,7 +28,6 @@ function LoginClient() {
   const inputsubmit = async (e) => {
     e.preventDefault(); 
     try{
-      console.log("LOGIN FORM:", loginform);
  await dispatch(PostLogin(loginform)).unwrap();
     navigate("/", { replace: true });
     }

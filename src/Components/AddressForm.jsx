@@ -21,7 +21,6 @@ function AddressForm() {
   const location = useLocation();
   const selectedAddress = location.state?.address;
   const isEditMode = Boolean(selectedAddress);
-  console.log("آدرس انتخاب‌شده:", selectedAddress);
   const provinces = useSelector((state) => state.province.provinces);
   const cities = useSelector((state) => state.city.cities);
   const [form, setform] = useState({
@@ -76,9 +75,7 @@ function AddressForm() {
       navigate("/address", { replace: true });
     } catch (error) {
     console.error("خطای کامل:", error);
-  console.error("پیام خطا:", error?.message);
-  console.error("پاسخ سرور:", error?.response?.data);
-  console.error("وضعیت پاسخ:", error?.response?.status);
+
 
   alert("ذخیره آدرس انجام نشد.");
     }

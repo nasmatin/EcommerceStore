@@ -11,14 +11,6 @@ const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
   const favorites = useSelector(
     (state) => state.favorite.items
   );
-console.log("Favorites data:", favorites);
-
-favorites.forEach((item) => {
-  console.log("Product ID:", item.id);
-  console.log("Product title:", item.title);
-  console.log("Full product:", item);
-});
-
   return (
     <div>
       <Header/>
