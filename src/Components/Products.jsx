@@ -198,6 +198,7 @@ return (
               label={product.name}
               price={formatPrice(product.price)}
               link={`/products/productdetail?id=${product.id}`}
+              
             />
           ))
         )}

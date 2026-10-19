@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import Gallery from "../Components/Gallery";
-import Rating from "../Components/Rating";
+//import Rating from "../Components/Rating";
 import FavoriteButton from "../Components/FavoriteButton";
 import Button from "../Components/Button";
 import ShareButton from "../Components/ShareButton";
-import ProductReview from "../Components/Reviews";
-import RelatedProduct from "../Components/RelatedProduct";
+//import ProductReview from "../Components/Reviews";
+//import RelatedProduct from "../Components/RelatedProduct";
 import ArrowIcon from "../Components/ArrowIcon";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router";
@@ -14,12 +14,12 @@ import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add } from "../Features/AddToCartSlice";
-
+import { like, dislike } from "../Features/FavoriteSlice";
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
   const [showUsage, setShowUsage] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-    const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -27,8 +27,13 @@ function ProductDetail() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const account = useSelector((state) => state.login);
   const [showCartPopup, setShowCartPopup] = useState(false);
-// ====================== این قسمت رو اینجا اضافه کن ======================
+  // ====================== این قسمت رو اینجا اضافه کن ======================
   const cartItems = useSelector((state) => state.cart.items);
+  const favorites = useSelector((state) => state.favorite.items);
+
+  const isFavorite =
+    Array.isArray(favorites) &&
+    favorites.some((item) => Number(item.id) === Number(Id));
   const existingInCart = cartItems.find((item) => item.id === Id);
 
   useEffect(() => {
@@ -36,9 +41,8 @@ function ProductDetail() {
       setSelectedQuantity(existingInCart.quantity);
     }
   }, [existingInCart]);
-  // ======================================================================
 
-const quantity = selectedQuantity;
+  const quantity = selectedQuantity;
 
   const ProDetails = useSelector(
     (state) => state.productdetail?.productdetails?.[Id]
@@ -50,7 +54,6 @@ const quantity = selectedQuantity;
   const allCategories = Object.values(categories).flat();
 
   useEffect(() => {
-
     if (!Id || ProDetails !== undefined) {
       return;
     }
@@ -58,33 +61,52 @@ const quantity = selectedQuantity;
     dispatch(GetProductDetail(Id));
   }, [dispatch, Id, ProDetails]);
   const pdetail = ProDetails ?? {};
+  console.log("ProDetails:", ProDetails);
+  console.log("Product detail keys:", Object.keys(ProDetails ?? {}));
   const handleclick = () => {
-     if (account.isLoggedIn) {
-        console.log("محصولی که می‌خواهیم اضافه کنیم:", {
-      id: pdetail.id,
-      name: pdetail.name,
-      price: pdetail.price,
-      quantity: quantity,
-      stock: pdetail.quantity,
-    });
-    dispatch(
-      add({
+    if (account.isLoggedIn) {
+      console.log("محصولی که می‌خواهیم اضافه کنیم:", {
         id: pdetail.id,
         name: pdetail.name,
         price: pdetail.price,
         quantity: quantity,
         stock: pdetail.quantity,
-        image: pdetail.img1,
-        link: `/products/productdetail?id=${pdetail.id}`,
-      })
-    );
+      });
+      dispatch(
+        add({
+          id: pdetail.id,
+          name: pdetail.name,
+          price: pdetail.price,
+          quantity: quantity,
+          stock: pdetail.quantity,
+          image: pdetail.img1,
+          link: `/products/productdetail?id=${pdetail.id}`,
+        })
+      );
       setShowCartPopup(true);
-    console.log("محصول برای افزودن ارسال شد"+  pdetail.name);
-    ///navigate("/cart");
+      console.log("محصول برای افزودن ارسال شد" + pdetail.name);
+      ///navigate("/cart");
     } else {
       setShowLoginPopup(true);
     }
+  };
+  const handlefavorite = () => {
+    if (!pdetail.id) return;
 
+    if (isFavorite) {
+      dispatch(dislike(pdetail.id));
+    } else {
+      console.log("عنوان محصول هنگام لایک:", pdetail.name);
+      dispatch(
+        like({
+          id: pdetail.id,
+          title: pdetail.name,
+          price: pdetail.price,
+          image: pdetail.img1,
+          link: `/products/productdetail?id=${pdetail.id}`,
+        })
+      );
+    }
   };
   const getCategoryPath = (categoryId) => {
     const path = [];
@@ -208,7 +230,9 @@ const quantity = selectedQuantity;
                     <div className="inline-flex items-center overflow-hidden rounded-xl border border-gray-400 bg-white">
                       <button
                         type="button"
-                        onClick={() => setSelectedQuantity((q) => Math.min(q + 1, 5))}
+                        onClick={() =>
+                          setSelectedQuantity((q) => Math.min(q + 1, 5))
+                        }
                         aria-label="افزایش تعداد"
                         className="flex h-10 w-10  items-center justify-center text-gray-700
       transition hover:bg-purple-50 hover:text-purple-800"
@@ -221,26 +245,25 @@ const quantity = selectedQuantity;
 
                       <button
                         type="button"
-                        onClick={() => setSelectedQuantity((q) => Math.max(1, q - 1))}
+                        onClick={() =>
+                          setSelectedQuantity((q) => Math.max(1, q - 1))
+                        }
                         aria-label="کاهش تعداد"
                         className="flex h-10 w-10 items-center justify-center text-gray-700
-      transition hover:bg-purple-50 hover:text-purple-800"
+                                   transition hover:bg-purple-50 hover:text-purple-800"
                       >
                         <span className="text-xl leading-none">−</span>
                       </button>
                     </div>
                   </div>
 
-                  <Button
-                   onClick={handleclick}
-                    label="افزودن به سبد خرید"
-                  />
+                  <Button onClick={handleclick} label="افزودن به سبد خرید" />
                 </div>
 
                 <div className="flex shrink-0 items-center gap-2">
                   <FavoriteButton
                     isFavorite={isFavorite}
-                    onClick={() => setIsFavorite((prev) => !prev)}
+                    onClick={handlefavorite}
                   />
 
                   <ShareButton productName={pdetail.name} />
@@ -303,98 +326,97 @@ const quantity = selectedQuantity;
           </section>
 
           {/* امتیاز و نظرات */}
-          <section className="mt-8">
+          {/* <section className="mt-8">
             <div className="font-myfont mb-3 rounded-xl border-2 border-gray-300 bg-white px-5 py-3 shadow-sm">
               <Rating averageRating={4.8} reviewCount={12} />
             </div>
 
             <ProductReview />
-          </section>
+          </section> */}
 
           {/* محصولات مشابه */}
-          <section className="font-myfont mt-8 rounded-2xl border-2 border-gray-300 bg-white p-4 shadow-sm sm:p-6">
+          {/* <section className="font-myfont mt-8 rounded-2xl border-2 border-gray-300 bg-white p-4 shadow-sm sm:p-6">
             <RelatedProduct />
-          </section>
+          </section> */}
         </div>
-           {showLoginPopup && (
-        <div
-          className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
-          onClick={() => setShowLoginPopup(false)}
-        >
+        {showLoginPopup && (
           <div
-            dir="rtl"
-            className="w-80 rounded-xl bg-white p-6 shadow-xl font-myfont"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+            onClick={() => setShowLoginPopup(false)}
           >
-            <h3 className="mb-4 text-center text-lg font-bold">
-              ورود به حساب کاربری
-            </h3>
-
-            <p className="mb-5 text-center text-sm">
-              برای استفاده از امکانات حساب کاربری، ابتدا وارد شوید.
-            </p>
-
-            <button
-              className="w-full rounded-lg bg-purple-700 px-4 py-3 text-white hover:bg-purple-800"
-              onClick={() => {
-                setShowLoginPopup(false);
-                navigate("/login");
-              }}
+            <div
+              dir="rtl"
+              className="w-80 rounded-xl bg-white p-6 shadow-xl font-myfont"
+              onClick={(e) => e.stopPropagation()}
             >
-              ورود به حساب کاربری
-            </button>
+              <h3 className="mb-4 text-center text-lg font-bold">
+                ورود به حساب کاربری
+              </h3>
 
-            <button
-              className="mt-3 w-full rounded-lg border border-purple-300 px-4 py-2 hover:bg-purple-100"
-              onClick={() => setShowLoginPopup(false)}
-            >
-              انصراف
-            </button>
+              <p className="mb-5 text-center text-sm">
+                برای استفاده از امکانات حساب کاربری، ابتدا وارد شوید.
+              </p>
+
+              <button
+                className="w-full rounded-lg bg-purple-700 px-4 py-3 text-white hover:bg-purple-800"
+                onClick={() => {
+                  setShowLoginPopup(false);
+                  navigate("/login");
+                }}
+              >
+                ورود به حساب کاربری
+              </button>
+
+              <button
+                className="mt-3 w-full rounded-lg border border-purple-300 px-4 py-2 hover:bg-purple-100"
+                onClick={() => setShowLoginPopup(false)}
+              >
+                انصراف
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-{showCartPopup && (
-  <div
-    className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
-    onClick={() => setShowCartPopup(false)}
-  >
-    <div
-      dir="rtl"
-      className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="mb-3 text-center text-3xl text-green-600">
-        <i className="fa-solid fa-circle-check"></i>
-      </div>
+        )}
+        {showCartPopup && (
+          <div
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+            onClick={() => setShowCartPopup(false)}
+          >
+            <div
+              dir="rtl"
+              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="mb-3 text-center text-3xl text-green-600">
+                <i className="fa-solid fa-circle-check"></i>
+              </div>
 
-      <h3 className="mb-3 text-center text-lg font-bold">
-        محصول به سبد خرید اضافه شد
-      </h3>
+              <h3 className="mb-3 text-center text-lg font-bold">
+                محصول به سبد خرید اضافه شد
+              </h3>
 
-      <p className="mb-5 text-center text-sm text-gray-600">
-        {pdetail.name}
-      </p>
+              <p className="mb-5 text-center text-sm text-gray-600">
+                {pdetail.name}
+              </p>
 
-      <button
-        className="w-full rounded-lg bg-purple-700 px-4 py-3 text-white hover:bg-purple-800"
-        onClick={() => {
-          setShowCartPopup(false);
-          navigate("/cart");
-        }}
-      >
-        مشاهده سبد خرید
-      </button>
+              <button
+                className="w-full rounded-lg bg-purple-700 px-4 py-3 text-white hover:bg-purple-800"
+                onClick={() => {
+                  setShowCartPopup(false);
+                  navigate("/cart");
+                }}
+              >
+                مشاهده سبد خرید
+              </button>
 
-      <button
-        className="mt-3 w-full rounded-lg border border-purple-300 px-4 py-2 hover:bg-purple-100"
-        onClick={() => setShowCartPopup(false)}
-      >
-        ادامه خرید
-      </button>
-    </div>
-  </div>
-)}
-
+              <button
+                className="mt-3 w-full rounded-lg border border-purple-300 px-4 py-2 hover:bg-purple-100"
+                onClick={() => setShowCartPopup(false)}
+              >
+                ادامه خرید
+              </button>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </>

@@ -18,7 +18,7 @@ function ProductCard({ id, image, link, label, price }) {
           {label}
         </h3>
         <p className="text-pink-600 font-bold text-base">
-          {price?.toLocaleString()} تومان
+          {price} تومان
         </p>
       </div>
     </div>
