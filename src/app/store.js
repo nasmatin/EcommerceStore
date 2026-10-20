@@ -12,9 +12,12 @@ import addressReducer from "../Features/AddressListSlice";
 import addaddressReducer from "../Features/AddAddressSlice";
 import deleteaddressReducer from "../Features/DeleteAddressSlice";
 import editaddressReducer from "../Features/EditAddressSlice";
-
 import provinceReducer from "../Features/ProvinceSlice";
 import cityReducer from "../Features/CitySlice";
+import orderReducer from "../Features/OrderListSlice";
+import orderdetailReducer from "../Features/OrderDetailSlice";
+
+import paymentReducer from "../Features/PaymentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +36,10 @@ export const store = configureStore({
     city: cityReducer,
     deleteaddress: deleteaddressReducer,
     editaddress: editaddressReducer,
+    order:orderReducer,
+        payment:paymentReducer,
+        orderdetail:orderdetailReducer,
+
   },
 });
 

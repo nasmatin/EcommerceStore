@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import CartCard from "../Components/CartCard";
 import { clear } from "../Features/AddToCartSlice";
 import Button from "./Button";
+import { GetPayment } from "../Features/PaymentSlice";
 function Cart() {
   const dispatch = useDispatch();
   const AddCart = useSelector((state) => state.cart);
@@ -14,7 +15,36 @@ function Cart() {
   const shipping = 80000;
   const post = 50000;
   const tax = 20000;
+const account = useSelector((state) => state.login);
 
+  const userId = account.id;  //const payment=useSelector((state)=>state.payment.payments);
+  const handlesubmitorder = async () => {
+  const paymentdata = {
+    userid: userId, // باید شناسه واقعی کاربر باشد
+    shippingcost: shipping,
+    packagingcost: post,
+    tax: tax,
+    items: Cartitems.map((item) => ({
+      productid: item.id,
+      quantity: item.quantity,
+    })),
+  };
+      console.log("payemntdata cart",paymentdata);
+            console.log("userid cart",paymentdata);
+
+
+  try {
+    console.log("payemntdata cart 2",paymentdata);
+            console.log("userid cart 2",paymentdata);
+    await dispatch(GetPayment(paymentdata)).unwrap();
+console.log("payemntdata cart 3",paymentdata);
+            console.log("userid cart 3",paymentdata);
+    dispatch(clear());
+    navigate("/");
+  } catch (error) {
+    console.log("خطا در ثبت سفارش:", error);
+  }
+};
   const navigate = useNavigate();
   return (
     <>
@@ -127,7 +157,7 @@ function Cart() {
                 <div className="flex flex-col">
                   <Button
                     label="ادامه و ثبت سفارش"
-                    onClick={() => alert("مرحله اتصال ثبت سفارش")}
+                    onClick={handlesubmitorder}
                   />
 
                   <Button

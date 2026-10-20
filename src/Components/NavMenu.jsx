@@ -15,7 +15,7 @@ import AccountEdit from "../Components/AccountEdit";
 import Address from "../Components/Address";
 import AddressForm from "../Components/AddressForm";
 import Orders from "../Components/Orders";
-import OrdersDetail from "../Components/OrdersDetail";
+import OrderDetail from "../Components/OrderDetail";
 import ProtectedRoute from "./ProtectedRoute";
 function NavMenu() {
   return (
@@ -36,8 +36,8 @@ function NavMenu() {
       <Route path="/products/productdetail" element={<ProductDetail />} />
       <Route path="/address" element={<Address />} />
       <Route path="address/addressform" element={<AddressForm />} />
-      <Route path="orders" element={<Orders />} />
-      <Route path="/orders/ordersdetial" element={<OrdersDetail />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="/orders/ordersdetail" element={<OrderDetail />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
