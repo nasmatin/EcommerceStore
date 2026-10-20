@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router";
-
+import Footer from "../Components/Footer";
 import { GetProduct } from "../Features/ProductSlice";
 
 import Header from "../Components/Header";
@@ -198,6 +198,7 @@ return (
         )}
       </div>
     </div>
+    <Footer />
   </>
 );
 
