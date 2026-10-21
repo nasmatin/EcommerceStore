@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSearchItems } from "../Features/SearchSlice";
 import { useNavigate } from "react-router";
@@ -7,14 +7,29 @@ import SearchCard from "./SearchCard";
 function Search() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const searchRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [searchvalue, setsearchvalue] = useState("");
   const { searchitems, statusbar, errorbar } = useSelector(
     (state) => state.search
   );
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const handlechange = (e) => {
     const searchitem = e.target.value;
     setsearchvalue(searchitem);
+    setIsOpen(searchitem.trim().length >= 3);
   };
 
   const handleSubmit = (e) => {
@@ -40,14 +55,15 @@ function Search() {
 
   return (
     <div
+      ref={searchRef}
       dir="rtl"
       className="
         flex flex-row relative
         font-myfont
-        h-10
+        h-12
         w-full
-      rounded-sm
-        border-2 border-purple-400
+        rounded-sm
+        border-2 border-fuchsia-600
       "
     >
       <form
@@ -58,8 +74,9 @@ function Search() {
           className="
             fa-solid fa-magnifying-glass
             pr-3 
-            text-purple-400
-            dark:text-purple-500
+            pl-5
+            text-fuchsia-600
+  
             text-xl
             shrink-0
           "
@@ -73,18 +90,17 @@ function Search() {
           className="
             flex-1
             min-w-0
-            pr-3
+            pr-3 pl-3
             font-semibold
             border-none
-            text-purple-800
+            text-fuchsia-800
             outline-none
-            dark:text-purple-600
             bg-transparent
           "
         />
       </form>
-      {searchvalue.trim().length >= 3 && (
-        <div className="absolute top-full right-0 w-full  bg-white z-50">
+      {isOpen && searchvalue.trim().length >= 3 && (
+        <div className="absolute top-full right-0 w-full border border-fuchsia-400  bg-white z-50">
           {statusbar === "loading" && <p className="p-3">در حال جست‌وجو...</p>}
 
           {statusbar === "failed" && (
@@ -92,17 +108,15 @@ function Search() {
           )}
 
           {statusbar === "succeeded" && products.length === 0 && (
-            <p className="p-3">محصولی پیدا نشد.</p>
+            <p className="p-3 font-semibold">محصولی پیدا نشد.</p>
           )}
 
           {products.map((product) => (
             <SearchCard
-           
               key={product.id}
               name={product.name}
               image={product.image}
-               link={`/products/productdetail?id=${product.id}`}
-              
+              link={`/products/productdetail?id=${product.id}`}
             ></SearchCard>
           ))}
         </div>

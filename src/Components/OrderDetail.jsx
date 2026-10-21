@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
-
 import { GetOrderDetail } from "../Features/OrderDetailSlice";
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
@@ -19,8 +18,11 @@ function OrderDetail() {
 
   const userId = useSelector((state) => state.login.id);
   const detailKey = `${userId}_${orderId}`;
-  const { order, items = [], success } =
-    useSelector((state) => state.orderdetail.orderdetails[detailKey]) ?? {};
+  const {
+    order,
+    items = [],
+    success,
+  } = useSelector((state) => state.orderdetail.orderdetails[detailKey]) ?? {};
 
   const statusbar = useSelector((state) => state.orderdetail.statusbar);
   const errorbar = useSelector((state) => state.orderdetail.errorbar);
@@ -40,11 +42,11 @@ function OrderDetail() {
         <div className="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
           {/* مسیر صفحه */}
           {/* <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500">
-            <Link to="/" className="hover:text-purple-800">خانه</Link>
+            <Link to="/" className="hover:text-fuchsia-800">خانه</Link>
             <span>/</span>
-            <Link to="/orders" className="hover:text-purple-800">سفارش‌ها</Link>
+            <Link to="/orders" className="hover:text-fuchsia-800">سفارش‌ها</Link>
             <span>/</span>
-            <span className="font-semibold text-purple-800">جزئیات سفارش</span>
+            <span className="font-semibold text-fuchsia-800">جزئیات سفارش</span>
           </div> */}
 
           {/* وضعیت دریافت اطلاعات */}
@@ -75,24 +77,33 @@ function OrderDetail() {
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="rounded-xl bg-gray-50 p-3">
-                    <p className="mb-1.5 text-xs text-gray-500">شماره سفارش</p>
-                    <p className="break-all text-sm font-bold text-gray-800">
-                      {order.orderNumber}
+                    <p className="mb-1.5 text-normal text-gray-500">
+                      شماره سفارش
+                    </p>
+                    <p className="break-all text-normal font-bold text-gray-800">
+                      {String(order.orderNumber ?? "").replace(
+                        /\d/g,
+                        (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
+                      )}
                     </p>
                   </div>
 
                   <div className="rounded-xl bg-gray-50 p-3">
-                    <p className="mb-1.5 text-xs text-gray-500">تاریخ سفارش</p>
-                    <p className="text-sm font-semibold text-gray-800">
+                    <p className="mb-1.5 text-normal text-gray-500">
+                      تاریخ سفارش
+                    </p>
+                    <p className="text-normal font-semibold text-gray-800">
                       {order.orderDate
                         ? new Date(order.orderDate).toLocaleDateString("fa-IR")
                         : "-"}
                     </p>
 
                     <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-gray-200 pt-2">
-                      <span className="text-xs text-gray-500">وضعیت سفارش</span>
+                      <span className="text-normal text-gray-500">
+                        وضعیت سفارش
+                      </span>
                       <span
-                        className={`rounded-lg px-2.5 py-1 text-xs font-semibold ${
+                        className={`rounded-lg px-2.5 py-1 text-normal font-semibold ${
                           order.status === 0
                             ? "bg-yellow-50 text-yellow-700"
                             : order.status === 1
@@ -113,12 +124,19 @@ function OrderDetail() {
                     </div>
                   </div>
 
-                  <div className="rounded-xl bg-gray-50 p-3 sm:col-span-2">
-                    <p className="mb-1.5 text-xs text-gray-500">آدرس تحویل</p>
-                    <p className="break-words text-sm leading-7 text-gray-700">
-                      {order.address || "-"}
+                  <div className="rounded-xl text-normal bg-gray-50 p-3 sm:col-span-2">
+                    <p className="mb-1.5 text-normal text-gray-500">
+                      آدرس تحویل
                     </p>
-                    <p className="mt-2 text-xs text-gray-500">
+                    <p className="break-all text-normal leading-7 text-gray-700">
+                      {order.address
+                        ? String(order.address).replace(
+                            /\d/g,
+                            (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
+                          )
+                        : "-"}
+                    </p>
+                    <p className="mt-2 text-normal text-gray-500">
                       کد پستی:{" "}
                       <span className="font-medium text-gray-700">
                         {order.postalCode
@@ -139,7 +157,7 @@ function OrderDetail() {
                   <h2 className="text-base font-bold text-gray-900">
                     محصولات سفارش
                   </h2>
-                  <span className="rounded-lg bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-800">
+                  <span className="rounded-lg bg-fuchsia-50 px-3 py-1 font-semibold text-fuchsia-800">
                     {items.length.toLocaleString("fa-IR")} محصول
                   </span>
                 </div>
@@ -158,12 +176,12 @@ function OrderDetail() {
               </section>
 
               {/* خلاصه پرداخت */}
-              <section className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-                <h2 className="mb-4 border-b border-gray-100 pb-3 text-base font-bold text-gray-900">
+              <section className="rounded-2xl border border-gray-200 bg-white p-4 shadow-xl sm:p-6">
+                <h2 className="mb-4 border-b border-gray-100 pb-3 text-normal font-bold text-gray-900">
                   خلاصه پرداخت
                 </h2>
 
-                <div className="space-y-3 text-sm">
+                <div className="space-y-3 text-normal">
                   {[
                     ["مبلغ محصولات", order.totalPrice],
                     ["تخفیف", order.priceSale],
@@ -182,11 +200,11 @@ function OrderDetail() {
                     </div>
                   ))}
 
-                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-purple-100 bg-purple-50 p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-fuchsia-100 bg-fuchsia-50 p-3">
                     <span className="font-bold text-gray-800">
                       مبلغ پرداخت‌شده
                     </span>
-                    <span className="font-extrabold text-purple-900">
+                    <span className="font-extrabold text-fuchsia-900">
                       {formatPrice(order.pricePaid)} تومان
                     </span>
                   </div>

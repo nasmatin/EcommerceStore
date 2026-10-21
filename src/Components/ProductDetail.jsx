@@ -15,6 +15,7 @@ import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add, decrement, increment } from "../Features/AddToCartSlice";
 import { like, dislike } from "../Features/FavoriteSlice";
+
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
   const [showUsage, setShowUsage] = useState(false);
@@ -27,7 +28,6 @@ function ProductDetail() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const account = useSelector((state) => state.login);
   const [showCartPopup, setShowCartPopup] = useState(false);
-  // ====================== این قسمت رو اینجا اضافه کن ======================
   const cartItems = useSelector((state) => state.cart.items);
   const favorites = useSelector((state) => state.favorite.items);
 
@@ -112,23 +112,20 @@ function ProductDetail() {
   };
   const categoryPath = getCategoryPath(pdetail.catid);
 
-  // قالب‌بندی قیمت
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
-  // کلاس‌های مشترک
   const descriptionCardClass =
     "rounded-2xl border-2 border-gray-300 bg-white p-5 shadow-sm sm:p-6";
 
   const toggleButtonClass =
-    "mt-3 flex w-full items-center justify-end gap-2 text-sm font-semibold text-purple-800 transition hover:text-purple-950";
+    "mt-3 flex w-full items-center justify-end gap-2 text-sm font-semibold text-fuchsia-800 transition hover:text-fuchsia-950";
 
   return (
     <>
       <Header />
       <Menu />
-      <main dir="rtl" className="min-h-screen bg-gray-50 py-8 font-[MyFont]">
+      <main dir="rtl" className="min-h-screen bg-gray-100 py-8 font-myfont">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* مسیر صفحه */}
           <div className="font-myfont mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
             <span>خانه</span>
             <span>/</span>
@@ -138,18 +135,18 @@ function ProductDetail() {
                 <span>/</span>
                 <span
                   onClick={() => navigate(`/products?catId=${category.id}`)}
-                  className="cursor-pointer transition hover:text-purple-800"
+                  className="cursor-pointer transition hover:text-fuchsia-800"
                 >
                   {category.name}
                 </span>{" "}
               </Fragment>
             ))}
             <span>/</span>
-            <span className="font-medium text-purple-800">{pdetail.name}</span>
+            <span className="font-medium text-fuchsia-800">{pdetail.name}</span>
           </div>
 
           {/* گالری و اطلاعات خرید */}
-          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
+          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-fuchsia-200 bg-white p-4 shadow-lg sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
             <div className="min-w-0">
               <Gallery images={pdetail.images} productName={pdetail.name} />
             </div>
@@ -160,7 +157,7 @@ function ProductDetail() {
                 {pdetail.name}
               </h1>
 
-              {/* <p className="mt-2 text-sm font-medium text-purple-800">
+              {/* <p className="mt-2 text-sm font-medium text-fuchsia-800">
                 {pdetail.brand}
               </p> */}
 
@@ -197,7 +194,7 @@ function ProductDetail() {
                 )}
               </div>
               {/* قیمت */}
-              <div className="text-2xl font-extrabold text-purple-900">
+              <div className="text-2xl font-extrabold text-fuchsia-900">
                 {formatPrice(pdetail.price)}
 
                 <span className="mr-2 text-sm font-normal text-gray-500">
@@ -226,7 +223,7 @@ function ProductDetail() {
                         }}
                         aria-label="افزایش تعداد"
                         className="flex h-10 w-10  items-center justify-center text-gray-700
-                                   transition hover:bg-purple-50 hover:text-purple-800"
+                                   transition hover:bg-fuchsia-50 hover:text-fuchsia-800"
                       >
                         <span className="text-xl leading-none">+</span>
                       </button>
@@ -245,7 +242,7 @@ function ProductDetail() {
                         }}
                         aria-label="کاهش تعداد"
                         className="flex h-10 w-10 items-center justify-center text-gray-700
-                                   transition hover:bg-purple-50 hover:text-purple-800"
+                                   transition hover:bg-fuchsia-50 hover:text-fuchsia-800"
                       >
                         <span className="text-xl leading-none">−</span>
                       </button>
@@ -360,7 +357,7 @@ function ProductDetail() {
               </p>
 
               <button
-                className="w-full rounded-lg bg-purple-700 px-4 py-3 text-white hover:bg-purple-800"
+                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white hover:bg-fuchsia-800"
                 onClick={() => {
                   setShowLoginPopup(false);
                   navigate("/login");
@@ -370,7 +367,7 @@ function ProductDetail() {
               </button>
 
               <button
-                className="mt-3 w-full rounded-lg border border-purple-300 px-4 py-2 hover:bg-purple-100"
+                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100"
                 onClick={() => setShowLoginPopup(false)}
               >
                 انصراف
@@ -401,7 +398,7 @@ function ProductDetail() {
               </p>
 
               <button
-                className="w-full rounded-lg bg-purple-700 px-4 py-3 text-white hover:bg-purple-800"
+                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white hover:bg-fuchsia-800"
                 onClick={() => {
                   setShowCartPopup(false);
                   navigate("/cart");
@@ -411,7 +408,7 @@ function ProductDetail() {
               </button>
 
               <button
-                className="mt-3 w-full rounded-lg border border-purple-300 px-4 py-2 hover:bg-purple-100"
+                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100"
                 onClick={() => setShowCartPopup(false)}
               >
                 ادامه خرید

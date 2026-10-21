@@ -8,8 +8,8 @@ const defaultCartState = {
 
 const saveCartToStorage = (state) => {
   try {
-        const user = JSON.parse(localStorage.getItem("user") || "null");
- if (!user?.id) return;
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    if (!user?.id) return;
     localStorage.setItem(
       `cart_${user.id}`,
       JSON.stringify({
@@ -23,36 +23,33 @@ const saveCartToStorage = (state) => {
   }
 };
 
-
 const cartSlice = createSlice({
   name: "cart",
   initialState: defaultCartState,
   reducers: {
     loadCart: (state, action) => {
-  const userId = action.payload;
+      const userId = action.payload;
 
-  try {
-    const savedCart = localStorage.getItem(`cart_${userId}`);
+      try {
+        const savedCart = localStorage.getItem(`cart_${userId}`);
 
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
+        if (savedCart) {
+          const parsedCart = JSON.parse(savedCart);
 
-      state.items = Array.isArray(parsedCart.items)
-        ? parsedCart.items
-        : [];
-      state.totalCount = parsedCart.totalCount || 0;
-      state.totalPrice = parsedCart.totalPrice || 0;
-    } else {
-      state.items = [];
-      state.totalCount = 0;
-      state.totalPrice = 0;
-    }
-  } catch {
-    state.items = [];
-    state.totalCount = 0;
-    state.totalPrice = 0;
-  }
-},
+          state.items = Array.isArray(parsedCart.items) ? parsedCart.items : [];
+          state.totalCount = parsedCart.totalCount || 0;
+          state.totalPrice = parsedCart.totalPrice || 0;
+        } else {
+          state.items = [];
+          state.totalCount = 0;
+          state.totalPrice = 0;
+        }
+      } catch {
+        state.items = [];
+        state.totalCount = 0;
+        state.totalPrice = 0;
+      }
+    },
     add: (state, action) => {
       const newItem = action.payload;
       const requestedQty = Number(newItem.quantity) || 1;
@@ -145,8 +142,14 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       saveCartToStorage(state);
     },
+    clearCurrentCart: (state) => {
+  state.items = [];
+  state.totalCount = 0;
+  state.totalPrice = 0;
+},
   },
 });
 
-export const { add, reset, increment, decrement, clear,loadCart } = cartSlice.actions;
+export const { add, reset, increment, decrement, clear, loadCart,clearCurrentCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

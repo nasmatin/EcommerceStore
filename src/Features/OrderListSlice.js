@@ -10,13 +10,10 @@ export const GetOrders = createAsyncThunk(
           userId: userId,
         },
       });
-           console.log("GetOrders",response.data);
       return {
         userId,
         data: response.data,
-        
       };
-      
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -41,9 +38,7 @@ const OrderListSlice = createSlice({
       .addCase(GetOrders.fulfilled, (state, action) => {
         state.statusbar = "succeeded";
         const { userId, data } = action.payload;
-        state.orders[userId] = Array.isArray(data)
-          ? data
-          : (data.orders ?? []); // داده‌های آمده از سرور
+        state.orders[userId] = Array.isArray(data) ? data : (data.orders ?? []); // داده‌های آمده از سرور
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(GetOrders.rejected, (state, action) => {

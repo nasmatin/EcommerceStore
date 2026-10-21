@@ -35,7 +35,6 @@ const EditAddressSlice = createSlice({
     builder
 
       .addCase(EditAddress.pending, (state) => {
-        //state.status = "loading";
         state.error = null;
       })
       // وقتی درخواست موفق می‌شود

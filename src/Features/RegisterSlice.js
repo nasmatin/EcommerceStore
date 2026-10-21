@@ -5,7 +5,6 @@ export const PostRegister = createAsyncThunk(
   "PostRegister",
   async (registerdata, { rejectWithValue }) => {
     try {
-
       const response = await api.post("/users/register", registerdata);
       const result = response.data;
 
@@ -50,8 +49,8 @@ const RegisterSlice = createSlice({
         state.familyname = user.familyname;
         state.username = user.username;
         state.token = user.token;
-        
-        localStorage.setItem("token",user.token);
+
+        localStorage.setItem("token", user.token);
         localStorage.setItem("user", JSON.stringify(user));
         state.error = null;
       })

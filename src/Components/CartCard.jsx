@@ -59,7 +59,7 @@ function CartCard({
                 onIncrease();
               }}
               aria-label="افزایش تعداد"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-lg font-bold text-purple-800 transition hover:bg-purple-100"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-lg font-bold text-fuchsia-800 transition hover:bg-fuchsia-100"
             >
               +
             </button>
@@ -86,7 +86,7 @@ function CartCard({
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3">
           <div>
             <p className="text-xs text-gray-500">جمع قیمت این محصول</p>
-            <p className="mt-1 text-base font-extrabold text-purple-800">
+            <p className="mt-1 text-base font-extrabold text-fuchsia-800">
               {(price * quantity).toLocaleString("fa-IR")} تومان
             </p>
           </div>

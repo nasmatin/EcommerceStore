@@ -1,5 +1,5 @@
 const FavoriteButton = ({ isFavorite, onClick }) => {
- return (
+  return (
     <button
       type="button"
       onClick={onClick}

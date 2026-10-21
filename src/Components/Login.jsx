@@ -5,9 +5,8 @@ import { useNavigate, Link } from "react-router";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
 import Register from "../Components/Register";
-
+import { loadCart } from "../Features/AddToCartSlice";
 function LoginClient() {
-  //user:dignified-pass:123456
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -26,16 +25,18 @@ function LoginClient() {
     }));
   };
   const inputsubmit = async (e) => {
-    e.preventDefault(); 
-    try{
-   const result=await dispatch(PostLogin(loginform)).unwrap();
- // dispatch(loadCart(result.user.id));
-    navigate("/", { replace: true });
+    e.preventDefault();
+    try {
+      await dispatch(PostLogin(loginform)).unwrap();
+      const user = JSON.parse(localStorage.getItem("user") || "null");
+      if (user?.id) {
+        dispatch(loadCart(user.id));
+      }
+
+      navigate("/", { replace: true });
+    } catch {
+      alert("ورود ناموفق بود. نام کاربری و رمز عبور را بررسی کن.");
     }
-   
- catch  {
-alert("ورود ناموفق بود. نام کاربری و رمز عبور را بررسی کن.");
-}  
   };
   useEffect(() => {
     if (isLoggedIn) {
@@ -46,12 +47,12 @@ alert("ورود ناموفق بود. نام کاربری و رمز عبور را
     <div
       dir="rtl"
       className="
-      font-['Digi_Hamishe_Regular']
+      font-myfont
       min-h-screen
       flex
       items-center
       justify-center
-      bg-[#713f7a]
+      bg-fuchsia-900
       px-4
     "
     >
@@ -67,7 +68,7 @@ alert("ورود ناموفق بود. نام کاربری و رمز عبور را
         justify-center
         p-8
         rounded-2xl
-        bg-[rgb(212,137,219)]
+        bg-fuchsia-300
         gap-4
         shadow-lg
       "
@@ -91,13 +92,13 @@ alert("ورود ناموفق بود. نام کاربری و رمز عبور را
         />
 
         <Button label="ورود" />
-        <h3 className="text-l font-semibold text-center mb-2">
+        <h3 className="text-l font-semibold text-center">
           هنوز حساب کاربری ندارید؟
         </h3>
         <Link
           to="/register"
-element={<Register />} 
-          className="text-purple-800 text-l font-semibold text-center mb-2"
+          element={<Register />}
+          className="text-fuchsia-800 text-l font-semibold text-center mb-2"
         >
           ایجاد حساب کاربری
         </Link>

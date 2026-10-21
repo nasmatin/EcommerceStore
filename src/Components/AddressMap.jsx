@@ -1,10 +1,4 @@
-
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvents,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents, useMap } from "react-leaflet";
 import { useEffect } from "react";
 
 function MapEvents({ onLocationChange }) {
@@ -24,23 +18,20 @@ function ChangeMapCenter({ latitude, longitude }) {
   const map = useMap();
 
   useEffect(() => {
-    if (latitude != null && longitude != null &&
-        latitude !== "" && longitude !== "") {
-      map.setView(
-        [Number(latitude), Number(longitude)],
-        15
-      );
+    if (
+      latitude != null &&
+      longitude != null &&
+      latitude !== "" &&
+      longitude !== ""
+    ) {
+      map.setView([Number(latitude), Number(longitude)], 15);
     }
   }, [latitude, longitude, map]);
 
   return null;
 }
 
-function AddressMap({
-  onLocationChange,
-  latitude,
-  longitude,
-}) {
+function AddressMap({ onLocationChange, latitude, longitude }) {
   const hasLocation =
     latitude !== "" &&
     longitude !== "" &&
@@ -52,7 +43,7 @@ function AddressMap({
     : [35.6892, 51.389];
 
   return (
-    <div className="relative h-96 w-full">
+    <div className="relative h-full w-full">
       <MapContainer
         center={initialCenter}
         zoom={15}
@@ -63,10 +54,7 @@ function AddressMap({
           attribution="&copy; OpenStreetMap contributors"
         />
 
-        <ChangeMapCenter
-          latitude={latitude}
-          longitude={longitude}
-        />
+        <ChangeMapCenter latitude={latitude} longitude={longitude} />
 
         <MapEvents onLocationChange={onLocationChange} />
       </MapContainer>

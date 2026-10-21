@@ -7,11 +7,11 @@ function AddressCard({ id, title, fullAddress, postalCode, onEdit, onRemove }) {
     >
       {/* اطلاعات آدرس در سمت راست */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-balance font-bold leading-7 text-gray-800">
+        <h3 className=" font-bold leading-7 text-gray-800">
           {title}
         </h3>
 
-        <p className="mt-2 min-w-0 max-w-full whitespace-normal break-all font-medium text-gray-700">
+        <p className="mt-2 min-w-0 max-w-full whitespace-normal break-all font-normal text-gray-700">
           {String(fullAddress ?? "").replace(
             /\d/g,
             (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]

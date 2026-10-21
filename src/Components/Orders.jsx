@@ -18,17 +18,16 @@ function Orders() {
   useEffect(() => {
     if (userId) {
       dispatch(GetOrders(userId));
-           console.log("GetOrders",userId);
+      console.log("GetOrders", userId);
     }
   }, [dispatch, userId]);
-  
-  // قالب‌بندی قیمت
+
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
   return (
     <>
       <Header />
       <Menu />
-      <div dir="rtl" className="text-center">
+      <div dir="rtl" className=" font-myfont text-center">
         <div className=" flex w-full  flex-col items-center gap-4 px-4 py-4">
           {!userorder || userorder.length === 0 ? (
             <NoOrder />
@@ -37,8 +36,14 @@ function Orders() {
               <OrderItem
                 key={uorder.id}
                 id={uorder.id}
-                ordernumber={uorder.ordernumber}
-                orderdate={uorder.orderdate}
+                ordernumber={String(uorder.ordernumber ?? "").replace(
+                  /\d/g,
+                  (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
+                )}
+                orderdate={String(uorder.orderdatePersian ?? "").replace(
+                  /\d/g,
+                  (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
+                )}
                 pricepaid={formatPrice(uorder.pricepaid)}
                 link={`/orders/ordersdetail?userId=${userId}&orderId=${uorder.id}`}
               />
@@ -46,7 +51,6 @@ function Orders() {
           )}
         </div>
       </div>
-
 
       <Footer />
     </>

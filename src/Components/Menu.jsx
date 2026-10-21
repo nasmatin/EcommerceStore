@@ -8,7 +8,6 @@ function Menu() {
   const dispatch = useDispatch();
   const { category, status, error } = useSelector((state) => state.menu);
 
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   /*
@@ -72,7 +71,6 @@ function Menu() {
         name: "محصولات",
       },
     ]);
-
   };
 
   // ورود به یک دسته
@@ -138,7 +136,7 @@ function Menu() {
           w-full
           items-center
           gap-10
-          bg-purple-800
+          bg-fuchsia-800
           px-10
           py-3
           text-white
@@ -169,7 +167,7 @@ function Menu() {
         className="
           md:hidden
           w-full
-          bg-purple-800
+          bg-fuchsia-800
           px-4
           py-3
           text-white
@@ -188,7 +186,7 @@ function Menu() {
         >
           <i className="fa-solid fa-bars"></i>
 
-          <span >منو</span>
+          <span>منو</span>
         </button>
       </div>
 
@@ -219,7 +217,7 @@ function Menu() {
           h-full
           w-80
           max-w-[85%]
-          bg-purple-800
+          bg-fuchsia-800
           text-white
           shadow-2xl
           transition-transform
@@ -238,7 +236,7 @@ function Menu() {
             items-center
             justify-between
             border-b
-            border-purple-700
+            border-fuchsia-700
             px-4
             py-4
           "
@@ -282,7 +280,7 @@ function Menu() {
                   rounded-md
                   px-3
                   py-3
-                  hover:bg-purple-700
+                  hover:bg-fuchsia-700
                font-myfont "
               >
                 <span>محصولات</span>
@@ -298,7 +296,7 @@ function Menu() {
                   rounded-md
                   px-3
                   py-3
-                  hover:bg-purple-700
+                  hover:bg-fuchsia-700
                 "
               >
                 درباره ما
@@ -312,7 +310,7 @@ function Menu() {
                   rounded-md
                   px-3
                   py-3
-                  hover:bg-purple-700
+                  hover:bg-fuchsia-700
                 "
               >
                 تماس ما
@@ -326,7 +324,7 @@ function Menu() {
                   rounded-md
                   px-3
                   py-3
-                  hover:bg-purple-700
+                  hover:bg-fuchsia-700
                 "
               >
                 پشتیبانی
@@ -343,36 +341,34 @@ function Menu() {
                   const hasChildren =
                     category[item.id] && category[item.id].length > 0;
 
-                 
-return (
-  <div
-    key={item.id}
-    className="flex w-full items-center justify-between rounded-md px-3 py-3 hover:bg-purple-700"
-  >
-    <Link
-      to={`/products?catId=${item.id}`}
-      onClick={closeMobileMenu}
-      className="flex-1 text-right"
-    >
-      {item.name}
-    </Link>
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex w-full items-center justify-between rounded-md px-3 py-3 hover:bg-fuchsia-700"
+                    >
+                      <Link
+                        to={`/products?catId=${item.id}`}
+                        onClick={closeMobileMenu}
+                        className="flex-1 text-right"
+                      >
+                        {item.name}
+                      </Link>
 
-    {hasChildren && (
-      <button
-        type="button"
-        onClick={() => openCategory(item)}
-        className="mr-3"
-        aria-label={`نمایش زیرمجموعه‌های ${item.name}`}
-      >
-        <i className="fa-solid fa-angle-left text-sm"></i>
-      </button>
-    )}
-  </div>
-);
-
+                      {hasChildren && (
+                        <button
+                          type="button"
+                          onClick={() => openCategory(item)}
+                          className="mr-3"
+                          aria-label={`نمایش زیرمجموعه‌های ${item.name}`}
+                        >
+                          <i className="fa-solid fa-angle-left text-sm"></i>
+                        </button>
+                      )}
+                    </div>
+                  );
                 })
               ) : (
-                <div className="px-3 py-4 text-purple-200">
+                <div className="px-3 py-4 text-fuchsia-200">
                   در حال بارگذاری...
                 </div>
               )}

@@ -18,7 +18,7 @@ export const GetCategory = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 const MenuSlice = createSlice({

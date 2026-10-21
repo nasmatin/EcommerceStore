@@ -11,14 +11,14 @@ function SearchCard({ id, image, link, name }) {
         dir="rtl"
         data-product-id={id}
         onClick={handleClick}
-        className="flex flex-col gap-4 bg-white p-4 cursor-pointer transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
+        className="flex flex-col gap-4 bg-white p-2 border-b border-gray-200 cursor-pointer transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
       >
         {/* تصویر محصول */}
         <a href={link} className="shrink-0 self-center sm:self-auto">
           <img
             src={image}
             alt={name}
-            className="h-15 w-15 rounded-xl bg-gray-50 object-contain p-2 sm:h-10 sm:w-10"
+            className="h-15 w-15 rounded-full bg-fuchsia-300 object-contain p-2 sm:h-10 sm:w-10"
           />
         </a>
 

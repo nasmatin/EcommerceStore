@@ -10,14 +10,14 @@ import { login } from "../Features/LoginSlice";
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const [Registerform, setRegisterform] = useState({
     name: "",
     familyname: "",
     mobile: "",
     username: "",
     password: "",
-      confirmpassword: "",
+    confirmpassword: "",
   });
   const inputchange = (e) => {
     const { name, value } = e.target;
@@ -28,27 +28,26 @@ const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   };
   const inputsubmit = async (e) => {
     e.preventDefault();
-      if (Registerform.password !== Registerform.confirmpassword) {
-    alert("پسوردها یکسان نیستند");
-    return;
-  }
-  const registerdata = {
-    name: Registerform.name,
-    familyname: Registerform.familyname,
-    mobile: Registerform.mobile,
-    username: Registerform.username,
-    password: Registerform.password,
-  };
-  try{
-    const result = await dispatch(PostRegister(registerdata)).unwrap();
-    dispatch(login(result.user));
-   // dispatch(loadCart(result.user.id));
+    if (Registerform.password !== Registerform.confirmpassword) {
+      alert("پسوردها یکسان نیستند");
+      return;
+    }
+    const registerdata = {
+      name: Registerform.name,
+      familyname: Registerform.familyname,
+      mobile: Registerform.mobile,
+      username: Registerform.username,
+      password: Registerform.password,
+    };
+    try {
+      const result = await dispatch(PostRegister(registerdata)).unwrap();
+      dispatch(login(result.user));
+      // dispatch(loadCart(result.user.id));
 
-navigate("/", { replace: true });
-  }
- catch{
-  alert("ثبت‌نام ناموفق بود. اطلاعات را بررسی کن.");
- }
+      navigate("/", { replace: true });
+    } catch {
+      alert("ثبت‌نام ناموفق بود. اطلاعات را بررسی کن.");
+    }
   };
   useEffect(() => {
     if (isLoggedIn) {
@@ -59,12 +58,12 @@ navigate("/", { replace: true });
     <div
       dir="rtl"
       className="
-      font-['Digi_Hamishe_Regular']
+      font-myfont
       min-h-screen
       flex
       items-center
       justify-center
-      bg-[#713f7a]
+      bg-fuchsia-900
       px-4
     "
     >
@@ -80,12 +79,12 @@ navigate("/", { replace: true });
         justify-center
         p-8
         rounded-2xl
-        bg-[rgb(212,137,219)]
-        gap-4
+        bg-fuchsia-300
+        gap-2
         shadow-lg
       "
       >
-        <h2 className="text-xl font-bold text-center mb-2"> ثبت نام </h2>
+        <h2 className="text-xl font-bold text-center "> ثبت نام </h2>
 
         <Input
           type="text"
@@ -94,7 +93,7 @@ navigate("/", { replace: true });
           placeholder="نام "
           onChange={inputchange}
         />
-<Input
+        <Input
           type="text"
           name="familyname"
           value={Registerform.familyname}
@@ -115,7 +114,7 @@ navigate("/", { replace: true });
           placeholder="موبایل  "
           onChange={inputchange}
         />
-        
+
         <Input
           type="password"
           name="password"
@@ -123,20 +122,20 @@ navigate("/", { replace: true });
           placeholder="پسورد"
           onChange={inputchange}
         />
-<Input
-  type="password"
-  name="confirmpassword"
-  value={Registerform.confirmpassword}
-  placeholder="تکرار پسورد"
-  onChange={inputchange}
-/>
+        <Input
+          type="password"
+          name="confirmpassword"
+          value={Registerform.confirmpassword}
+          placeholder="تکرار پسورد"
+          onChange={inputchange}
+        />
 
         <Button label="ثبت نام" />
-     
+
         <Link
           to="/login"
           element={<Login />}
-          className="text-purple-800 text-l font-semibold text-center mb-2"
+          className="text-fuchsia-800 text-l font-semibold text-center mt-2"
         >
           ورود به حساب کاربری
         </Link>

@@ -74,10 +74,9 @@ function AddressForm() {
 
       navigate("/address", { replace: true });
     } catch (error) {
-    console.error("خطای کامل:", error);
+      console.error("خطای کامل:", error);
 
-
-  alert("ذخیره آدرس انجام نشد.");
+      alert("ذخیره آدرس انجام نشد.");
     }
   };
   const handlechange = (e) => {
@@ -125,20 +124,20 @@ function AddressForm() {
       <form
         onSubmit={handlesubmit}
         dir="rtl"
-        className="font-myfont bg-purple-50 py-12"
+        className="font-myfont bg-fuchsia-100 py-12"
       >
         <div className="mx-auto max-w-6xl px-4">
           {/* عنوان صفحه */}
           <div className="mb-10">
-            <h1 className=" font-myfont text-3xl font-bold text-purple-900">
+            <h1 className=" font-myfont text-3xl font-bold text-fuchsia-900">
               ثبت آدرس{" "}
             </h1>
           </div>
 
           {/* اطلاعات + نقشه */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 ">
             {/* اطلاعات تماس */}
-            <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-purple-100">
+            <div className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-fuchsia-100">
               {/* آدرس */}
               <div className="mb-6 flex gap-4">
                 <div>
@@ -184,7 +183,7 @@ function AddressForm() {
 
                   <Input
                     name="title"
-                    className="border-purple-900"
+                    className="border-fuchsia-900"
                     value={form.title}
                     placeholder=" عنوان آدرس  "
                     onChange={handlechange}
@@ -204,7 +203,7 @@ function AddressForm() {
         px-5 py-8
         text-right
         bg-white
-        border border-purple-900
+        border border-fuchsia-900
         rounded-2xl
         text-[#333]
         outline-none
@@ -226,7 +225,7 @@ function AddressForm() {
                   <Input
                     type="number"
                     name="postalCode"
-                    className="border-purple-900"
+                    className="border-fuchsia-900"
                     value={form.postalCode}
                     placeholder=" کد پستی "
                     onChange={handlechange}
@@ -237,8 +236,8 @@ function AddressForm() {
             </div>
 
             {/* نقشه */}
-            <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-purple-100">
-              <div className=" w-full">
+            <div className="h-full min-h-96 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-fuchsia-100">
+              <div className="h-full w-full">
                 <AddressMap
                   onLocationChange={handleLocationChange}
                   latitude={form.latitude}
@@ -249,12 +248,12 @@ function AddressForm() {
           </div>
         </div>
         <div className="mt-6 flex justify-center">
-  <Button label={isEditMode ? "ذخیره تغییرات" : "ثبت آدرس"} />
+          <Button label={isEditMode ? "ذخیره تغییرات" : "ثبت آدرس"} />
 
           <Link
             to="/address"
             element={<Address />}
-            className="text-purple-800 text-l font-semibold text-center mb-2"
+            className="text-fuchsia-800 text-l font-semibold text-center mb-2"
           ></Link>
         </div>
       </form>

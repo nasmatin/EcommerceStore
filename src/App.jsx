@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     if (isLoggedIn && userId) {
       dispatch(loadCart(userId));
-       dispatch(loadFavorites(userId));
+      dispatch(loadFavorites(userId));
     }
   }, [dispatch, isLoggedIn, userId]);
 

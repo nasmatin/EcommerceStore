@@ -70,8 +70,8 @@ console.log("payemntdata cart 3",paymentdata);
               </p>
               {/* <a
               href="/"
-              className="mt-5 inline-block rounded-xl bg-purple-800
-                px-6 py-3 text-white hover:bg-purple-900"
+              className="mt-5 inline-block rounded-xl bg-fuchsia-800
+                px-6 py-3 text-white hover:bg-fuchsia-900"
             >
               بازگشت به فروشگاه
             </a> */}
@@ -149,7 +149,7 @@ console.log("payemntdata cart 3",paymentdata);
 
                 <div className="font-myfont flex justify-between gap-3 font-bold text-gray-800">
                   <span>مبلغ نهایی</span>
-                  <span className="text-purple-800">
+                  <span className="text-fuchsia-800">
                     {(AddCart.totalPrice + shipping).toLocaleString("fa-IR")}{" "}
                     تومان
                   </span>

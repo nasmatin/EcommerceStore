@@ -1,4 +1,4 @@
- function ShareButton({ productName, productUrl }) {
+function ShareButton({ productName, productUrl }) {
   const handleShare = async () => {
     const url = productUrl || window.location.href;
 
@@ -13,13 +13,13 @@
     }
   };
 
-return (
+  return (
     <button
       type="button"
       onClick={handleShare}
       aria-label="اشتراک‌گذاری محصول"
       title="اشتراک‌گذاری"
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition hover:border-purple-300 hover:bg-purple-50 hover:text-purple-800"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition hover:border-fuchsia-300 hover:bg-fuchsia-50 hover:text-fuchsia-800"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -40,5 +40,5 @@ return (
       </svg>
     </button>
   );
-};
+}
 export default ShareButton;

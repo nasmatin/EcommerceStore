@@ -3,22 +3,21 @@ import api from "../services/api.js";
 
 export const DeleteAddress = createAsyncThunk(
   "DeleteAddress",
-  async({userId,id}, { rejectWithValue })=>{
-    try{
-
+  async ({ userId, id }, { rejectWithValue }) => {
+    try {
       const response = await api.delete("/address/DeleteAddress", {
         params: {
           userId: userId,
-             id: id,
+          id: id,
         },
       });
       const result = response.data;
       return {
-        userId,id,
+        userId,
+        id,
         data: result,
       };
-    }
-    catch (error) {
+    } catch (error) {
       return rejectWithValue(error.message);
     }
   }
@@ -33,16 +32,13 @@ const DeleteAddressSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-  
+
       .addCase(DeleteAddress.pending, (state) => {
-        //state.status = "loading";
         state.error = null;
       })
       // وقتی درخواست موفق می‌شود
       .addCase(DeleteAddress.fulfilled, (state) => {
         state.status = "succeeded";
-        //const { userId,id, data } = action.payload;
-        //state.deleteaddress[userId,id] = data; // داده‌های آمده از سرور   
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(DeleteAddress.rejected, (state, action) => {

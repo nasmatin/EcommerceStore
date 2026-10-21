@@ -3,8 +3,8 @@ import api from "../services/api.js";
 
 export const PutAccountEdit = createAsyncThunk(
   "PutAccountEdit",
-  async({id,formdata}, { rejectWithValue })=>{
-    try{
+  async ({ id, formdata }, { rejectWithValue }) => {
+    try {
       const response = await api.put("/users/edit", formdata, {
         params: {
           id: id,
@@ -16,8 +16,7 @@ export const PutAccountEdit = createAsyncThunk(
         id,
         data: result,
       };
-    }
-  catch (error) {
+    } catch (error) {
       return rejectWithValue(error.message);
     }
   }
@@ -32,7 +31,7 @@ const AccountsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-  
+
       .addCase(PutAccountEdit.pending, (state) => {
         //state.status = "loading";
         state.error = null;
@@ -41,7 +40,7 @@ const AccountsSlice = createSlice({
       .addCase(PutAccountEdit.fulfilled, (state, action) => {
         state.status = "succeeded";
         const { id, data } = action.payload;
-        state.accounts[id] = data; // داده‌های آمده از سرور   
+        state.accounts[id] = data; // داده‌های آمده از سرور
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(PutAccountEdit.rejected, (state, action) => {

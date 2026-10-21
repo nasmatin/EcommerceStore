@@ -1,15 +1,12 @@
-
 function ProductReview({ reviews = [] }) {
   return (
     <section className="font-myfont mt-0 rounded-2xl border-2 border-gray-300 bg-white p-5 shadow-sm sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-bold text-gray-900">
-          نظرات کاربران
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900">نظرات کاربران</h2>
 
         <button
           type="button"
-          className="rounded-xl border border-purple-800 px-5 py-2.5 text-sm font-semibold text-purple-800 transition hover:bg-purple-50"
+          className="rounded-xl border border-fuchsia-800 px-5 py-2.5 text-sm font-semibold text-fuchsia-800 transition hover:bg-fuchsia-50"
         >
           ثبت نظر
         </button>
@@ -46,4 +43,4 @@ function ProductReview({ reviews = [] }) {
     </section>
   );
 }
-export default  ProductReview;
+export default ProductReview;

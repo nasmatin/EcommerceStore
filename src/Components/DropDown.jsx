@@ -1,4 +1,3 @@
-
 const DROPDOWN = ({
   options = [],
   value,
@@ -9,8 +8,8 @@ const DROPDOWN = ({
   return (
     <div className="font-myfont relative w-full max-w-48 ">
       <select
-className="my-2 mx-2 w-full max-w-96 cursor-pointer appearance-none rounded-lg border border-purple-500 bg-white p-3 text-right font-myfont font-bold text-[#333] shadow-sm [user-select:none]"   
-     id={name}
+        className="my-2 mx-2 w-full max-w-96 cursor-pointer appearance-none rounded-lg border-2 border-fuchsia-700 bg-white p-3 text-right font-myfont font-bold text-[#333] shadow-sm [user-select:none]"
+        id={name}
         name={name}
         value={value}
         onChange={(e) => onChange(e.target.value)}

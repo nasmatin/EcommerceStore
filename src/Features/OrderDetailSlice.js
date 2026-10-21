@@ -11,10 +11,6 @@ export const GetOrderDetail = createAsyncThunk(
           orderId,
         },
       });
-                  console.log("orderdetail userId slice",userId);
-                                    console.log("orderdetail userId slice",orderId);
-
-
       return {
         userId,
         orderId,

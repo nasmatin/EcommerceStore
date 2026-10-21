@@ -24,27 +24,27 @@ function Address() {
     }
   }, [dispatch, userId]);
   const handleRemove = async (id) => {
-  if (!window.confirm("از حذف این آدرس مطمئنی؟")) return;
+    if (!window.confirm("از حذف این آدرس مطمئنی؟")) return;
 
-  try {
-    await dispatch(
-      DeleteAddress({
-        userId: account.id,
-        id,
-      })
-    ).unwrap();
-     // دریافت دوباره لیست آدرس‌ها بعد از حذف موفق
-    await dispatch(GetAddress(userId)).unwrap();
-  } catch (error) {
-    console.error("خطا در حذف آدرس:", error);
-    alert("حذف آدرس انجام نشد.");
-  }
-};
-const handleedit = (uaddress) => {
-  navigate("/address/addressform", {
-    state: { address: uaddress },
-  });
-};
+    try {
+      await dispatch(
+        DeleteAddress({
+          userId: account.id,
+          id,
+        })
+      ).unwrap();
+      // دریافت دوباره لیست آدرس‌ها بعد از حذف موفق
+      await dispatch(GetAddress(userId)).unwrap();
+    } catch (error) {
+      console.error("خطا در حذف آدرس:", error);
+      alert("حذف آدرس انجام نشد.");
+    }
+  };
+  const handleedit = (uaddress) => {
+    navigate("/address/addressform", {
+      state: { address: uaddress },
+    });
+  };
   return (
     <>
       <Header />
@@ -54,8 +54,7 @@ const handleedit = (uaddress) => {
       </div>
 
       <div dir="rtl" className="text-center">
-        <div 
-        className=" flex w-full  flex-col items-center gap-4 px-4 py-4">
+        <div className=" flex w-full  flex-col items-center gap-4 px-4 py-4">
           {!useraddress || useraddress.length === 0 ? (
             <NoAddress />
           ) : (
@@ -67,7 +66,7 @@ const handleedit = (uaddress) => {
                 postalCode={uaddress.postalCode}
                 fullAddress={uaddress.fullAddress}
                 onRemove={() => handleRemove(uaddress.id)}
-                onEdit={()=>handleedit(uaddress)}
+                onEdit={() => handleedit(uaddress)}
               />
             ))
           )}

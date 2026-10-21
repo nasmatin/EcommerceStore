@@ -1,7 +1,7 @@
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Input from "../Components/Input";
 import Button from "./Button";
@@ -10,7 +10,7 @@ import { updateUserInfo } from "../Features/LoginSlice";
 import { useNavigate } from "react-router";
 function AccountEdit() {
   const account = useSelector((state) => state.login);
-const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formdata, setFormData] = useState({
     name: account.name || "",
@@ -18,7 +18,7 @@ const dispatch=useDispatch();
     mobile: account.mobile || "",
     username: account.username || "",
   });
-dispatch(updateUserInfo(formdata));
+  dispatch(updateUserInfo(formdata));
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -28,40 +28,42 @@ dispatch(updateUserInfo(formdata));
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const id = account.id;
+    const id = account.id;
 
-  if (!id) {
-    return;
-  }
+    if (!id) {
+      return;
+    }
 
-  const result = await dispatch(
-    PutAccountEdit({
-      id:id,
-      formdata:formdata,
-    })
-  );
-  if (PutAccountEdit.fulfilled.match(result)) {
+    const result = await dispatch(
+      PutAccountEdit({
+        id: id,
+        formdata: formdata,
+      })
+    );
+    if (PutAccountEdit.fulfilled.match(result)) {
       dispatch(updateUserInfo(formdata)); // اینجا
- navigate("/account", { replace: true });
-  }
-
-};
+      navigate("/account", { replace: true });
+    }
+  };
 
   return (
     <>
       <Header />
       <Menu />
 
-      <div dir="rtl" className="font-myfont flex justify-center px-4 py-8">
+      <div
+        dir="rtl"
+        className="font-myfont flex justify-center px-4 py-8             bg-fuchsia-100
+"
+      >
         <form
           onSubmit={handleSubmit}
           className="
             w-full
             rounded-2xl
-            bg-white
             p-5 sm:p-8
           "
         >
@@ -82,7 +84,7 @@ const handleSubmit = async (e) => {
                 type="text"
                 name="name"
                 value={formdata.name}
-                  placeholder="نام "
+                placeholder="نام "
                 onChange={handleChange}
               />
             </div>
@@ -95,7 +97,7 @@ const handleSubmit = async (e) => {
                 type="text"
                 name="familyname"
                 value={formdata.familyname}
-                  placeholder="نام خانوادگی"
+                placeholder="نام خانوادگی"
                 onChange={handleChange}
               />
             </div>
@@ -109,10 +111,10 @@ const handleSubmit = async (e) => {
                 name="username"
                 placeholder="نام کاربری"
                 value={formdata.username}
-             readOnly
-  className="bg-gray-100 text-gray-400 cursor-not-allowed"
+                readOnly
+                className="bg-gray-100 text-gray-400 cursor-not-allowed"
                 onChange={handleChange}
-             />
+              />
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
@@ -123,7 +125,8 @@ const handleSubmit = async (e) => {
                 type="number"
                 name="mobile"
                 value={formdata.mobile}
-                  placeholder="شماره موبایل"
+
+                placeholder="شماره موبایل"
                 onChange={handleChange}
               />
             </div>
@@ -131,8 +134,7 @@ const handleSubmit = async (e) => {
 
           {/* ثبت تغییرات */}
           <div className="mt-8 flex justify-center">
-            <Button label="ثبت تغییرات">
-            </Button>
+            <Button label="ثبت تغییرات"></Button>
           </div>
         </form>
       </div>

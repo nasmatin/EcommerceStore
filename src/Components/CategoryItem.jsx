@@ -82,9 +82,9 @@ const handleclick =(catId)=>{
           rounded-md
           px-3
           py-2
-          text-purple-100
-          hover:bg-purple-700
-          hover:text-purple-300
+          text-fuchsia-100
+          hover:bg-fuchsia-700
+          hover:text-fuchsia-300
         "
       >
 {item.id === 0 ? (
@@ -122,7 +122,7 @@ const handleclick =(catId)=>{
             className="
               w-52
               rounded-md
-              bg-purple-800
+              bg-fuchsia-800
               p-2
               shadow-lg
             "

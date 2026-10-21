@@ -36,10 +36,10 @@ function Gallery({ images = [], productName = "محصول" }) {
               onClick={() => setActiveImage(index)}
               aria-label={`نمایش تصویر ${index + 1}`}
               aria-pressed={activeImage === index}
-              className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-purple-50 transition sm:h-24 sm:w-24 ${
+              className={`h-20 w-20 shrink-0 overflow-hidden rounded-xl border-2 bg-fuchsia-50 transition sm:h-24 sm:w-24 ${
                 activeImage === index
-                  ? "border-purple-800"
-                  : "border-transparent hover:border-purple-300"
+                  ? "border-fuchsia-800"
+                  : "border-transparent hover:border-fuchsia-300"
               }`}
             >
               <img

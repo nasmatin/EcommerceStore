@@ -12,28 +12,27 @@ function OrderProductItem({ item }) {
   return (
     <div
       dir="rtl"
-      className="w-full rounded-xl border border-gray-200 bg-white p-3 shadow-sm transition-shadow hover:shadow-md sm:p-4"
+      className="w-full rounded-xl border border-fuchsia-200 bg-white p-2 shadow-xl transition-shadow hover:shadow-md sm:p-4"
     >
-      {/* تصویر و مشخصات محصول */}
-      <div className="flex items-center gap-3">
-    <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-gray-50 sm:h-20 sm:w-20">
-  {product.img1 ? (
-    <img
-      src={product.img1}
-      alt={product.name || "محصول"}
-      className="h-full w-full bg-white object-contain p-2"
-    />
-  ) : (
-    <div className="h-12 w-12 rounded-full bg-purple-800 sm:h-14 sm:w-14" />
-  )}
-</div>
+      <div className="flex items-center gap-2">
+        <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg  sm:h-20 sm:w-20">
+          {product.img1 ? (
+            <img
+              src={product.img1}
+              alt={product.name || "محصول"}
+              className="h-full w-full bg-fuchsia-300 rounded-full object-contain p-2"
+            />
+          ) : (
+            <div className="h-12 w-12 rounded-full bg-fuchsia-800 sm:h-14 sm:w-14" />
+          )}
+        </div>
 
         <div className="min-w-0 flex-1">
-          <h3 className="break-all text-sm font-semibold leading-6 text-gray-800 sm:text-base">
+          <h3 className="break-all text-normal font-semibold leading-6 text-gray-800 sm:text-base">
             {product.name || "نام محصول"}
           </h3>
 
-          <p className="mt-1 text-sm text-gray-600 font-medium">
+          <p className="mt-1 text-normal text-gray-600 font-medium">
             تعداد:{" "}
             <span className="font-semibold text-gray-800">
               {quantity.toLocaleString("fa-IR")} عدد
@@ -44,16 +43,16 @@ function OrderProductItem({ item }) {
 
       {/* قیمت‌ها */}
       <div className="mt-4 grid grid-cols-1 gap-3 border-t border-gray-100 pt-4 sm:grid-cols-2">
-        <div className="rounded-xl bg-gray-50 p-3">
-          <p className="text-xs text-gray-500">قیمت هر عدد</p>
+        <div className="rounded-xl p-3">
+          <p className="text-normal text-gray-500">قیمت هر عدد</p>
           <p className="mt-2 font-semibold text-gray-800">
             {formatPrice(unitPrice)} تومان
           </p>
         </div>
 
-        <div className="rounded-xl bg-purple-50 p-3">
-          <p className="text-xs text-gray-500">مبلغ کل محصول</p>
-          <p className="mt-2 font-bold text-purple-800">
+        <div className="rounded-xl p-3">
+          <p className="text-normal text-gray-500">مبلغ کل محصول</p>
+          <p className="mt-2 font-bold text-fuchsia-800">
             {formatPrice(totalPrice)} تومان
           </p>
         </div>

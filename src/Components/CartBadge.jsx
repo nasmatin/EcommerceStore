@@ -13,7 +13,7 @@ function CartBadge() {
     <button
       type="button"
       onClick={() => navigate("/cart")}
-      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-purple-800 text-white shadow-lg transition hover:bg-purple-900"
+      className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-fuchsia-800 text-white shadow-lg transition hover:bg-fuchsia-900"
       aria-label={`سبد خرید، ${totalCount} کالا`}
     >
       <i className="fa-solid fa-cart-shopping text-xl"></i>

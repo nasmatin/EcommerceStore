@@ -1,4 +1,3 @@
-
 function ArrowIcon({ size = 20, color = "currentColor", direction = "left" }) {
   const rotation = {
     left: 0,
