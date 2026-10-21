@@ -30,15 +30,11 @@ function Cart() {
         quantity: item.quantity,
       })),
     };
-    console.log("payemntdata cart", paymentdata);
-    console.log("userid cart", paymentdata);
 
     try {
-      console.log("payemntdata cart 2", paymentdata);
-      console.log("userid cart 2", paymentdata);
+
       await dispatch(GetPayment(paymentdata)).unwrap();
-      console.log("payemntdata cart 3", paymentdata);
-      console.log("userid cart 3", paymentdata);
+
       dispatch(clear());
       navigate("/");
     } catch (error) {
