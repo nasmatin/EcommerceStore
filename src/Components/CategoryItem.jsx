@@ -83,7 +83,7 @@ const handleclick =(catId)=>{
           px-3
           py-2
           text-fuchsia-100
-          hover:bg-fuchsia-700
+          hover:bg-fuchsia-800
           hover:text-fuchsia-300
         "
       >

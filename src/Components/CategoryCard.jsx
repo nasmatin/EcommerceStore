@@ -9,7 +9,6 @@ function CategoryCard({ image, link, label }) {
         />
       </a>
       <label className="font-semibold">{label}</label>
-      
     </div>
   );
 }

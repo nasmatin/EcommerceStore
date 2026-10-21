@@ -15,36 +15,36 @@ function Cart() {
   const shipping = 80000;
   const post = 50000;
   const tax = 20000;
-const account = useSelector((state) => state.login);
+  const account = useSelector((state) => state.login);
 
-  const userId = account.id;  //const payment=useSelector((state)=>state.payment.payments);
+  const userId = account.id;
+  //const payment=useSelector((state)=>state.payment.payments);
   const handlesubmitorder = async () => {
-  const paymentdata = {
-    userid: userId, // باید شناسه واقعی کاربر باشد
-    shippingcost: shipping,
-    packagingcost: post,
-    tax: tax,
-    items: Cartitems.map((item) => ({
-      productid: item.id,
-      quantity: item.quantity,
-    })),
+    const paymentdata = {
+      userid: userId, // باید شناسه واقعی کاربر باشد
+      shippingcost: shipping,
+      packagingcost: post,
+      tax: tax,
+      items: Cartitems.map((item) => ({
+        productid: item.id,
+        quantity: item.quantity,
+      })),
+    };
+    console.log("payemntdata cart", paymentdata);
+    console.log("userid cart", paymentdata);
+
+    try {
+      console.log("payemntdata cart 2", paymentdata);
+      console.log("userid cart 2", paymentdata);
+      await dispatch(GetPayment(paymentdata)).unwrap();
+      console.log("payemntdata cart 3", paymentdata);
+      console.log("userid cart 3", paymentdata);
+      dispatch(clear());
+      navigate("/");
+    } catch (error) {
+      console.log("خطا در ثبت سفارش:", error);
+    }
   };
-      console.log("payemntdata cart",paymentdata);
-            console.log("userid cart",paymentdata);
-
-
-  try {
-    console.log("payemntdata cart 2",paymentdata);
-            console.log("userid cart 2",paymentdata);
-    await dispatch(GetPayment(paymentdata)).unwrap();
-console.log("payemntdata cart 3",paymentdata);
-            console.log("userid cart 3",paymentdata);
-    dispatch(clear());
-    navigate("/");
-  } catch (error) {
-    console.log("خطا در ثبت سفارش:", error);
-  }
-};
   const navigate = useNavigate();
   return (
     <>
@@ -80,7 +80,6 @@ console.log("payemntdata cart 3",paymentdata);
             <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
               <section className="font-myfont space-y-4 lg:col-span-2">
                 {Cartitems.map((item) => {
-
                   return (
                     <CartCard
                       key={item.id}
@@ -101,27 +100,27 @@ console.log("payemntdata cart 3",paymentdata);
 
               <aside
                 className="rounded-2xl border border-gray-100
-              bg-white p-5 shadow-sm lg:sticky lg:top-6"
+              bg-white p-5 shadow-xl lg:sticky lg:top-6"
               >
                 <h2 className="font-myfont mb-5 text-lg font-bold text-gray-800">
                   خلاصه سفارش
                 </h2>
 
-                <div className="font-myfont flex justify-between gap-3 text-sm text-gray-600">
+                <div className="font-myfont flex justify-between gap-3 text-normal text-gray-600">
                   <span>تعداد محصولات</span>
                   <span>
                     {Cartitems.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 </div>
 
-                <div className="font-myfont mt-4 flex justify-between gap-3 text-sm text-gray-600">
+                <div className="font-myfont mt-4 flex justify-between gap-3 text-normal text-gray-600">
                   <span>جمع محصولات</span>
                   <span>
                     {AddCart.totalPrice.toLocaleString("fa-IR")} تومان
                   </span>
                 </div>
 
-                <div className="font-myfont mt-4 flex justify-between gap-3 text-sm text-gray-600">
+                <div className="font-myfont mt-4 flex justify-between gap-3 text-normal text-gray-600">
                   <span>هزینه ارسال</span>
                   <span>
                     {shipping === 0
@@ -129,7 +128,7 @@ console.log("payemntdata cart 3",paymentdata);
                       : `${shipping.toLocaleString("fa-IR")} تومان`}
                   </span>
                 </div>
-                <div className="font-myfont mt-4 flex justify-between gap-3 text-sm text-gray-600">
+                <div className="font-myfont mt-4 flex justify-between gap-3 text-normal text-gray-600">
                   <span>هزینه پست</span>
                   <span>
                     {post === 0
@@ -137,7 +136,7 @@ console.log("payemntdata cart 3",paymentdata);
                       : `${post.toLocaleString("fa-IR")} تومان`}
                   </span>
                 </div>
-                <div className="font-myfont mt-4 flex justify-between gap-3 text-sm text-gray-600">
+                <div className="font-myfont mt-4 flex justify-between gap-3 text-normal text-gray-600">
                   <span>هزینه مالیات</span>
                   <span>
                     {tax === 0

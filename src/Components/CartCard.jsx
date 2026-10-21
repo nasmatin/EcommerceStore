@@ -22,14 +22,14 @@ function CartCard({
       dir="rtl"
       data-product-id={id}
       onClick={handleClick}
-      className="flex flex-col gap-4 rounded-2xl border cursor-pointer border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
+      className="flex flex-col gap-4 rounded-2xl border cursor-pointer border-gray-200 bg-white p-4 shadow-xl transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
     >
       {/* تصویر محصول */}
       <a href={link} className="shrink-0 self-center sm:self-auto">
         <img
           src={image}
           alt={name}
-          className="h-28 w-28 rounded-xl bg-gray-50 object-contain p-2 sm:h-32 sm:w-32"
+          className="h-28 w-28 rounded-full bg-fuchsia-200 object-contain p-2 sm:h-32 sm:w-32"
         />
       </a>
 
@@ -40,13 +40,13 @@ function CartCard({
             {name}
           </h3>
 
-          {brand && <p className="mt-1 text-sm text-gray-500">برند: {brand}</p>}
+          {brand && <p className="mt-1 text-base text-gray-500">برند: {brand}</p>}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-xs text-gray-500">قیمت هر عدد</p>
-            <p className="mt-1 text-sm font-medium text-gray-700">
+            <p className="text-base text-gray-500">قیمت هر عدد</p>
+            <p className="mt-1 text-base font-medium text-gray-700">
               {price?.toLocaleString("fa-IR")} تومان
             </p>
           </div>
@@ -85,7 +85,7 @@ function CartCard({
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3">
           <div>
-            <p className="text-xs text-gray-500">جمع قیمت این محصول</p>
+            <p className="text-base text-gray-500">جمع قیمت این محصول</p>
             <p className="mt-1 text-base font-extrabold text-fuchsia-800">
               {(price * quantity).toLocaleString("fa-IR")} تومان
             </p>
@@ -97,7 +97,7 @@ function CartCard({
               e.stopPropagation();
               onRemove();
             }}
-            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-red-500 transition hover:bg-red-50 hover:text-red-700"
+            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-base font-medium text-red-500 transition hover:bg-red-50 hover:text-red-700"
           >
             <span aria-hidden="true">×</span>
             حذف محصول
