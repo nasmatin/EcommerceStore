@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
-import { useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import { logout } from "../Features/LoginSlice";
 import { clearCurrentCart } from "../Features/AddToCartSlice";
@@ -12,7 +11,7 @@ function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const sortMenuRef = useRef(null);
-
+const location = useLocation();
   const handleclickUser = () => {
     if (account.isLoggedIn) {
       setIsOpen(!isOpen);
@@ -159,7 +158,11 @@ function Profile() {
               className="w-full rounded-lg bg-fuchsia-800 px-4 py-3 text-white hover:bg-fuchsia-800"
               onClick={() => {
                 setShowLoginPopup(false);
-                navigate("/login");
+                navigate("/login", {
+                  state: {
+                    from: location.pathname + location.search,
+                  },
+                });
               }}
             >
               ورود به حساب کاربری

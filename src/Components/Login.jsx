@@ -1,16 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { PostLogin } from "../Features/LoginSlice";
-import { useNavigate, Link } from "react-router";
+import { useNavigate, Link, useLocation } from "react-router";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
 import Register from "../Components/Register";
-import { loadCart } from "../Features/AddToCartSlice";
+import { loadCart, add } from "../Features/AddToCartSlice";
 function LoginClient() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-
+  const location = useLocation();
+  const from = location.state?.from || "/";
+  const pendingProduct = location.state?.pendingProduct;
   const [loginform, setLoginform] = useState({
     username: "",
     password: "",
@@ -32,17 +34,19 @@ function LoginClient() {
       if (user?.id) {
         dispatch(loadCart(user.id));
       }
-
-      navigate("/", { replace: true });
+      if (pendingProduct) {
+        dispatch(add(pendingProduct));
+      }
+      navigate(from, { replace: true });
     } catch {
       alert("ورود ناموفق بود. نام کاربری و رمز عبور را بررسی کن.");
     }
   };
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/", { replace: true });
+      navigate(from, { replace: true });
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, from]);
   return (
     <div
       dir="rtl"

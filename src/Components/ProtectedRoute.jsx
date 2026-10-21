@@ -5,7 +5,7 @@ function ProtectedRoute() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />;

@@ -8,7 +8,7 @@ import ShareButton from "../Components/ShareButton";
 //import RelatedProduct from "../Components/RelatedProduct";
 import ArrowIcon from "../Components/ArrowIcon";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams,useLocation  } from "react-router";
 import { GetProductDetail } from "../Features/ProductDetailSlice";
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
@@ -22,6 +22,7 @@ function ProductDetail() {
 
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const Id = Number(searchParams.get("id"));
@@ -56,6 +57,10 @@ function ProductDetail() {
   const pdetail = ProDetails ?? {};
 
   const handleclick = () => {
+      if (!account.isLoggedIn) {
+    setShowLoginPopup(true);
+    return;
+  }
     if (account.isLoggedIn) {
       dispatch(
         add({
@@ -69,9 +74,7 @@ function ProductDetail() {
         })
       );
       setShowCartPopup(true);
-    } else {
-      setShowLoginPopup(true);
-    }
+    } 
   };
   const handlefavorite = () => {
     if (!account.isLoggedIn) {
@@ -95,6 +98,24 @@ function ProductDetail() {
       );
     }
   };
+  const handlepopupclick=()=>{
+  setShowLoginPopup(false);
+  navigate("/login", {
+    state: {
+      from: location.pathname + location.search,
+      pendingProduct: {
+        id: pdetail.id,
+        name: pdetail.name,
+        price: pdetail.price,
+        quantity: quantity,
+        stock: pdetail.quantity,
+        image: pdetail.img1,
+        link: `/products/productdetail?id=${pdetail.id}`,
+      },
+    },
+  });
+}
+  
   const getCategoryPath = (categoryId) => {
     const path = [];
     let currentId = categoryId;
@@ -358,10 +379,7 @@ function ProductDetail() {
 
               <button
                 className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white hover:bg-fuchsia-800"
-                onClick={() => {
-                  setShowLoginPopup(false);
-                  navigate("/login");
-                }}
+                onClick={handlepopupclick}
               >
                 ورود به حساب کاربری
               </button>
