@@ -22,6 +22,8 @@ function Products() {
   const categoryProducts = useSelector(
     (state) => state.product?.products?.[catId]
   );
+  const statusbar = useSelector((state) => state.product.statusbar);
+  const errorbar = useSelector((state) => state.product.errorbar);
   const searchProducts = useSelector(
     (state) => state.search?.searchitems?.[query]
   );
@@ -191,24 +193,34 @@ function Products() {
           ))}
         </div>
       </div>
+
       <div dir="rtl" className="text-center">
-        <div className="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-3 lg:grid-cols-4">
-          {!products || products.length === 0 ? (
-            <NoProducts />
-          ) : (
-            sortedProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                image={product.image}
-                label={product.name}
-                price={formatPrice(product.price)}
-                link={`/products/productdetail?id=${product.id}`}
-              />
-            ))
-          )}
-        </div>
+        {!query && statusbar === "loading" ? (
+          <div className="flex justify-center items-center py-16">
+            <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-800 rounded-full animate-spin"></div>
+          </div>
+        ) : errorbar && !query ? (
+          <p className="py-10 text-red-600">دریافت محصولات با خطا مواجه شد.</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-3 lg:grid-cols-4">
+            {!products || products.length === 0 ? (
+              <NoProducts />
+            ) : (
+              sortedProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  image={product.img1}
+                  label={product.name}
+                  price={formatPrice(product.price)}
+                  link={`/products/productdetail?id=${product.id}`}
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
+
       <Footer />
     </>
   );

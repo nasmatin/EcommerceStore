@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../services/api.js";
+import { data } from "react-router";
 
 export const GetProduct = createAsyncThunk(
   "GetProduct",
@@ -13,7 +14,9 @@ export const GetProduct = createAsyncThunk(
       return {
         catId,
         data: response.data,
+
       };
+            
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -39,6 +42,7 @@ const ProductSlice = createSlice({
         state.statusbar = "succeeded";
         const { catId, data } = action.payload;
         state.products[catId] = data.products; // داده‌های آمده از سرور
+          console.log("GetProduct",data.products);
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(GetProduct.rejected, (state, action) => {

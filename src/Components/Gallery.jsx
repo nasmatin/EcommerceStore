@@ -9,7 +9,7 @@ function Gallery({ images = [], productName = "محصول" }) {
       <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-2xl border-2 border-gray-300 bg-white shadow-sm">
         {validImages.length > 0 ? (
           <img
-            src={validImages[activeImage]}
+            src={`https://emadtalebloo.com/panelapi/Uploads/Products/${validImages[activeImage]}`}
             alt={productName}
             className="h-full w-full object-contain p-4"
           />
@@ -43,8 +43,8 @@ function Gallery({ images = [], productName = "محصول" }) {
               }`}
             >
               <img
-                src={image}
-                alt={`${productName} - تصویر ${index + 1}`}
+src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}     
+           alt={`${productName} - تصویر ${index + 1}`}
                 className="h-full w-full object-contain p-1"
               />
             </button>

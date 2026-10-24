@@ -40,6 +40,7 @@ const ProductDetailSlice = createSlice({
         state.statusbar = "succeeded";
         const { id, data } = action.payload;
         state.productdetails[id] = data.product; // داده‌های آمده از سرور
+                  console.log("GetProductDetail",data.product);
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(GetProductDetail.rejected, (state, action) => {

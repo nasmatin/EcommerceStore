@@ -8,13 +8,13 @@ import ShareButton from "../Components/ShareButton";
 //import RelatedProduct from "../Components/RelatedProduct";
 import ArrowIcon from "../Components/ArrowIcon";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useSearchParams,useLocation  } from "react-router";
+import { useNavigate, useSearchParams, useLocation } from "react-router";
 import { GetProductDetail } from "../Features/ProductDetailSlice";
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add, decrement, increment } from "../Features/AddToCartSlice";
-import { like, dislike } from "../Features/FavoriteSlice";
+import { like, dislike,loadFavorites } from "../Features/FavoriteSlice";
 
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
@@ -31,6 +31,8 @@ function ProductDetail() {
   const [showCartPopup, setShowCartPopup] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const favorites = useSelector((state) => state.favorite.items);
+const [isLoading, setIsLoading] = useState(false);
+const [loadError, setLoadError] = useState(false); 
 
   const isFavorite =
     Array.isArray(favorites) &&
@@ -47,20 +49,30 @@ function ProductDetail() {
 
   const allCategories = Object.values(categories).flat();
 
-  useEffect(() => {
-    if (!Id || ProDetails !== undefined) {
-      return;
-    }
-
-    dispatch(GetProductDetail(Id));
-  }, [dispatch, Id, ProDetails]);
-  const pdetail = ProDetails ?? {};
-
-  const handleclick = () => {
-      if (!account.isLoggedIn) {
-    setShowLoginPopup(true);
+useEffect(() => {
+  if (!Id || ProDetails !== undefined) {
     return;
   }
+
+  setIsLoading(true);
+  setLoadError(false);
+
+  dispatch(GetProductDetail(Id))
+    .unwrap()
+    .catch(() => {
+      setLoadError(true);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+}, [dispatch, Id, ProDetails]);
+  const pdetail = ProDetails ?? {};
+  console.log("GetProductDetail:", pdetail);
+  const handleclick = () => {
+    if (!account.isLoggedIn) {
+      setShowLoginPopup(true);
+      return;
+    }
     if (account.isLoggedIn) {
       dispatch(
         add({
@@ -74,11 +86,12 @@ function ProductDetail() {
         })
       );
       setShowCartPopup(true);
-    } 
+    }
   };
   const handlefavorite = () => {
     if (!account.isLoggedIn) {
       setShowLoginPopup(true);
+      dispatch(loadFavorites);
       return;
     }
 
@@ -98,24 +111,24 @@ function ProductDetail() {
       );
     }
   };
-  const handlepopupclick=()=>{
-  setShowLoginPopup(false);
-  navigate("/login", {
-    state: {
-      from: location.pathname + location.search,
-      pendingProduct: {
-        id: pdetail.id,
-        name: pdetail.name,
-        price: pdetail.price,
-        quantity: quantity,
-        stock: pdetail.quantity,
-        image: pdetail.img1,
-        link: `/products/productdetail?id=${pdetail.id}`,
+  const handlepopupclick = () => {
+    setShowLoginPopup(false);
+    navigate("/login", {
+      state: {
+        from: location.pathname + location.search,
+        pendingProduct: {
+          id: pdetail.id,
+          name: pdetail.name,
+          price: pdetail.price,
+          quantity: quantity,
+          stock: pdetail.quantity,
+          image: pdetail.img1,
+          link: `/products/productdetail?id=${pdetail.id}`,
+        },
       },
-    },
-  });
-}
-  
+    });
+  };
+
   const getCategoryPath = (categoryId) => {
     const path = [];
     let currentId = categoryId;
@@ -141,16 +154,83 @@ function ProductDetail() {
   const toggleButtonClass =
     "mt-3 flex w-full items-center justify-end gap-2 text-sm font-semibold text-fuchsia-800 transition hover:text-fuchsia-950";
 
+  if (!Id) {
+    return (
+      <>
+        <Header />
+        <Menu />
+        <main
+          dir="rtl"
+          className="flex min-h-screen items-center justify-center bg-gray-100 font-myfont"
+        >
+          <p className="text-red-600">شناسه محصول معتبر نیست.</p>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <Header />
+        <Menu />
+        <main
+          dir="rtl"
+          className="flex min-h-screen items-center justify-center bg-gray-100"
+        >
+          <div
+            role="status"
+            aria-label="در حال بارگذاری محصول"
+            className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800"
+          />
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <>
+        <Header />
+        <Menu />
+        <main
+          dir="rtl"
+          className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-100 font-myfont"
+        >
+          <p className="text-red-600">
+            دریافت اطلاعات محصول با خطا مواجه شد.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="rounded-lg bg-fuchsia-700 px-5 py-2 text-white hover:bg-fuchsia-800"
+          >
+            تلاش مجدد
+          </button>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
       <Menu />
       <main dir="rtl" className="min-h-screen bg-gray-100 py-8 font-myfont">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="font-myfont mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
-            <span>خانه</span>
+          <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+            <span
+              className="cursor-pointer hover:text-fuchsia-800"
+              onClick={() => navigate("/")}
+            >
+              خانه
+            </span>
             <span>/</span>
             <span>محصولات</span>
+
             {categoryPath.map((category) => (
               <Fragment key={category.id}>
                 <span>/</span>
@@ -159,65 +239,73 @@ function ProductDetail() {
                   className="cursor-pointer transition hover:text-fuchsia-800"
                 >
                   {category.name}
-                </span>{" "}
+                </span>
               </Fragment>
             ))}
+
             <span>/</span>
-            <span className="font-medium text-fuchsia-800">{pdetail.name}</span>
+            <span className="font-medium text-fuchsia-800">
+              {pdetail.name}
+            </span>
           </div>
 
           {/* گالری و اطلاعات خرید */}
-          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-fuchsia-200 bg-white p-4 shadow-lg sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
+          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-fuchsia-200 bg-fuchsia-50 p-4 shadow-lg sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
             <div className="min-w-0">
-              <Gallery images={pdetail.images} productName={pdetail.name} />
+              <Gallery
+                images={[
+                  pdetail.img1,
+                  pdetail.img2,
+                  pdetail.img3,
+                  pdetail.img4,
+                ]}
+                productName={pdetail.name}
+              />
             </div>
 
             {/* اطلاعات محصول */}
-            <div className="font-myfont flex min-w-0 flex-col">
+            <div className="flex min-w-0 flex-col font-myfont">
               <h1 className="text-xl font-bold leading-9 text-gray-900 sm:text-2xl">
                 {pdetail.name}
               </h1>
-
-              {/* <p className="mt-2 text-sm font-medium text-fuchsia-800">
-                {pdetail.brand}
-              </p> */}
 
               {/* موجودی */}
               <div className="mt-4">
                 <span
                   className={`inline-flex items-center gap-2 text-sm ${
-                    pdetail.quantity > 0 ? "text-emerald-600" : "text-red-500"
+                    pdetail.quantity > 0
+                      ? "text-emerald-600"
+                      : "text-red-500"
                   }`}
                 >
                   <span
                     className={`h-2 w-2 rounded-full ${
-                      pdetail.quantity > 0 ? "bg-emerald-500" : "bg-red-500"
+                      pdetail.quantity > 0
+                        ? "bg-emerald-500"
+                        : "bg-red-500"
                     }`}
                   />
-
                   {pdetail.quantity > 0 ? "موجود در انبار" : "ناموجود"}
                 </span>
               </div>
 
               <div className="my-6 border-t border-gray-200" />
-              {/* قیمت */}
-              <div>
-                {pdetail.sale > 0 && (
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="text-sm text-gray-400 line-through">
-                      {formatPrice(pdetail.price)} تومان
-                    </span>
 
-                    <span className="rounded-md bg-red-50 px-2 py-1 text-xs font-bold text-red-500">
-                      {pdetail.sale}٪ تخفیف
-                    </span>
-                  </div>
-                )}
-              </div>
+              {/* تخفیف */}
+              {pdetail.sale > 0 && (
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-sm text-gray-400 line-through">
+                    {formatPrice(pdetail.price)} تومان
+                  </span>
+                  <span className="rounded-md bg-red-50 px-2 py-1 text-xs font-bold text-red-500">
+                    {pdetail.sale}٪ تخفیف
+                  </span>
+                </div>
+              )}
+
               {/* قیمت */}
               <div className="text-2xl font-extrabold text-fuchsia-900">
                 {formatPrice(pdetail.price)}
-
                 <span className="mr-2 text-sm font-normal text-gray-500">
                   تومان
                 </span>
@@ -226,7 +314,7 @@ function ProductDetail() {
               {/* خرید، علاقه‌مندی و اشتراک‌گذاری */}
               <div className="mt-4 flex items-center gap-6">
                 <div className="min-w-0 flex-1">
-                  <div dir="rtl" className="mb-3 flex items-center gap-3">
+                  <div className="mb-3 flex items-center gap-3">
                     <span className="text-sm font-medium text-gray-700">
                       تعداد:
                     </span>
@@ -243,17 +331,18 @@ function ProductDetail() {
                           }
                         }}
                         aria-label="افزایش تعداد"
-                        className="flex h-10 w-10  items-center justify-center text-gray-700
-                                   transition hover:bg-fuchsia-50 hover:text-fuchsia-800"
+                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition hover:bg-fuchsia-50 hover:text-fuchsia-800 disabled:opacity-40"
                       >
                         <span className="text-xl leading-none">+</span>
                       </button>
+
                       <span className="flex h-10 min-w-10 items-center justify-center border-x border-gray-400 px-2 text-sm font-semibold text-gray-800">
                         {quantity}
                       </span>
 
                       <button
                         type="button"
+                        disabled={quantity <= 1}
                         onClick={() => {
                           if (existingInCart) {
                             dispatch(decrement(Id));
@@ -262,8 +351,7 @@ function ProductDetail() {
                           }
                         }}
                         aria-label="کاهش تعداد"
-                        className="flex h-10 w-10 items-center justify-center text-gray-700
-                                   transition hover:bg-fuchsia-50 hover:text-fuchsia-800"
+                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition hover:bg-fuchsia-50 hover:text-fuchsia-800 disabled:opacity-40"
                       >
                         <span className="text-xl leading-none">−</span>
                       </button>
@@ -276,7 +364,10 @@ function ProductDetail() {
                       label="مشاهده سبد خرید"
                     />
                   ) : (
-                    <Button onClick={handleclick} label="افزودن به سبد خرید" />
+                    <Button
+                      onClick={handleclick}
+                      label="افزودن به سبد خرید"
+                    />
                   )}
                 </div>
 
@@ -285,7 +376,6 @@ function ProductDetail() {
                     isFavorite={isFavorite}
                     onClick={handlefavorite}
                   />
-
                   <ShareButton productName={pdetail.name} />
                 </div>
               </div>
@@ -293,8 +383,7 @@ function ProductDetail() {
           </section>
 
           {/* توضیحات محصول و روش استفاده */}
-          <section className="font-myfont mt-8 space-y-5">
-            {/* توضیحات محصول */}
+          <section className="mt-8 space-y-5 font-myfont">
             <div className={descriptionCardClass}>
               <h2 className="mb-3 text-lg font-bold text-gray-900">
                 توضیحات محصول
@@ -314,12 +403,10 @@ function ProductDetail() {
                 className={toggleButtonClass}
               >
                 {showDescription ? "مشاهده کمتر" : "ادامه توضیحات"}
-
                 <ArrowIcon isOpen={showDescription} />
               </button>
             </div>
 
-            {/* روش استفاده */}
             <div className={descriptionCardClass}>
               <h2 className="mb-3 text-lg font-bold text-gray-900">
                 روش استفاده
@@ -339,26 +426,13 @@ function ProductDetail() {
                 className={toggleButtonClass}
               >
                 {showUsage ? "مشاهده کمتر" : "ادامه توضیحات"}
-
                 <ArrowIcon isOpen={showUsage} />
               </button>
             </div>
           </section>
-
-          {/* امتیاز و نظرات */}
-          {/* <section className="mt-8">
-            <div className="font-myfont mb-3 rounded-xl border-2 border-gray-300 bg-white px-5 py-3 shadow-sm">
-              <Rating averageRating={4.8} reviewCount={12} />
-            </div>
-
-            <ProductReview />
-          </section> */}
-
-          {/* محصولات مشابه */}
-          {/* <section className="font-myfont mt-8 rounded-2xl border-2 border-gray-300 bg-white p-4 shadow-sm sm:p-6">
-            <RelatedProduct />
-          </section> */}
         </div>
+
+        {/* پنجره ورود */}
         {showLoginPopup && (
           <div
             className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
@@ -366,7 +440,7 @@ function ProductDetail() {
           >
             <div
               dir="rtl"
-              className="w-80 rounded-xl bg-white p-6 shadow-xl font-myfont"
+              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="mb-4 text-center text-lg font-bold">
@@ -393,6 +467,8 @@ function ProductDetail() {
             </div>
           </div>
         )}
+
+        {/* پنجره افزودن به سبد خرید */}
         {showCartPopup && (
           <div
             className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
@@ -404,7 +480,7 @@ function ProductDetail() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-3 text-center text-3xl text-green-600">
-                <i className="fa-solid fa-circle-check"></i>
+                <i className="fa-solid fa-circle-check" />
               </div>
 
               <h3 className="mb-3 text-center text-lg font-bold">
@@ -441,3 +517,4 @@ function ProductDetail() {
 }
 
 export default ProductDetail;
+
