@@ -22,14 +22,16 @@ function CartCard({
       dir="rtl"
       data-product-id={id}
       onClick={handleClick}
-      className="flex flex-col gap-4 rounded-2xl border cursor-pointer border-gray-200 bg-white p-4 shadow-xl transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
+      className="flex flex-col gap-4 rounded-2xl bg-fuchsia-50 border cursor-pointer border-gray-200 p-4 shadow-xl transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
     >
       {/* تصویر محصول */}
       <a href={link} className="shrink-0 self-center sm:self-auto">
         <img
-          src={image}
+                src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}
+
+        
           alt={name}
-          className="h-28 w-28 rounded-full bg-fuchsia-200 object-contain p-2 sm:h-32 sm:w-32"
+          className="h-28 w-28 rounded-full  object-contain p-2 sm:h-32 sm:w-32"
         />
       </a>
 

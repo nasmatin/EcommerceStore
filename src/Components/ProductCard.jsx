@@ -8,7 +8,7 @@ function ProductCard({ id, image, link, label, price }) {
     >
       <img
         src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}
-        className="h-32 w-32 mb-3 object-cover "
+        className="h-32 w-32 mb-3 object-cover  rounded-full"
       />
 
       <div className="flex flex-col gap-1 w-full">

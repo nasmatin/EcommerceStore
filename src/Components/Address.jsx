@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { DeleteAddress } from "../Features/DeleteAddressSlice";
+
 function Address() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -16,13 +17,17 @@ function Address() {
 
   const userId = account.id;
   const addresses = useSelector((state) => state.address.addresses);
+  const statusbar = useSelector((state) => state.address.statusbar);
+  const errorbar = useSelector((state) => state.address.errorbar);
 
   const useraddress = addresses?.[String(userId)] ?? [];
+
   useEffect(() => {
     if (userId) {
       dispatch(GetAddress(userId));
     }
   }, [dispatch, userId]);
+
   const handleRemove = async (id) => {
     if (!window.confirm("از حذف این آدرس مطمئنی؟")) return;
 
@@ -33,6 +38,7 @@ function Address() {
           id,
         })
       ).unwrap();
+
       // دریافت دوباره لیست آدرس‌ها بعد از حذف موفق
       await dispatch(GetAddress(userId)).unwrap();
     } catch (error) {
@@ -40,22 +46,42 @@ function Address() {
       alert("حذف آدرس انجام نشد.");
     }
   };
+
   const handleedit = (uaddress) => {
     navigate("/address/addressform", {
       state: { address: uaddress },
     });
   };
+
   return (
     <>
       <Header />
       <Menu />
-      <div className=" ml-8">
+
+      <div className="ml-8">
         <Button label="+" onClick={() => navigate("addressform")} />
       </div>
 
       <div dir="rtl" className="text-center">
-        <div className=" flex w-full  flex-col items-center gap-4 px-4 py-4">
-          {!useraddress || useraddress.length === 0 ? (
+        <div className="flex w-full flex-col items-center gap-4 px-4 py-4">
+          {statusbar === "loading" ? (
+            <div className="flex flex-col items-center gap-3 py-10">
+              <div className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800" />
+              <p className="text-sm text-gray-500">
+                در حال دریافت آدرس‌ها...
+              </p>
+            </div>
+          ) : statusbar === "failed" ? (
+            <div className="flex flex-col items-center gap-3 py-6">
+              <p className="text-red-600">
+                {errorbar || "دریافت آدرس‌ها با خطا مواجه شد."}
+              </p>
+              <Button
+                label="تلاش مجدد"
+                onClick={() => dispatch(GetAddress(userId))}
+              />
+            </div>
+          ) : !useraddress || useraddress.length === 0 ? (
             <NoAddress />
           ) : (
             useraddress.map((uaddress) => (
@@ -72,8 +98,10 @@ function Address() {
           )}
         </div>
       </div>
+
       <Footer />
     </>
   );
 }
+
 export default Address;
