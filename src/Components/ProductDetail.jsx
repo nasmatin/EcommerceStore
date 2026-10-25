@@ -14,7 +14,7 @@ import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add, decrement, increment } from "../Features/AddToCartSlice";
-import { like, dislike,loadFavorites } from "../Features/FavoriteSlice";
+import { like, dislike, loadFavorites } from "../Features/FavoriteSlice";
 
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
@@ -31,8 +31,8 @@ function ProductDetail() {
   const [showCartPopup, setShowCartPopup] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const favorites = useSelector((state) => state.favorite.items);
-const [isLoading, setIsLoading] = useState(false);
-const [loadError, setLoadError] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadError, setLoadError] = useState(false);
 
   const isFavorite =
     Array.isArray(favorites) &&
@@ -49,25 +49,24 @@ const [loadError, setLoadError] = useState(false);
 
   const allCategories = Object.values(categories).flat();
 
-useEffect(() => {
-  if (!Id || ProDetails !== undefined) {
-    return;
-  }
+  useEffect(() => {
+    if (!Id || ProDetails !== undefined) {
+      return;
+    }
 
-  setIsLoading(true);
-  setLoadError(false);
+    setIsLoading(true);
+    setLoadError(false);
 
-  dispatch(GetProductDetail(Id))
-    .unwrap()
-    .catch(() => {
-      setLoadError(true);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
-}, [dispatch, Id, ProDetails]);
+    dispatch(GetProductDetail(Id))
+      .unwrap()
+      .catch(() => {
+        setLoadError(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [dispatch, Id, ProDetails]);
   const pdetail = ProDetails ?? {};
-  console.log("GetProductDetail:", pdetail);
   const handleclick = () => {
     if (!account.isLoggedIn) {
       setShowLoginPopup(true);
@@ -199,9 +198,7 @@ useEffect(() => {
           dir="rtl"
           className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-100 font-myfont"
         >
-          <p className="text-red-600">
-            دریافت اطلاعات محصول با خطا مواجه شد.
-          </p>
+          <p className="text-red-600">دریافت اطلاعات محصول با خطا مواجه شد.</p>
           <button
             type="button"
             onClick={() => window.location.reload()}
@@ -244,9 +241,7 @@ useEffect(() => {
             ))}
 
             <span>/</span>
-            <span className="font-medium text-fuchsia-800">
-              {pdetail.name}
-            </span>
+            <span className="font-medium text-fuchsia-800">{pdetail.name}</span>
           </div>
 
           {/* گالری و اطلاعات خرید */}
@@ -273,16 +268,12 @@ useEffect(() => {
               <div className="mt-4">
                 <span
                   className={`inline-flex items-center gap-2 text-sm ${
-                    pdetail.quantity > 0
-                      ? "text-emerald-600"
-                      : "text-red-500"
+                    pdetail.quantity > 0 ? "text-emerald-600" : "text-red-500"
                   }`}
                 >
                   <span
                     className={`h-2 w-2 rounded-full ${
-                      pdetail.quantity > 0
-                        ? "bg-emerald-500"
-                        : "bg-red-500"
+                      pdetail.quantity > 0 ? "bg-emerald-500" : "bg-red-500"
                     }`}
                   />
                   {pdetail.quantity > 0 ? "موجود در انبار" : "ناموجود"}
@@ -364,10 +355,7 @@ useEffect(() => {
                       label="مشاهده سبد خرید"
                     />
                   ) : (
-                    <Button
-                      onClick={handleclick}
-                      label="افزودن به سبد خرید"
-                    />
+                    <Button onClick={handleclick} label="افزودن به سبد خرید" />
                   )}
                 </div>
 
@@ -517,4 +505,3 @@ useEffect(() => {
 }
 
 export default ProductDetail;
-

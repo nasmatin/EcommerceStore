@@ -14,9 +14,7 @@ export const GetProduct = createAsyncThunk(
       return {
         catId,
         data: response.data,
-
       };
-            
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -42,7 +40,6 @@ const ProductSlice = createSlice({
         state.statusbar = "succeeded";
         const { catId, data } = action.payload;
         state.products[catId] = data.products; // داده‌های آمده از سرور
-          console.log("GetProduct",data.products);
       })
       // وقتی درخواست شکست می‌خورد
       .addCase(GetProduct.rejected, (state, action) => {

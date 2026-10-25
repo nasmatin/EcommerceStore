@@ -1,4 +1,3 @@
-
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "../Components/Footer";
@@ -22,12 +21,10 @@ function Orders() {
   useEffect(() => {
     if (userId) {
       dispatch(GetOrders(userId));
-      console.log("GetOrders", userId);
     }
   }, [dispatch, userId]);
 
-  const formatPrice = (price) =>
-    Math.round(price).toLocaleString("fa-IR");
+  const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
   return (
     <>
@@ -39,9 +36,7 @@ function Orders() {
           {statusbar === "loading" ? (
             <div className="flex flex-col items-center gap-3 py-10">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800" />
-              <p className="text-sm text-gray-500">
-                در حال دریافت سفارش‌ها...
-              </p>
+              <p className="text-sm text-gray-500">در حال دریافت سفارش‌ها...</p>
             </div>
           ) : statusbar === "failed" ? (
             <div className="flex flex-col items-center gap-3 py-6">
@@ -63,20 +58,16 @@ function Orders() {
               <OrderItem
                 key={uorder.id}
                 id={uorder.id}
-                ordernumber={String(
-                  uorder.ordernumber ?? ""
-                ).replace(
+                ordernumber={String(uorder.ordernumber ?? "").replace(
                   /\d/g,
                   (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
                 )}
-                orderdate={String(
-                  uorder.orderdatePersian ?? ""
-                ).replace(
+                orderdate={String(uorder.orderdatePersian ?? "").replace(
                   /\d/g,
                   (digit) => "۰۱۲۳۴۵۶۷۸۹"[digit]
                 )}
                 pricepaid={formatPrice(uorder.pricepaid)}
-                link={`/orders/ordersdetail?userId=${userId}&orderId=${uorder.id}`}
+                link={`/store/orders/ordersdetail?userId=${userId}&orderId=${uorder.id}`}
               />
             ))
           )}

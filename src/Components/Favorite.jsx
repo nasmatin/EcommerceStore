@@ -8,7 +8,6 @@ function Favorite() {
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
   const favorites = useSelector((state) => state.favorite.items);
-    console.log("GetProduct favorites",favorites);
   return (
     <div>
       <Header />
@@ -26,14 +25,13 @@ function Favorite() {
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {favorites.map((item) => (
-              
               <ProductCard
                 key={item.id}
                 id={item.id}
-               image={item.image}
+                image={item.image}
                 label={item.title}
                 price={formatPrice(item.price)}
-                link={item.link}
+                link={`/store/products/productdetail?id=${item.id}`}
               />
             ))}
           </div>

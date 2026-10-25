@@ -21,7 +21,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    console.log("درخواست در حال ارسال است:", config.url);
+    //console.log("درخواست در حال ارسال است:", config.url);
     return config; // حتماً باید config را برگردانی
   },
   (error) => {
@@ -43,14 +43,14 @@ api.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401) {
         // مثلاً توکن منقضی شده
-        console.log("توکن منقضی شده یا نامعتبر است");
+       // console.log("توکن منقضی شده یا نامعتبر است");
         // اینجا می‌توانی کاربر را به صفحه لاگین هدایت کنی
         // localStorage.removeItem('token');
         // window.location.href = '/login';
       }
 
       if (error.response.status === 500) {
-        console.log("خطای سرور رخ داده است");
+       // console.log("خطای سرور رخ داده است");
       }
     }
 

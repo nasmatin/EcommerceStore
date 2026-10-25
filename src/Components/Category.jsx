@@ -16,19 +16,19 @@ function Category() {
     >
       <CategoryCard
         image={icon}
-        link="/products?catId=2003"
+        link="/store/products?catId=2003"
         label="مراقبت پوست"
       />
 
       <CategoryCard
         image={icon}
-        link="/products?catId=2004"
+        link="/store/products?catId=2004"
         label="مراقبت مو"
       />
 
-      <CategoryCard image={icon} link="/products?catId=2005" label="آرایشی" />
+      <CategoryCard image={icon} link="/store/products?catId=2005" label="آرایشی" />
 
-      <CategoryCard image={icon} link="/products?catId=2006" label="بهداشتی" />
+      <CategoryCard image={icon} link="/store/products?catId=2006" label="بهداشتی" />
     </div>
   );
 }

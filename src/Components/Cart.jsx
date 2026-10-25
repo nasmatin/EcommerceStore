@@ -12,6 +12,7 @@ function Cart() {
   const dispatch = useDispatch();
   const AddCart = useSelector((state) => state.cart);
   const Cartitems = AddCart.items;
+
   const shipping = 80000;
   const post = 50000;
   const tax = 20000;
@@ -32,7 +33,6 @@ function Cart() {
     };
 
     try {
-
       await dispatch(GetPayment(paymentdata)).unwrap();
 
       dispatch(clear());

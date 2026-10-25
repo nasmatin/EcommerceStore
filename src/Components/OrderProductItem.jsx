@@ -1,9 +1,13 @@
 function formatPrice(price) {
   return Math.round(Number(price) || 0).toLocaleString("fa-IR");
 }
-
+const serverUrl = "https://www.emadtalebloo.com/panelapi/Uploads/Products";
 function OrderProductItem({ item }) {
   const product = item.product ?? {};
+  const imageUrl = product.img1
+  ? `${serverUrl}/${product.img1.replace(/^\/+/, "")}`
+  : null;
+
   const quantity = Number(item.quantity) || 0;
   const unitPrice = Number(item.unitPrice) || 0;
   const totalPrice = Number(item.totalPrice) || 0;
@@ -12,18 +16,18 @@ function OrderProductItem({ item }) {
   return (
     <div
       dir="rtl"
-      className="w-full rounded-xl border border-fuchsia-200 bg-white p-2 shadow-xl transition-shadow hover:shadow-md sm:p-4"
+      className="w-full rounded-xl border border-fuchsia-200 p-2 shadow-xl transition-shadow hover:shadow-md sm:p-4"
     >
       <div className="flex items-center gap-2">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-lg  sm:h-20 sm:w-20">
           {product.img1 ? (
             <img
-              src={product.img1}
+              src={imageUrl}
               alt={product.name || "محصول"}
-              className="h-full w-full bg-fuchsia-300 rounded-full object-contain p-2"
+              className="h-full w-full  rounded-full object-contain p-2"
             />
           ) : (
-            <div className="h-12 w-12 rounded-full bg-fuchsia-800 sm:h-14 sm:w-14" />
+            <div className="h-12 w-12 rounded-full  sm:h-14 sm:w-14" />
           )}
         </div>
 

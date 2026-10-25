@@ -17,10 +17,9 @@ const FavoriteSlice = createSlice({
       try {
         const savedFavorite = localStorage.getItem(`like_${userId}`);
         state.items = savedFavorite ? JSON.parse(savedFavorite) : [];
-    
+
         if (!Array.isArray(state.items)) {
           state.items = [];
-          console.log(" state favorites",state.items);
         }
       } catch {
         state.items = [];
@@ -34,19 +33,17 @@ const FavoriteSlice = createSlice({
 
       if (exists) return;
 
-
       state.items.push({
         id: likeitem.id,
         title: likeitem.title,
         price: likeitem.price,
-  image:  likeitem.image,
+        image: likeitem.image,
         link: likeitem.link,
       });
       const user = JSON.parse(localStorage.getItem("user") || "null");
-   
+
       if (user?.id) {
         localStorage.setItem(`like_${user.id}`, JSON.stringify(state.items));
-        
       }
     },
     dislike: (state, action) => {
