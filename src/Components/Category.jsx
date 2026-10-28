@@ -26,9 +26,17 @@ function Category() {
         label="مراقبت مو"
       />
 
-      <CategoryCard image={icon} link="/store/products?catId=2005" label="آرایشی" />
+      <CategoryCard
+        image={icon}
+        link="/store/products?catId=2005"
+        label="آرایشی"
+      />
 
-      <CategoryCard image={icon} link="/store/products?catId=2006" label="بهداشتی" />
+      <CategoryCard
+        image={icon}
+        link="/store/products?catId=2006"
+        label="بهداشتی"
+      />
     </div>
   );
 }

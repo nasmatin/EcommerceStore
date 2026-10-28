@@ -3,14 +3,14 @@ import Logo from "./Logo";
 const Footer = () => {
   return (
     <>
-      <div className="border bg-fuchsia-400 h-1 "></div>
+      <div className="h-1 border bg-fuchsia-400"></div>
       <footer
         dir="rtl"
-        className="bg-fuchsia-200 font-myfont border-t border-gray-100"
+        className="border-t border-gray-100 bg-fuchsia-200 font-myfont"
       >
-        <div className="max-w-7xl mx-auto px-5 lg:px-8 py-10">
+        <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
           {/* ================= بخش اصلی ================= */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
             {/* ================= درباره فروشگاه ================= */}
             <div className="flex flex-col items-center text-center">
               <Logo />
@@ -21,50 +21,38 @@ const Footer = () => {
               </p> */}
 
               {/* ================= شبکه اجتماعی ================= */}
-              <div className="flex flex-col items-center gap-4 mt-6">
-                <span className="text-sm font-medium text-gray-700 text-center">
+              <div className="mt-6 flex flex-col items-center gap-4">
+                <span className="text-center text-sm font-medium text-gray-700">
                   ما را در شبکه‌های اجتماعی دنبال کنید
                 </span>
 
                 <div className="flex items-center justify-center gap-3">
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full border border-fuchsia-700
-                    flex items-center justify-center text-fuchsia-800
-                    hover:text-white hover:bg-fuchsia-800
-                    hover:border-fuchsia-800 transition"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-fuchsia-700 text-fuchsia-800 transition-all duration-300 ease-in-out hover:scale-110 hover:border-fuchsia-800 hover:bg-fuchsia-800 hover:text-white hover:shadow-md active:scale-95"
                   >
-                    <i className="fa-brands fa-instagram text-lg"></i>
+                    <i className="fa-brands fa-instagram text-lg transition-transform duration-300"></i>
                   </a>
 
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full border border-fuchsia-700
-                    flex items-center justify-center text-fuchsia-800
-                    hover:text-white hover:bg-fuchsia-800
-                    hover:border-fuchsia-800 transition"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-fuchsia-700 text-fuchsia-800 transition-all duration-300 ease-in-out hover:scale-110 hover:border-fuchsia-800 hover:bg-fuchsia-800 hover:text-white hover:shadow-md active:scale-95"
                   >
-                    <i className="fa-brands fa-telegram text-lg"></i>
+                    <i className="fa-brands fa-telegram text-lg transition-transform duration-300"></i>
                   </a>
 
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full border border-fuchsia-700
-                    flex items-center justify-center text-fuchsia-800
-                    hover:text-white hover:bg-fuchsia-800
-                    hover:border-fuchsia-800 transition"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-fuchsia-700 text-fuchsia-800 transition-all duration-300 ease-in-out hover:scale-110 hover:border-fuchsia-800 hover:bg-fuchsia-800 hover:text-white hover:shadow-md active:scale-95"
                   >
-                    <i className="fa-brands fa-whatsapp text-lg"></i>
+                    <i className="fa-brands fa-whatsapp text-lg transition-transform duration-300"></i>
                   </a>
 
                   <a
                     href="#"
-                    className="w-10 h-10 rounded-full border border-fuchsia-700
-                    flex items-center justify-center text-fuchsia-800
-                    hover:text-white hover:bg-fuchsia-800
-                    hover:border-fuchsia-800 transition"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-fuchsia-700 text-fuchsia-800 transition-all duration-300 ease-in-out hover:scale-110 hover:border-fuchsia-800 hover:bg-fuchsia-800 hover:text-white hover:shadow-md active:scale-95"
                   >
-                    <i className="fa-brands fa-x-twitter text-lg"></i>
+                    <i className="fa-brands fa-x-twitter text-lg transition-transform duration-300"></i>
                   </a>
                 </div>
               </div>
@@ -115,35 +103,52 @@ const Footer = () => {
 
             {/* ================= خدمات مشتریان ================= */}
             <div className="text-center sm:text-right">
-              <h3 className="font-bold text-gray-800 mb-5">خدمات مشتریان</h3>
+              <h3 className="mb-5 font-bold text-gray-800 transition-colors duration-300 hover:text-fuchsia-800">
+                خدمات مشتریان
+              </h3>
 
-              <ul className="font-semibold space-y-3 text-base text-gray-500">
+              <ul className="space-y-3 text-base font-semibold text-gray-500">
                 <li>
-                  <a href="#" className="hover:text-fuchsia-400 transition">
+                  <a
+                    href="#"
+                    className="inline-block transition-all duration-300 hover:-translate-x-1 hover:text-fuchsia-800"
+                  >
                     پیگیری سفارش
                   </a>
                 </li>
 
                 <li>
-                  <a href="#" className="hover:text-fuchsia-400 transition">
+                  <a
+                    href="#"
+                    className="inline-block transition-all duration-300 hover:-translate-x-1 hover:text-fuchsia-800"
+                  >
                     راهنمای خرید
                   </a>
                 </li>
 
                 <li>
-                  <a href="#" className="hover:text-fuchsia-400 transition">
+                  <a
+                    href="#"
+                    className="inline-block transition-all duration-300 hover:-translate-x-1 hover:text-fuchsia-800"
+                  >
                     شرایط ارسال
                   </a>
                 </li>
 
                 <li>
-                  <a href="#" className="hover:text-fuchsia-400 transition">
+                  <a
+                    href="#"
+                    className="inline-block transition-all duration-300 hover:-translate-x-1 hover:text-fuchsia-800"
+                  >
                     شرایط بازگشت کالا
                   </a>
                 </li>
 
                 <li>
-                  <a href="#" className="hover:text-fuchsia-400 transition">
+                  <a
+                    href="#"
+                    className="inline-block transition-all duration-300 hover:-translate-x-1 hover:text-fuchsia-800"
+                  >
                     سوالات متداول
                   </a>
                 </li>
@@ -152,22 +157,24 @@ const Footer = () => {
 
             {/* ================= ارتباط با ما ================= */}
             <div className="text-center sm:text-right">
-              <h3 className="font-bold text-gray-800 mb-5">ارتباط با ما</h3>
+              <h3 className="mb-5 font-bold text-gray-800 transition-colors duration-300 hover:text-fuchsia-800">
+                ارتباط با ما
+              </h3>
 
-              <div className="font-semibold text-base space-y-4 text-gray-500">
+              <div className="space-y-4 text-base font-semibold text-gray-500">
                 <div className="flex items-start gap-3 whitespace-nowrap">
-                  <i className="fa-solid fa-location-dot text-fuchsia-800 mt-1"></i>
+                  <i className="fa-solid fa-location-dot mt-1 text-fuchsia-800"></i>
 
                   <a
                     href="#"
-                    className="whitespace-nowrap hover:text-fuchsia-400 transition"
+                    className="whitespace-nowrap transition-colors duration-300 hover:text-fuchsia-800"
                   >
                     تهران-خیابان توحید-خیابان پرچم-پ24
                   </a>
                 </div>
 
                 <div className="flex gap-3">
-                  <i className="fa-solid fa-clock text-fuchsia-800 mt-1"></i>
+                  <i className="fa-solid fa-clock mt-1 text-fuchsia-800"></i>
 
                   <span>
                     شنبه تا پنجشنبه
@@ -175,16 +182,18 @@ const Footer = () => {
                   </span>
                 </div>
 
-                <div className="font-semibold mt-5 space-y-3 text-sm text-gray-600">
-                  <a href="tel:02112345678">
+                <div className="mt-5 space-y-3 text-sm font-semibold text-gray-600">
+                  <a
+                    href="tel:02112345678"
+                    className="flex items-center gap-3 transition-colors duration-300 hover:text-fuchsia-800"
+                  >
                     <i className="fa-solid fa-phone text-fuchsia-800"></i>
-
                     <span>۰۲۱-۱۲۳۴۵۶۷۸</span>
                   </a>
 
                   <a
                     href="#"
-                    className="flex items-center gap-3 hover:text-fuchsia-400 transition"
+                    className="flex items-center gap-3 transition-colors duration-300 hover:text-fuchsia-800"
                   >
                     <i className="fa-solid fa-envelope text-fuchsia-900"></i>
                     <span>info@example.com</span>
@@ -195,11 +204,11 @@ const Footer = () => {
           </div>
 
           {/* ================= جداکننده ================= */}
-          <div className="border-t border-gray-300 mt-10 pt-8">
+          <div className="mt-10 border-t border-gray-300 pt-8">
             <div className="flex flex-col items-center gap-8">
               {/* ================= مجوزها ================= */}
-              <div className="w-full flex flex-col items-center">
-                <h3 className="font-bold text-gray-800 mb-5 text-center">
+              <div className="flex w-full flex-col items-center">
+                <h3 className="mb-5 text-center font-bold text-gray-800 transition-colors duration-300 hover:text-fuchsia-800">
                   مجوزها و نمادهای اعتماد
                 </h3>
 
@@ -207,14 +216,11 @@ const Footer = () => {
                   {/* ای نماد */}
                   <a
                     href="#"
-                    className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl
-                    border border-gray-200 bg-white
-                    flex flex-col items-center justify-center
-                    hover:border-fuchsia-800 hover:shadow-md transition"
+                    className="flex h-24 w-24 flex-col items-center justify-center rounded-xl border border-gray-200 bg-white transition-all duration-300 ease-in-out hover:scale-105 hover:border-fuchsia-800 hover:shadow-lg active:scale-95 sm:h-28 sm:w-28"
                   >
-                    <i className="fa-solid fa-shield-halved text-2xl sm:text-3xl text-fuchsia-800"></i>
+                    <i className="fa-solid fa-shield-halved text-2xl text-fuchsia-800 transition-transform duration-300 sm:text-3xl"></i>
 
-                    <span className="text-[11px] sm:text-xs text-gray-500 mt-2 text-center">
+                    <span className="mt-2 text-center text-[11px] text-gray-500 sm:text-xs">
                       نماد اعتماد
                       <br />
                       الکترونیکی
@@ -224,14 +230,11 @@ const Footer = () => {
                   {/* ساماندهی */}
                   <a
                     href="#"
-                    className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl
-                    border border-gray-200 bg-white
-                    flex flex-col items-center justify-center
-                    hover:border-fuchsia-800 hover:shadow-md transition"
+                    className="flex h-24 w-24 flex-col items-center justify-center rounded-xl border border-gray-200 bg-white transition-all duration-300 ease-in-out hover:scale-105 hover:border-fuchsia-800 hover:shadow-lg active:scale-95 sm:h-28 sm:w-28"
                   >
-                    <i className="fa-solid fa-certificate text-2xl sm:text-3xl text-fuchsia-800"></i>
+                    <i className="fa-solid fa-certificate text-2xl text-fuchsia-800 transition-transform duration-300 sm:text-3xl"></i>
 
-                    <span className="text-[11px] sm:text-xs text-gray-500 mt-2 text-center">
+                    <span className="mt-2 text-center text-[11px] text-gray-500 sm:text-xs">
                       مجوز
                       <br />
                       ساماندهی
@@ -241,14 +244,11 @@ const Footer = () => {
                   {/* پرداخت امن */}
                   <a
                     href="#"
-                    className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl
-                    border border-gray-200 bg-white
-                    flex flex-col items-center justify-center
-                    hover:border-fuchsia-800 hover:shadow-md transition"
+                    className="flex h-24 w-24 flex-col items-center justify-center rounded-xl border border-gray-200 bg-white transition-all duration-300 ease-in-out hover:scale-105 hover:border-fuchsia-800 hover:shadow-lg active:scale-95 sm:h-28 sm:w-28"
                   >
-                    <i className="fa-solid fa-lock text-2xl sm:text-3xl text-fuchsia-800"></i>
+                    <i className="fa-solid fa-lock text-2xl text-fuchsia-800 transition-transform duration-300 sm:text-3xl"></i>
 
-                    <span className="text-[11px] sm:text-xs text-gray-500 mt-2 text-center">
+                    <span className="mt-2 text-center text-[11px] text-gray-500 sm:text-xs">
                       پرداخت
                       <br />
                       امن
@@ -262,17 +262,12 @@ const Footer = () => {
 
         {/* ================= پایین فوتر ================= */}
         <div className="bg-fuchsia-950 text-white">
-          <div
-            className="max-w-7xl mx-auto px-5 lg:px-8 py-4
-            flex flex-col md:flex-row
-            items-center justify-center
-            gap-3 text-xs sm:text-sm text-center"
-          >
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-3 px-5 py-4 text-center text-xs sm:text-sm md:flex-row lg:px-8">
             <p>تمامی حقوق این سایت محفوظ است.</p>
 
             <p className="flex items-center gap-1">
               طراحی و توسعه با
-              <i className="fa-solid fa-heart text-sm"></i>
+              <i className="fa-solid fa-heart text-sm transition-transform duration-300 hover:scale-125 hover:text-pink-300"></i>
             </p>
           </div>
         </div>

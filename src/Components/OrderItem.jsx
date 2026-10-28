@@ -1,10 +1,9 @@
-
 function OrderItem({ id, ordernumber, orderdate, pricepaid, link }) {
   return (
     <div
       dir="rtl"
       data-order-id={id}
-      className="font-myfont box-border w-full rounded-2xl border border-gray-200 bg-white p-4 shadow-xl transition hover:shadow-md sm:p-5"
+      className="font-myfont box-border w-full rounded-2xl border border-gray-200 bg-white p-4 shadow-md transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl sm:p-5"
     >
       <div className="flex w-full items-center justify-between gap-3">
         {/* اطلاعات سفارش */}
@@ -30,7 +29,7 @@ function OrderItem({ id, ordernumber, orderdate, pricepaid, link }) {
         <div className="flex shrink-0 items-center border-r border-gray-200 pr-3 sm:pr-4">
           <button
             aria-label="مشاهده جزئیات سفارش"
-            className="cursor-pointer flex h-10 w-10 items-center justify-center rounded-lg transition hover:bg-gray-100"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg transition-all duration-200 hover:scale-110 hover:bg-fuchsia-50"
             onClick={() => (window.location.href = link)}
           >
             <i className="fa-solid fa-ellipsis-vertical text-xl text-fuchsia-600"></i>

@@ -153,11 +153,26 @@ function Menu() {
           rootItems={categories}
         />
 
-        <Link to="/aboutus">درباره ما</Link>
+        <Link
+          to="/aboutus"
+          className="transition-colors duration-200 hover:text-fuchsia-200"
+        >
+          درباره ما
+        </Link>
 
-        <Link to="/contactus">تماس ما</Link>
+        <Link
+          to="/contactus"
+          className="transition-colors duration-200 hover:text-fuchsia-200"
+        >
+          تماس ما
+        </Link>
 
-        <Link to="/support">پشتیبانی</Link>
+        <Link
+          to="/support"
+          className="transition-colors duration-200 hover:text-fuchsia-200"
+        >
+          پشتیبانی
+        </Link>
       </nav>
 
       {/* ================= MOBILE BUTTON ================= */}
@@ -182,7 +197,7 @@ function Menu() {
             items-center
             gap-2
             text-lg
-          font-myfont"
+          font-myfont transition-colors duration-200 hover:text-fuchsia-200"
         >
           <i className="fa-solid fa-bars"></i>
 
@@ -239,7 +254,8 @@ function Menu() {
             border-fuchsia-700
             px-4
             py-4
-          "
+          transition-transform
+duration-300"
         >
           {/* بستن */}
 

@@ -6,6 +6,7 @@ import Input from "../Components/Input";
 import Button from "../Components/Button";
 import Register from "../Components/Register";
 import { loadCart, add } from "../Features/AddToCartSlice";
+
 function LoginClient() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function LoginClient() {
   const location = useLocation();
   const from = location.state?.from || "/";
   const pendingProduct = location.state?.pendingProduct;
+
   const [loginform, setLoginform] = useState({
     username: "",
     password: "",
@@ -26,58 +28,70 @@ function LoginClient() {
       [name]: value,
     }));
   };
+
   const inputsubmit = async (e) => {
     e.preventDefault();
     try {
       await dispatch(PostLogin(loginform)).unwrap();
       const user = JSON.parse(localStorage.getItem("user") || "null");
+
       if (user?.id) {
         dispatch(loadCart(user.id));
       }
+
       if (pendingProduct) {
         dispatch(add(pendingProduct));
       }
+
       navigate(from, { replace: true });
     } catch {
       alert("ورود ناموفق بود. نام کاربری و رمز عبور را بررسی کن.");
     }
   };
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate(from, { replace: true });
     }
   }, [isLoggedIn, navigate, from]);
+
   return (
     <div
       dir="rtl"
       className="
-      font-myfont
-      min-h-screen
-      flex
-      items-center
-      justify-center
-      bg-fuchsia-900
-      px-4
-    "
+        font-myfont
+        flex
+        min-h-screen
+        items-center
+        justify-center
+        bg-fuchsia-900
+        px-4
+      "
     >
       <form
         onSubmit={inputsubmit}
         className="
-        font-['Digi_Hamishe_Regular']
-        w-full
-        max-w-sm
-        min-h-sm
-        flex
-        flex-col
-        justify-center
-        p-8
-        rounded-2xl
-        bg-fuchsia-300
-        gap-4
-        shadow-lg
-      "
+          flex
+          min-h-sm
+          w-full
+          max-w-sm
+          flex-col
+          justify-center
+          gap-4
+          rounded-2xl
+          bg-fuchsia-300
+          p-8
+          font-['Digi_Hamishe_Regular']
+          shadow-lg
+          transition-all
+          duration-300
+          ease-in-out
+          hover:shadow-2xl
+        "
       >
-        <h2 className="text-xl font-bold text-center mb-2">ورود به سیستم</h2>
+        <h2 className="mb-2 text-center text-xl font-bold transition-colors duration-300 hover:text-fuchsia-800">
+          ورود به سیستم
+        </h2>
 
         <Input
           type="text"
@@ -96,13 +110,15 @@ function LoginClient() {
         />
 
         <Button label="ورود" />
-        <h3 className="text-l font-semibold text-center">
+
+        <h3 className="text-center text-l font-semibold">
           هنوز حساب کاربری ندارید؟
         </h3>
+
         <Link
           to="/register"
           element={<Register />}
-          className="text-fuchsia-800 text-l font-semibold text-center mb-2"
+          className="mt-2 text-center text-l font-semibold text-fuchsia-800 transition-all duration-300 hover:-translate-y-0.5 hover:text-fuchsia-950 hover:underline"
         >
           ایجاد حساب کاربری
         </Link>
@@ -110,4 +126,5 @@ function LoginClient() {
     </div>
   );
 }
+
 export default LoginClient;

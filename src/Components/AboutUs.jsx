@@ -1,20 +1,27 @@
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "../Components/Footer";
+
 const AboutUs = () => {
+  //view aboutus component
+
   return (
     <>
       <Header />
       <Menu />
-      <section dir="rtl" className=" bg-fuchsia-50 py-12 font-myfont">
+
+      <section
+        dir="rtl"
+        className="bg-fuchsia-50 py-12 font-myfont animate-in fade-in duration-500"
+      >
         <div className="mx-auto max-w-5xl px-4">
           {/* عنوان */}
           <div className="mb-10 text-center">
-            <span className="mb-3 inline-block rounded-full bg-fuchsia-100 px-4 py-1 text-sm font-medium text-fuchsia-800">
+            <span className="mb-3 inline-block rounded-full bg-fuchsia-100 px-4 py-1 text-sm font-medium text-fuchsia-800 transition-colors duration-300 hover:bg-fuchsia-200">
               درباره ما
             </span>
 
-            <h1 className="text-3xl font-bold text-fuchsia-900">
+            <h1 className="text-3xl font-bold text-fuchsia-900 transition-colors duration-300 hover:text-fuchsia-700">
               با ما بیشتر آشنا شوید
             </h1>
 
@@ -24,8 +31,8 @@ const AboutUs = () => {
           </div>
 
           {/* معرفی */}
-          <div className="mb-6 rounded-2xl bg-white p-7 shadow-sm ring-1 ring-fuchsia-100">
-            <h2 className="mb-4 text-xl font-bold text-fuchsia-900">
+          <div className="mb-6 rounded-2xl bg-white p-7 shadow-sm ring-1 ring-fuchsia-100 transition-all duration-300 hover:shadow-md hover:ring-fuchsia-200">
+            <h2 className="mb-4 text-xl font-bold text-fuchsia-900 transition-colors duration-200 hover:text-fuchsia-700">
               ما چه کاری انجام می‌دهیم؟
             </h2>
 
@@ -43,36 +50,42 @@ const AboutUs = () => {
 
           {/* سه ویژگی */}
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-fuchsia-100">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-800 text-xl text-white">
+            <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-fuchsia-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-fuchsia-200">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-800 text-xl text-white transition-transform duration-300 hover:scale-110">
                 ✓
               </div>
 
-              <h3 className="mb-2 font-bold text-fuchsia-900">کیفیت</h3>
+              <h3 className="mb-2 font-bold text-fuchsia-900 transition-colors duration-200 hover:text-fuchsia-700">
+                کیفیت
+              </h3>
 
               <p className="text-sm leading-7 text-gray-500">
                 تلاش می‌کنیم محصولات باکیفیت و مناسب را برای شما فراهم کنیم.
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-fuchsia-100">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-700 text-xl text-white">
+            <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-fuchsia-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-fuchsia-200">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-700 text-xl text-white transition-transform duration-300 hover:scale-110">
                 ♡
               </div>
 
-              <h3 className="mb-2 font-bold text-fuchsia-900">رضایت شما</h3>
+              <h3 className="mb-2 font-bold text-fuchsia-900 transition-colors duration-200 hover:text-fuchsia-700">
+                رضایت شما
+              </h3>
 
               <p className="text-sm leading-7 text-gray-500">
                 رضایت مشتری و تجربه خوب خرید، یکی از مهم‌ترین اهداف ماست.
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-fuchsia-100">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-600 text-xl text-white">
+            <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-fuchsia-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-fuchsia-200">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-fuchsia-600 text-xl text-white transition-transform duration-300 hover:scale-110">
                 ⚡
               </div>
 
-              <h3 className="mb-2 font-bold text-fuchsia-900">ارسال سریع</h3>
+              <h3 className="mb-2 font-bold text-fuchsia-900 transition-colors duration-200 hover:text-fuchsia-700">
+                ارسال سریع
+              </h3>
 
               <p className="text-sm leading-7 text-gray-500">
                 سفارش‌ها را در سریع‌ترین زمان ممکن آماده و ارسال می‌کنیم.
@@ -81,7 +94,7 @@ const AboutUs = () => {
           </div>
 
           {/* جمله پایانی */}
-          <div className="mt-6 rounded-2xl bg-fuchsia-800 px-6 py-7 text-center text-white">
+          <div className="mt-6 rounded-2xl bg-fuchsia-800 px-6 py-7 text-center text-white transition-colors duration-300 hover:bg-fuchsia-900">
             <h2 className="text-lg font-bold">
               ممنون که ما را برای خرید انتخاب می‌کنید
             </h2>
@@ -92,6 +105,7 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );

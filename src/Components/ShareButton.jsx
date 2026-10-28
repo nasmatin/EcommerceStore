@@ -19,7 +19,7 @@ function ShareButton({ productName, productUrl }) {
       onClick={handleShare}
       aria-label="اشتراک‌گذاری محصول"
       title="اشتراک‌گذاری"
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition hover:border-fuchsia-300 hover:bg-fuchsia-50 hover:text-fuchsia-800"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-600 transition-all duration-300 hover:scale-110 hover:border-fuchsia-300 hover:bg-fuchsia-50 hover:text-fuchsia-800"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,6 +31,7 @@ function ShareButton({ productName, productUrl }) {
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
+        className="transition-transform duration-300 group-hover:rotate-6"
       >
         <circle cx="18" cy="5" r="3" />
         <circle cx="6" cy="12" r="3" />
@@ -41,4 +42,5 @@ function ShareButton({ productName, productUrl }) {
     </button>
   );
 }
+
 export default ShareButton;

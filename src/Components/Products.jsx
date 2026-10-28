@@ -57,6 +57,7 @@ function Products() {
 
     return path;
   };
+
   const categoryPath = query ? [] : getCategoryPath(catId);
 
   const sortMenuRef = useRef(null);
@@ -91,19 +92,23 @@ function Products() {
         return new Date(b.createdAt ?? 0) - new Date(a.createdAt ?? 0);
     }
   });
+
   return (
     <>
       <Header />
       <Menu />
+
       <div
         dir="ltr"
         className="font-myfont flex items-start justify-between gap-4 px-10"
       >
+        {/* منوی مرتب‌سازی */}
         <div className="relative order-1 mt-6 shrink-0">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="cursor-pointer p-2"
+            className="cursor-pointer rounded-lg p-2 transition-all duration-200 hover:scale-110 hover:bg-fuchsia-50"
             aria-label="باز کردن منو"
+            aria-expanded={isOpen}
           >
             <i className="fa-solid fa-filter text-xl text-fuchsia-600 sm:text-2xl"></i>
           </button>
@@ -112,10 +117,10 @@ function Products() {
             <div
               ref={sortMenuRef}
               dir="rtl"
-              className="absolute left-0 top-full z-48 w-30 rounded-lg border border-fuchsia-300 bg-white font-myfont "
+              className="absolute left-0 top-full z-48 w-30 origin-top-left rounded-lg border border-fuchsia-300 bg-white font-myfont shadow-lg animate-in fade-in zoom-in-95 duration-200"
             >
               <button
-                className=" w-full block px-4 py-3 text-fuchsia-800 font-semibold hover:bg-fuchsia-200"
+                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => {
                   setSortBy("newest");
                   setIsOpen(false);
@@ -123,8 +128,9 @@ function Products() {
               >
                 جدیدترین
               </button>
+
               <button
-                className=" w-full block px-4 py-3 text-fuchsia-800 font-semibold hover:bg-fuchsia-200"
+                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => {
                   setSortBy("oldest");
                   setIsOpen(false);
@@ -132,8 +138,9 @@ function Products() {
               >
                 قدیمی ترین
               </button>
+
               <button
-                className=" w-full block px-4 py-3 text-fuchsia-800 font-semibold hover:bg-fuchsia-200"
+                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => {
                   setSortBy("priceLow");
                   setIsOpen(false);
@@ -143,7 +150,7 @@ function Products() {
               </button>
 
               <button
-                className=" w-full block px-4 py-3 text-fuchsia-800 font-semibold hover:bg-fuchsia-200"
+                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => {
                   setSortBy("priceHigh");
                   setIsOpen(false);
@@ -154,16 +161,19 @@ function Products() {
             </div>
           )}
         </div>
+
+        {/* مسیر دسته‌بندی‌ها */}
         <div
           dir="rtl"
           className="order-2 mt-8 mb-6 flex min-w-0 flex-wrap items-center justify-end gap-2 text-normal text-fuchsia-600"
         >
           <span
-            className="cursor-pointer hover:text-fuchsia-900"
+            className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-900"
             onClick={() => navigate("/")}
           >
             خانه
           </span>
+
           <span>/</span>
           <span>محصولات</span>
 
@@ -180,7 +190,7 @@ function Products() {
             <Fragment key={category.id}>
               <span>/</span>
               <span
-                className="cursor-pointer hover:text-fuchsia-800"
+                className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-800"
                 onClick={() => {
                   if (category.id !== catId) {
                     navigate(`/products?catId=${category.id}`);
@@ -194,10 +204,11 @@ function Products() {
         </div>
       </div>
 
+      {/* نمایش محصولات */}
       <div dir="rtl" className="text-center">
         {!query && statusbar === "loading" ? (
-          <div className="flex justify-center items-center py-16">
-            <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-800 rounded-full animate-spin"></div>
+          <div className="flex items-center justify-center py-16">
+            <div className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800"></div>
           </div>
         ) : errorbar && !query ? (
           <p className="py-10 text-red-600">دریافت محصولات با خطا مواجه شد.</p>
@@ -207,14 +218,18 @@ function Products() {
               <NoProducts />
             ) : (
               sortedProducts.map((product) => (
-                <ProductCard
+                <div
                   key={product.id}
-                  id={product.id}
-                  image={product.img1}
-                  label={product.name}
-                  price={formatPrice(product.price)}
-                  link={`/store/products/productdetail?id=${product.id}`}
-                />
+                  className="animate-in fade-in slide-in-from-bottom-2 duration-300"
+                >
+                  <ProductCard
+                    id={product.id}
+                    image={product.img1}
+                    label={product.name}
+                    price={formatPrice(product.price)}
+                    link={`/store/products/productdetail?id=${product.id}`}
+                  />
+                </div>
               ))
             )}
           </div>

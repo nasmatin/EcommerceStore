@@ -37,6 +37,7 @@ function ProductDetail() {
   const isFavorite =
     Array.isArray(favorites) &&
     favorites.some((item) => Number(item.id) === Number(Id));
+
   const existingInCart = cartItems.find((item) => item.id === Id);
 
   const quantity = existingInCart ? existingInCart.quantity : selectedQuantity;
@@ -54,24 +55,34 @@ function ProductDetail() {
       return;
     }
 
-    setIsLoading(true);
-    setLoadError(false);
+    let isActive = true;
 
     dispatch(GetProductDetail(Id))
       .unwrap()
       .catch(() => {
-        setLoadError(true);
+        if (isActive) {
+          setLoadError(true);
+        }
       })
       .finally(() => {
-        setIsLoading(false);
+        if (isActive) {
+          setIsLoading(false);
+        }
       });
+
+    return () => {
+      isActive = false;
+    };
   }, [dispatch, Id, ProDetails]);
+
   const pdetail = ProDetails ?? {};
+
   const handleclick = () => {
     if (!account.isLoggedIn) {
       setShowLoginPopup(true);
       return;
     }
+
     if (account.isLoggedIn) {
       dispatch(
         add({
@@ -84,9 +95,11 @@ function ProductDetail() {
           link: `/products/productdetail?id=${pdetail.id}`,
         })
       );
+
       setShowCartPopup(true);
     }
   };
+
   const handlefavorite = () => {
     if (!account.isLoggedIn) {
       setShowLoginPopup(true);
@@ -110,8 +123,10 @@ function ProductDetail() {
       );
     }
   };
+
   const handlepopupclick = () => {
     setShowLoginPopup(false);
+
     navigate("/login", {
       state: {
         from: location.pathname + location.search,
@@ -143,15 +158,16 @@ function ProductDetail() {
 
     return path;
   };
+
   const categoryPath = getCategoryPath(pdetail.catid);
 
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
   const descriptionCardClass =
-    "rounded-2xl border-2 border-gray-300 bg-white p-5 shadow-sm sm:p-6";
+    "rounded-2xl border-2 border-gray-300 bg-white p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md sm:p-6";
 
   const toggleButtonClass =
-    "mt-3 flex w-full items-center justify-end gap-2 text-sm font-semibold text-fuchsia-800 transition hover:text-fuchsia-950";
+    "mt-3 flex w-full items-center justify-end gap-2 text-sm font-semibold text-fuchsia-800 transition-all duration-200 hover:gap-3 hover:text-fuchsia-950";
 
   if (!Id) {
     return (
@@ -202,7 +218,7 @@ function ProductDetail() {
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="rounded-lg bg-fuchsia-700 px-5 py-2 text-white hover:bg-fuchsia-800"
+            className="rounded-lg bg-fuchsia-700 px-5 py-2 text-white transition-colors duration-200 hover:bg-fuchsia-800"
           >
             تلاش مجدد
           </button>
@@ -220,7 +236,7 @@ function ProductDetail() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
             <span
-              className="cursor-pointer hover:text-fuchsia-800"
+              className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-800"
               onClick={() => navigate("/")}
             >
               خانه
@@ -233,7 +249,7 @@ function ProductDetail() {
                 <span>/</span>
                 <span
                   onClick={() => navigate(`/products?catId=${category.id}`)}
-                  className="cursor-pointer transition hover:text-fuchsia-800"
+                  className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-800"
                 >
                   {category.name}
                 </span>
@@ -245,8 +261,8 @@ function ProductDetail() {
           </div>
 
           {/* گالری و اطلاعات خرید */}
-          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-fuchsia-200 bg-fuchsia-50 p-4 shadow-lg sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
-            <div className="min-w-0">
+          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-fuchsia-200 bg-fuchsia-50 p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
+            <div className="min-w-0 overflow-hidden rounded-xl [&_img:first-of-type]:transition-transform [&_img:first-of-type]:duration-300 [&_img:first-of-type]:ease-out [&_img:first-of-type:hover]:scale-110">
               <Gallery
                 images={[
                   pdetail.img1,
@@ -260,7 +276,7 @@ function ProductDetail() {
 
             {/* اطلاعات محصول */}
             <div className="flex min-w-0 flex-col font-myfont">
-              <h1 className="text-xl font-bold leading-9 text-gray-900 sm:text-2xl">
+              <h1 className="text-xl font-bold leading-9 text-gray-900 transition-colors duration-200 sm:text-2xl">
                 {pdetail.name}
               </h1>
 
@@ -322,7 +338,7 @@ function ProductDetail() {
                           }
                         }}
                         aria-label="افزایش تعداد"
-                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition hover:bg-fuchsia-50 hover:text-fuchsia-800 disabled:opacity-40"
+                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-fuchsia-50 hover:text-fuchsia-800 active:scale-95 disabled:opacity-40"
                       >
                         <span className="text-xl leading-none">+</span>
                       </button>
@@ -342,7 +358,7 @@ function ProductDetail() {
                           }
                         }}
                         aria-label="کاهش تعداد"
-                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition hover:bg-fuchsia-50 hover:text-fuchsia-800 disabled:opacity-40"
+                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-fuchsia-50 hover:text-fuchsia-800 active:scale-95 disabled:opacity-40"
                       >
                         <span className="text-xl leading-none">−</span>
                       </button>
@@ -423,12 +439,12 @@ function ProductDetail() {
         {/* پنجره ورود */}
         {showLoginPopup && (
           <div
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 transition-opacity duration-200"
             onClick={() => setShowLoginPopup(false)}
           >
             <div
               dir="rtl"
-              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl"
+              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl transition-all duration-200 hover:shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="mb-4 text-center text-lg font-bold">
@@ -440,14 +456,14 @@ function ProductDetail() {
               </p>
 
               <button
-                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white hover:bg-fuchsia-800"
+                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white transition-all duration-200 hover:bg-fuchsia-800 active:scale-[0.98]"
                 onClick={handlepopupclick}
               >
                 ورود به حساب کاربری
               </button>
 
               <button
-                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100"
+                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => setShowLoginPopup(false)}
               >
                 انصراف
@@ -459,12 +475,12 @@ function ProductDetail() {
         {/* پنجره افزودن به سبد خرید */}
         {showCartPopup && (
           <div
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 transition-opacity duration-200"
             onClick={() => setShowCartPopup(false)}
           >
             <div
               dir="rtl"
-              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl"
+              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl transition-all duration-200 hover:shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-3 text-center text-3xl text-green-600">
@@ -480,7 +496,7 @@ function ProductDetail() {
               </p>
 
               <button
-                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white hover:bg-fuchsia-800"
+                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white transition-all duration-200 hover:bg-fuchsia-800 active:scale-[0.98]"
                 onClick={() => {
                   setShowCartPopup(false);
                   navigate("/cart");
@@ -490,7 +506,7 @@ function ProductDetail() {
               </button>
 
               <button
-                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100"
+                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => setShowCartPopup(false)}
               >
                 ادامه خرید

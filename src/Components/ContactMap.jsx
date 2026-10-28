@@ -1,9 +1,4 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import L from "leaflet";
 
@@ -20,10 +15,10 @@ L.Icon.Default.mergeOptions({
 });
 
 const ContactMap = () => {
-  const position = [35.6892, 51.3890];
+  const position = [35.6892, 51.389];
 
   return (
-    <div className="w-full h-[400px]">
+    <div className="w-full h-96">
       <MapContainer
         center={position}
         zoom={13}
@@ -35,9 +30,7 @@ const ContactMap = () => {
         />
 
         <Marker position={position}>
-          <Popup>
-            موقعیت فروشگاه
-          </Popup>
+          <Popup>موقعیت فروشگاه</Popup>
         </Marker>
       </MapContainer>
     </div>

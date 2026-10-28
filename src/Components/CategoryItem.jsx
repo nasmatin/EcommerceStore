@@ -7,29 +7,19 @@ import { GetProduct } from "../Features/ProductSlice";
 function CategoryItem({ item, rootItems }) {
   const dispatch = useDispatch();
 
-  const category = useSelector(
-    (state) => state.menu.category
-  );
- const  products = useSelector(
-    (state) => state.product.products
-  );
+  const category = useSelector((state) => state.menu.category);
+  const products = useSelector((state) => state.product.products);
   const [open, setOpen] = useState(false);
 
   const closeTimer = useRef(null);
 
-  const children =
-    item.id === 0
-      ? rootItems || []
-      : category[item.id] || [];
+  const children = item.id === 0 ? rootItems || [] : category[item.id] || [];
 
   // آیا اطلاعات این دسته از قبل دریافت شده؟
-  const isLoaded =
-    item.id === 0 ||
-    category[item.id] !== undefined;
+  const isLoaded = item.id === 0 || category[item.id] !== undefined;
 
   // فقط وقتی اطلاعات را داریم تصمیم می‌گیریم فلش باشد یا نه
-  const hasChildren =
-    isLoaded && children.length > 0;
+  const hasChildren = isLoaded && children.length > 0;
 
   const handleMouseEnter = () => {
     clearTimeout(closeTimer.current);
@@ -38,10 +28,7 @@ function CategoryItem({ item, rootItems }) {
 
     // این فقط حالت پشتیبان است.
     // معمولاً اطلاعات قبلاً preload شده است.
-    if (
-      item.id !== 0 &&
-      category[item.id] === undefined
-    ) {
+    if (item.id !== 0 && category[item.id] === undefined) {
       dispatch(GetCategory(item.id));
     }
   };
@@ -51,12 +38,11 @@ function CategoryItem({ item, rootItems }) {
       setOpen(false);
     }, 150);
   };
-const handleclick =(catId)=>{
-  setOpen(false);
-     if (!catId || products[catId] !== undefined) return;
+  const handleclick = (catId) => {
+    setOpen(false);
+    if (!catId || products[catId] !== undefined) return;
     dispatch(GetProduct(catId));
-
-}
+  };
   useEffect(() => {
     return () => {
       clearTimeout(closeTimer.current);
@@ -68,7 +54,8 @@ const handleclick =(catId)=>{
       className="relative list-none "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-  onClick={() => handleclick(item.id)}>
+      onClick={() => handleclick(item.id)}
+    >
       {/* عنوان دسته */}
 
       <div
@@ -87,21 +74,15 @@ const handleclick =(catId)=>{
           hover:text-fuchsia-300
         "
       >
-{item.id === 0 ? (
-  <span>{item.name}</span>
-) : (
-  <Link to={`/products?catId=${item.id}`}
-  >
-    {item.name}
-  </Link>
-    
-)}
+        {item.id === 0 ? (
+          <span>{item.name}</span>
+        ) : (
+          <Link to={`/products?catId=${item.id}`}>{item.name}</Link>
+        )}
 
         {/* فقط دسته دارای زیرمجموعه فلش دارد */}
 
-        {hasChildren && (
-          <i className="fa-solid fa-angle-left text-xs"></i>
-        )}
+        {hasChildren && <i className="fa-solid fa-angle-left text-xs"></i>}
       </div>
 
       {/* ================= زیرمنو ================= */}
@@ -112,10 +93,7 @@ const handleclick =(catId)=>{
             absolute
             font-myfont
             z-50
-            ${item.id === 0
-              ? "right-0 top-full"
-              : "right-full top-0 "
-            }
+            ${item.id === 0 ? "right-0 top-full" : "right-full top-0 "}
           `}
         >
           <ul
@@ -128,10 +106,7 @@ const handleclick =(catId)=>{
             "
           >
             {children.map((child) => (
-              <CategoryItem
-                key={child.id}
-                item={child}
-              />
+              <CategoryItem key={child.id} item={child} />
             ))}
           </ul>
         </div>

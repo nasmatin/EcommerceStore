@@ -67,9 +67,7 @@ function Address() {
           {statusbar === "loading" ? (
             <div className="flex flex-col items-center gap-3 py-10">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800" />
-              <p className="text-sm text-gray-500">
-                در حال دریافت آدرس‌ها...
-              </p>
+              <p className="text-sm text-gray-500">در حال دریافت آدرس‌ها...</p>
             </div>
           ) : statusbar === "failed" ? (
             <div className="flex flex-col items-center gap-3 py-6">

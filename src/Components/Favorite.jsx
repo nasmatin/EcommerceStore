@@ -4,21 +4,25 @@ import Footer from "../Components/Footer";
 import { useSelector } from "react-redux";
 
 import ProductCard from "../Components/ProductCard";
+
 function Favorite() {
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
   const favorites = useSelector((state) => state.favorite.items);
+
   return (
     <div>
       <Header />
       <Menu />
-      <div dir="rtl" className=" font-myfont mx-auto max-w-6xl p-4">
+
+      <div dir="rtl" className="mx-auto max-w-6xl p-4 font-myfont">
         {!Array.isArray(favorites) || favorites.length === 0 ? (
-          <div className="my-10 text-center">
-            <h2 className="text-xl font-bold text-fuchsia-800">
+          <div className="my-10 text-center transition-all duration-300">
+            <h2 className="text-xl font-bold text-fuchsia-800 transition-colors duration-300 hover:text-fuchsia-600">
               لیست علاقه‌مندی‌های شما خالی است
             </h2>
-            <p className="mt-3 text-fuchsia-600">
+
+            <p className="mt-3 text-fuchsia-600 transition-colors duration-300 hover:text-fuchsia-800">
               محصولات مورد علاقه‌ات رو با زدن قلب ذخیره کن.
             </p>
           </div>
@@ -37,6 +41,7 @@ function Favorite() {
           </div>
         )}
       </div>
+
       <Footer />
     </div>
   );

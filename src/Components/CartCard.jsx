@@ -27,9 +27,8 @@ function CartCard({
       {/* تصویر محصول */}
       <a href={link} className="shrink-0 self-center sm:self-auto">
         <img
-                src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}
+          src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}
 
-        
           alt={name}
           className="h-28 w-28 rounded-full  object-contain p-2 sm:h-32 sm:w-32"
         />
@@ -42,7 +41,9 @@ function CartCard({
             {name}
           </h3>
 
-          {brand && <p className="mt-1 text-base text-gray-500">برند: {brand}</p>}
+          {brand && (
+            <p className="mt-1 text-base text-gray-500">برند: {brand}</p>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -79,7 +80,7 @@ function CartCard({
               aria-label="کاهش تعداد"
               disabled={quantity <= 1}
               className="flex h-8 w-8 items-center justify-center rounded-lg text-lg font-bold text-gray-700 transition hover:bg-gray-200 disabled:cursor-not-allowed disabled:opacity-40"
-            > 
+            >
               −
             </button>
           </div>

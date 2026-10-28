@@ -46,7 +46,7 @@ function Orders() {
               <button
                 type="button"
                 onClick={() => dispatch(GetOrders(userId))}
-                className="rounded-lg bg-purple-800 px-4 py-2 text-white hover:bg-purple-900"
+                className="rounded-lg bg-purple-800 px-4 py-2 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:bg-purple-900 active:scale-95"
               >
                 تلاش مجدد
               </button>

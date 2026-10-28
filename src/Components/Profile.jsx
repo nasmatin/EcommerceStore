@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router";
-import { useDispatch } from "react-redux";
 import { logout } from "../Features/LoginSlice";
 import { clearCurrentCart } from "../Features/AddToCartSlice";
+
 function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -11,7 +11,8 @@ function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const sortMenuRef = useRef(null);
-const location = useLocation();
+  const location = useLocation();
+
   const handleclickUser = () => {
     if (account.isLoggedIn) {
       setIsOpen(!isOpen);
@@ -19,6 +20,7 @@ const location = useLocation();
       setShowLoginPopup(true);
     }
   };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (sortMenuRef.current && !sortMenuRef.current.contains(event.target)) {
@@ -34,12 +36,13 @@ const location = useLocation();
   }, []);
 
   const totalCount = useSelector((state) => state.cart.totalCount);
+
   return (
-    <div dir="ltr" className="flex  items-center gap-4 sm:gap-5 shrink-0">
+    <div dir="ltr" className="flex items-center gap-4 sm:gap-5 shrink-0">
       {account.isLoggedIn ? (
         <Link
           to="/cart"
-          className="flex items-center justify-center cursor-pointer"
+          className="flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110"
         >
           <span className="relative inline-flex">
             <i className="fa-solid fa-cart-shopping text-fuchsia-700 text-xl sm:text-2xl"></i>
@@ -54,7 +57,7 @@ const location = useLocation();
       ) : (
         <button
           onClick={() => setShowLoginPopup(true)}
-          className="flex items-center justify-center cursor-pointer"
+          className="flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110"
         >
           <span className="relative inline-flex">
             <i className="fa-solid fa-cart-shopping text-fuchsia-700 text-xl sm:text-2xl"></i>
@@ -69,9 +72,13 @@ const location = useLocation();
       )}
 
       <div className="relative flex items-center justify-center">
-        <button onClick={handleclickUser} className="p-2 cursor-pointer">
+        <button
+          onClick={handleclickUser}
+          className="p-2 cursor-pointer transition-transform duration-200 hover:scale-110"
+        >
           <i className="fa-solid fa-user-pen text-fuchsia-700 text-xl sm:text-2xl"></i>
         </button>
+
         {/* آیتم‌های منو */}
         {isOpen && account.isLoggedIn && (
           <div
@@ -79,12 +86,12 @@ const location = useLocation();
             dir="rtl"
             className="absolute top-full mt-2
                         font-myfont w-66 rounded-lg bg-white shadow-lg
-                        border border-fuchsia-200 z-50"
+                        border border-fuchsia-200 z-50
+                        animate-in fade-in slide-in-from-top-1 duration-200"
           >
-            {}
             <Link
               to="/account"
-              className="flex items-center w-full  text-lg font-bold border-b text-fuchsia-800 px-4 py-3 hover:bg-fuchsia-200"
+              className="flex items-center w-full text-lg font-bold border-b text-fuchsia-800 px-4 py-3 hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
             >
               {account.name} {account.familyname}
@@ -93,14 +100,15 @@ const location = useLocation();
 
             <Link
               to="/favorite"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200"
+              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
             >
               علاقه مندی ها
             </Link>
+
             <Link
               to="/orders"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200"
+              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
             >
               سفارش ها
@@ -108,21 +116,23 @@ const location = useLocation();
 
             <Link
               to="/address"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200"
+              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
             >
-              آدرس‌{" "}
+              آدرس{" "}
             </Link>
+
             <Link
               to="/support"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200"
+              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
             >
               پشتیبانی{" "}
             </Link>
+
             <Link
               to="/"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200"
+              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => {
                 dispatch(clearCurrentCart());
                 dispatch(logout());
@@ -143,7 +153,7 @@ const location = useLocation();
         >
           <div
             dir="rtl"
-            className="w-80 rounded-xl bg-white p-6 shadow-xl font-myfont"
+            className="w-80 rounded-xl bg-white p-6 shadow-xl font-myfont animate-in fade-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="mb-4 text-center text-lg font-bold">
@@ -155,7 +165,7 @@ const location = useLocation();
             </p>
 
             <button
-              className="w-full rounded-lg bg-fuchsia-800 px-4 py-3 text-white hover:bg-fuchsia-800"
+              className="w-full rounded-lg bg-fuchsia-800 px-4 py-3 text-white hover:bg-fuchsia-700 transition-colors duration-200"
               onClick={() => {
                 setShowLoginPopup(false);
                 navigate("/login", {
@@ -169,7 +179,7 @@ const location = useLocation();
             </button>
 
             <button
-              className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100"
+              className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100 transition-colors duration-200"
               onClick={() => setShowLoginPopup(false)}
             >
               انصراف

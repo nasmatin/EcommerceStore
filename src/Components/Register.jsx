@@ -7,10 +7,12 @@ import Login from "../Components/Login";
 import { PostRegister } from "../Features/RegisterSlice";
 import { login } from "../Features/LoginSlice";
 // import { loadCart } from "../Features/AddToCartSlice";
+
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+
   const [Registerform, setRegisterform] = useState({
     name: "",
     familyname: "",
@@ -19,6 +21,7 @@ function Register() {
     password: "",
     confirmpassword: "",
   });
+
   const inputchange = (e) => {
     const { name, value } = e.target;
     setRegisterform((previnput) => ({
@@ -26,12 +29,15 @@ function Register() {
       [name]: value,
     }));
   };
+
   const inputsubmit = async (e) => {
     e.preventDefault();
+
     if (Registerform.password !== Registerform.confirmpassword) {
       alert("پسوردها یکسان نیستند");
       return;
     }
+
     const registerdata = {
       name: Registerform.name,
       familyname: Registerform.familyname,
@@ -39,6 +45,7 @@ function Register() {
       username: Registerform.username,
       password: Registerform.password,
     };
+
     try {
       const result = await dispatch(PostRegister(registerdata)).unwrap();
       dispatch(login(result.user));
@@ -49,11 +56,13 @@ function Register() {
       alert("ثبت‌نام ناموفق بود. اطلاعات را بررسی کن.");
     }
   };
+
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/", { replace: true });
     }
   }, [isLoggedIn, navigate]);
+
   return (
     <div
       dir="rtl"
@@ -82,9 +91,11 @@ function Register() {
         bg-fuchsia-300
         gap-2
         shadow-lg
+        transition-shadow duration-300
+        hover:shadow-xl
       "
       >
-        <h2 className="text-xl font-bold text-center "> ثبت نام </h2>
+        <h2 className="text-xl font-bold text-center">ثبت نام</h2>
 
         <Input
           type="text"
@@ -93,6 +104,7 @@ function Register() {
           placeholder="نام "
           onChange={inputchange}
         />
+
         <Input
           type="text"
           name="familyname"
@@ -100,6 +112,7 @@ function Register() {
           placeholder="نام خانوادگی "
           onChange={inputchange}
         />
+
         <Input
           type="text"
           name="username"
@@ -107,6 +120,7 @@ function Register() {
           placeholder="نام کاربری  "
           onChange={inputchange}
         />
+
         <Input
           type="number"
           name="mobile"
@@ -122,6 +136,7 @@ function Register() {
           placeholder="پسورد"
           onChange={inputchange}
         />
+
         <Input
           type="password"
           name="confirmpassword"
@@ -130,12 +145,14 @@ function Register() {
           onChange={inputchange}
         />
 
-        <Button label="ثبت نام" />
+        <div className="w-full flex justify-center">
+          <Button label="ثبت نام" />
+        </div>
 
         <Link
           to="/login"
           element={<Login />}
-          className="text-fuchsia-800 text-l font-semibold text-center mt-2"
+          className="mt-2 text-center text-l font-semibold text-fuchsia-800 transition-all duration-300 hover:-translate-y-0.5 hover:text-fuchsia-950 hover:underline"
         >
           ورود به حساب کاربری
         </Link>
@@ -143,4 +160,5 @@ function Register() {
     </div>
   );
 }
+
 export default Register;

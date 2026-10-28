@@ -43,8 +43,8 @@ function Gallery({ images = [], productName = "محصول" }) {
               }`}
             >
               <img
-src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}     
-           alt={`${productName} - تصویر ${index + 1}`}
+                src={`https://emadtalebloo.com/panelapi/Uploads/Products/${image}`}
+                alt={`${productName} - تصویر ${index + 1}`}
                 className="h-full w-full object-contain p-1"
               />
             </button>
