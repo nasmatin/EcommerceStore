@@ -27,10 +27,9 @@ function Slider() {
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{
-          transform: `translateX(-${currentSlide * 100}%)`,
-        }}
+        className={`flex transition-transform duration-500 ease-in-out ${
+  currentSlide === 0 ? "translate-x-0" : "-translate-x-full"
+}`}
       >
         {sliders.map((slide, index) => (
           <a key={index} href={slide.link} className="w-full shrink-0">
