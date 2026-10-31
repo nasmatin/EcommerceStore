@@ -14,11 +14,14 @@ import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add, decrement, increment } from "../Features/AddToCartSlice";
-import { like, dislike, loadFavorites } from "../Features/FavoriteSlice";
-
+import {
+  loadFavorites,
+  toggleFavorite,
+} from "../Features/FavoriteSlice";
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
   const [showUsage, setShowUsage] = useState(false);
+const [loginAction, setLoginAction] = useState(null);
 
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const navigate = useNavigate();
@@ -31,6 +34,16 @@ function ProductDetail() {
   const [showCartPopup, setShowCartPopup] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const favorites = useSelector((state) => state.favorite.items);
+
+  // بارگذاری علاقه‌مندی‌های کاربر پس از ورود
+  useEffect(() => {
+    if (!account.isLoggedIn) return;
+
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    if (user?.id) {
+      dispatch(loadFavorites(user.id));
+    }
+  }, [dispatch, account.isLoggedIn]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState(false);
 
@@ -78,10 +91,11 @@ function ProductDetail() {
   const pdetail = ProDetails ?? {};
 
   const handleclick = () => {
-    if (!account.isLoggedIn) {
-      setShowLoginPopup(true);
-      return;
-    }
+   if (!account.isLoggedIn) {
+  setLoginAction("cart");
+  setShowLoginPopup(true);
+  return;
+}
 
     if (account.isLoggedIn) {
       dispatch(
@@ -100,48 +114,61 @@ function ProductDetail() {
     }
   };
 
-  const handlefavorite = () => {
-    if (!account.isLoggedIn) {
-      setShowLoginPopup(true);
-      dispatch(loadFavorites);
-      return;
-    }
+const handlefavorite = () => {
+  if (!pdetail.id) return;
 
-    if (!pdetail.id) return;
-
-    if (isFavorite) {
-      dispatch(dislike(pdetail.id));
-    } else {
-      dispatch(
-        like({
-          id: pdetail.id,
-          title: pdetail.name,
-          price: pdetail.price,
-          image: pdetail.img1,
-          link: `/products/productdetail?id=${pdetail.id}`,
-        })
-      );
-    }
+  const product = {
+    id: pdetail.id,
+    title: pdetail.name,
+    price: pdetail.price,
+    image: pdetail.img1,
+    link: `/products/productdetail?id=${pdetail.id}`,
   };
 
-  const handlepopupclick = () => {
+  if (!account.isLoggedIn) {
+    setLoginAction("favorite");
+    setShowLoginPopup(true);
+    return;
+  }
+
+  dispatch(toggleFavorite(product));
+};
+  const closeLoginPopup = () => {
     setShowLoginPopup(false);
-
-    navigate("/login", {
-      state: {
-        from: location.pathname + location.search,
-        pendingProduct: {
-          id: pdetail.id,
-          name: pdetail.name,
-          price: pdetail.price,
-          quantity: quantity,
-          stock: pdetail.quantity,
-          image: pdetail.img1,
-          link: `/products/productdetail?id=${pdetail.id}`,
-        },
-      },
-    });
+    setLoginAction(null);
   };
+
+const handlepopupclick = () => {
+  setShowLoginPopup(false);
+
+  const state = {
+    from: location.pathname + location.search,
+  };
+
+  if (loginAction === "cart") {
+    state.pendingProduct = {
+      id: pdetail.id,
+      name: pdetail.name,
+      price: pdetail.price,
+      quantity: quantity,
+      stock: pdetail.quantity,
+      image: pdetail.img1,
+      link: `/products/productdetail?id=${pdetail.id}`,
+    };
+  }
+
+  if (loginAction === "favorite") {
+    state.pendingFavorite = {
+      id: pdetail.id,
+      title: pdetail.name,
+      price: pdetail.price,
+      image: pdetail.img1,
+      link: `/products/productdetail?id=${pdetail.id}`,
+    };
+  }
+
+  navigate("/login", { state });
+};
 
   const getCategoryPath = (categoryId) => {
     const path = [];
@@ -440,7 +467,7 @@ function ProductDetail() {
         {showLoginPopup && (
           <div
             className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 transition-opacity duration-200"
-            onClick={() => setShowLoginPopup(false)}
+            onClick={closeLoginPopup}
           >
             <div
               dir="rtl"
@@ -464,7 +491,7 @@ function ProductDetail() {
 
               <button
                 className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => setShowLoginPopup(false)}
+                onClick={closeLoginPopup}
               >
                 انصراف
               </button>

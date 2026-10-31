@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../services/api.js";
-import { data } from "react-router";
 
 export const GetProduct = createAsyncThunk(
   "GetProduct",

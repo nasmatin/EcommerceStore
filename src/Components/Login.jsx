@@ -6,7 +6,10 @@ import Input from "../Components/Input";
 import Button from "../Components/Button";
 import Register from "../Components/Register";
 import { loadCart, add } from "../Features/AddToCartSlice";
-
+import {
+  loadFavorites,
+  toggleFavorite,
+} from "../Features/FavoriteSlice";
 function LoginClient() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -14,7 +17,7 @@ function LoginClient() {
   const location = useLocation();
   const from = location.state?.from || "/";
   const pendingProduct = location.state?.pendingProduct;
-
+  const pendingFavorite = location.state?.pendingFavorite;
   const [loginform, setLoginform] = useState({
     username: "",
     password: "",
@@ -37,12 +40,16 @@ function LoginClient() {
 
       if (user?.id) {
         dispatch(loadCart(user.id));
+          dispatch(loadFavorites(user.id));
+
       }
 
       if (pendingProduct) {
         dispatch(add(pendingProduct));
       }
-
+if (pendingFavorite) {
+  dispatch(toggleFavorite(pendingFavorite));
+}
       navigate(from, { replace: true });
     } catch {
       alert("ورود ناموفق بود. نام کاربری و رمز عبور را بررسی کن.");
@@ -117,6 +124,7 @@ function LoginClient() {
 
         <Link
           to="/register"
+           state={location.state}
           element={<Register />}
           className="mt-2 text-center text-l font-semibold text-fuchsia-800 transition-all duration-300 hover:-translate-y-0.5 hover:text-fuchsia-950 hover:underline"
         >

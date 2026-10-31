@@ -12,6 +12,7 @@ function Products() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
   const [isOpen, setIsOpen] = useState(false);
   const [sortBy, setSortBy] = useState("newest");
 
@@ -85,7 +86,7 @@ function Products() {
         return Number(b.price) - Number(a.price);
 
       case "oldest":
-        return Number(b.sale ?? 0) - Number(a.sale ?? 0);
+       return new Date(a.createdAt ?? 0) - new Date(b.createdAt ?? 0);
 
       case "newest":
       default:

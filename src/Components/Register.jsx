@@ -6,13 +6,21 @@ import Button from "../Components/Button";
 import Login from "../Components/Login";
 import { PostRegister } from "../Features/RegisterSlice";
 import { login } from "../Features/LoginSlice";
-// import { loadCart } from "../Features/AddToCartSlice";
-
+import { loadCart, add } from "../Features/AddToCartSlice";
+import {
+  loadFavorites,
+  toggleFavorite,
+} from "../Features/FavoriteSlice";
+import { useLocation } from "react-router";
 function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
+  const location = useLocation();
+  const from = location.state?.from || "/";
+  const pendingProduct = location.state?.pendingProduct;
+const pendingFavorite = location.state?.pendingFavorite;
   const [Registerform, setRegisterform] = useState({
     name: "",
     familyname: "",
@@ -49,19 +57,30 @@ function Register() {
     try {
       const result = await dispatch(PostRegister(registerdata)).unwrap();
       dispatch(login(result.user));
-      // dispatch(loadCart(result.user.id));
+      if (result.user?.id) {
+        dispatch(loadCart(result.user.id));
+        dispatch(loadFavorites(result.user.id));
+      }
 
-      navigate("/", { replace: true });
+      if (pendingProduct) {
+        dispatch(add(pendingProduct));
+      }
+
+if (pendingFavorite) {
+  dispatch(toggleFavorite(pendingFavorite));
+}
+
+      navigate(from, { replace: true });
     } catch {
       alert("ثبت‌نام ناموفق بود. اطلاعات را بررسی کن.");
     }
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/", { replace: true });
-    }
-  }, [isLoggedIn, navigate]);
+useEffect(() => {
+  if (isLoggedIn) {
+    navigate(from, { replace: true });
+  }
+}, [isLoggedIn, navigate, from]);
 
   return (
     <div
@@ -151,6 +170,7 @@ function Register() {
 
         <Link
           to="/login"
+          state={location.state}
           element={<Login />}
           className="mt-2 text-center text-l font-semibold text-fuchsia-800 transition-all duration-300 hover:-translate-y-0.5 hover:text-fuchsia-950 hover:underline"
         >

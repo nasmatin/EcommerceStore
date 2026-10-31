@@ -16,13 +16,16 @@ import { EditAddress } from "../Features/EditAddressSlice";
 function AddressForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
 
+  //fill inputs when clicked in edit button item
+  const location = useLocation();
   const selectedAddress = location.state?.address;
   const isEditMode = Boolean(selectedAddress);
 
+  //fill dropdown of province &city
   const provinces = useSelector((state) => state.province.provinces);
   const cities = useSelector((state) => state.city.cities);
+
   const account = useSelector((state) => state.login);
 
   const [form, setform] = useState(() => ({
