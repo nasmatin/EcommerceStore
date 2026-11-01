@@ -102,10 +102,10 @@ function Cart() {
               </section>
 
               <aside
-                className="rounded-2xl border border-gray-100
+                className="rounded-2xl border border-fuchsia-200
               bg-white p-5 shadow-xl transition-all duration-300 hover:shadow-2xl lg:sticky lg:top-6"
               >
-                <h2 className="font-myfont mb-5 text-lg font-bold text-gray-800">
+                <h2 className="font-myfont mb-5 text-lg font-bold text-gray-800 ">
                   خلاصه سفارش
                 </h2>
 

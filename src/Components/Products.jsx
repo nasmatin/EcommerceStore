@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router";
 import Footer from "../Components/Footer";
 import { GetProduct } from "../Features/ProductSlice";
+import { GetProductTag } from "../Features/ProductTagSlice";
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import ProductCard from "../Components/ProductCard";
@@ -17,31 +18,58 @@ function Products() {
   const [sortBy, setSortBy] = useState("newest");
 
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
+
   const catId = Number(searchParams.get("catId"));
   const query = searchParams.get("search");
-
+  const tag = searchParams.get("tag");
+  const isTagPage = Boolean(tag);
+  console.log("tag:", tag);
   const categoryProducts = useSelector(
     (state) => state.product?.products?.[catId]
   );
+  console.log("categoryProducts :", categoryProducts);
+
+  const tagProducts = useSelector(
+    (state) => state.producttag?.productstags?.[tag]
+  );
+
   const statusbar = useSelector((state) => state.product.statusbar);
   const errorbar = useSelector((state) => state.product.errorbar);
+
+  const tagStatus = useSelector((state) => state.producttag?.statusbar);
+
+  const tagError = useSelector((state) => state.producttag?.errorbar);
+
   const searchProducts = useSelector(
     (state) => state.search?.searchitems?.[query]
   );
+
   const categories = useSelector((state) => state.menu.category);
   const allCategories = Object.values(categories).flat();
 
   useEffect(() => {
-    // اگر جست‌وجو داریم، درخواست مربوط به دسته‌بندی اجرا نشود
-    if (query) return;
+    // اگر جست‌وجو یا تگ داریم، درخواست دسته‌بندی اجرا نشود
+    if (query || isTagPage) return;
+
     if (!catId || categoryProducts !== undefined) {
       return;
     }
 
     dispatch(GetProduct(catId));
-  }, [dispatch, catId, categoryProducts, query]);
+  }, [dispatch, catId, categoryProducts, query, isTagPage]);
 
-  const products = query ? searchProducts : (categoryProducts ?? []);
+  useEffect(() => {
+    // دریافت تمام محصولات بر اساس تگ
+    if (!isTagPage || tagProducts !== undefined) return;
+
+    dispatch(GetProductTag({ tag }));
+  }, [dispatch, tag, isTagPage, tagProducts]);
+
+  const products = query
+    ? searchProducts
+    : isTagPage
+      ? tagProducts
+      : categoryProducts;
 
   const getCategoryPath = (categoryId) => {
     const path = [];
@@ -59,7 +87,7 @@ function Products() {
     return path;
   };
 
-  const categoryPath = query ? [] : getCategoryPath(catId);
+  const categoryPath = query || isTagPage ? [] : getCategoryPath(catId);
 
   const sortMenuRef = useRef(null);
 
@@ -86,13 +114,35 @@ function Products() {
         return Number(b.price) - Number(a.price);
 
       case "oldest":
-       return new Date(a.createdAt ?? 0) - new Date(b.createdAt ?? 0);
+        return new Date(a.createdAt ?? 0) - new Date(b.createdAt ?? 0);
 
       case "newest":
       default:
         return new Date(b.createdAt ?? 0) - new Date(a.createdAt ?? 0);
     }
   });
+
+  const isLoading = isTagPage
+    ? tagStatus === "loading"
+    : !query && statusbar === "loading";
+
+  const hasError = isTagPage
+    ? tagStatus === "failed" || tagError
+    : !query && errorbar;
+
+  const pageTitle = isTagPage
+    ? tag === "sell"
+      ? "محصولات پرفروش"
+      : tag === "festival"
+        ? "محصولات شگفت انگیز"
+        : tag === "view"
+          ? "محصولات پربازدید"
+          : tag === "trend"
+            ? "محصولات ترند"
+            : `محصولات ${tag}`
+    : query
+      ? "نتایج جست‌وجو"
+      : "محصولات";
 
   return (
     <>
@@ -187,6 +237,16 @@ function Products() {
             </>
           )}
 
+          {isTagPage && (
+            <>
+              <span>/</span>
+              <span className="font-semibold text-fuchsia-800">
+                {pageTitle} ({products?.length.toLocaleString("fa-IR") ?? 0}{" "}
+                کالا)
+              </span>
+            </>
+          )}
+
           {categoryPath.map((category) => (
             <Fragment key={category.id}>
               <span>/</span>
@@ -202,19 +262,28 @@ function Products() {
               </span>
             </Fragment>
           ))}
+          {!isTagPage && (
+            <>
+              <span>/</span>
+              <span className="font-semibold text-fuchsia-800">
+                {pageTitle} ({(products?.length ?? 0).toLocaleString("fa-IR")}{" "}
+                کالا)
+              </span>
+            </>
+          )}
         </div>
       </div>
 
       {/* نمایش محصولات */}
-      <div dir="rtl" className="text-center">
-        {!query && statusbar === "loading" ? (
+      <div dir="rtl" className="font-myfont text-center">
+        {isLoading ? (
           <div className="flex items-center justify-center py-16">
             <div className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800"></div>
           </div>
-        ) : errorbar && !query ? (
+        ) : hasError ? (
           <p className="py-10 text-red-600">دریافت محصولات با خطا مواجه شد.</p>
         ) : (
-          <div className="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-3 lg:grid-cols-5">
             {!products || products.length === 0 ? (
               <NoProducts />
             ) : (
@@ -227,6 +296,7 @@ function Products() {
                     id={product.id}
                     image={product.img1}
                     label={product.name}
+                    sale={product.sale}
                     price={formatPrice(product.price)}
                     link={`/store/products/productdetail?id=${product.id}`}
                   />

@@ -173,6 +173,12 @@ function Menu() {
         >
           پشتیبانی
         </Link>
+          <Link
+          to="/blog"
+          className="transition-colors duration-200 hover:text-fuchsia-200"
+        >
+          وبلاگ
+        </Link>
       </nav>
 
       {/* ================= MOBILE BUTTON ================= */}
@@ -344,6 +350,19 @@ duration-300"
                 "
               >
                 پشتیبانی
+              </Link>
+              <Link
+                to="/blog"
+                onClick={closeMobileMenu}
+                className="
+                  block
+                  rounded-md
+                  px-3
+                  py-3
+                  hover:bg-fuchsia-700
+                "
+              >
+                وبلاگ
               </Link>
             </>
           )}

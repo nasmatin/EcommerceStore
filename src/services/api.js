@@ -4,8 +4,10 @@ import axios from "axios";
 
 // ساخت یک نمونه اختصاصی از Axios
 const api = axios.create({
-  baseURL: "https://www.emadtalebloo.com/panelapi", // آدرس پایه  timeout: 10000,
-  headers: {
+  baseURL: "https://localhost:44381/", // آدرس پایه  timeout: 10000,
+  
+    //baseURL: "https://www.emadtalebloo.com/panelapi", // آدرس پایه  timeout: 10000,
+headers: {
     "Content-Type": "application/json",
   }, // اگر تا ۱۰ ثانیه جواب نداد، خطا بده
 });

@@ -331,8 +331,8 @@ const handlepopupclick = () => {
                   <span className="text-sm text-gray-400 line-through">
                     {formatPrice(pdetail.price)} تومان
                   </span>
-                  <span className="rounded-md bg-red-50 px-2 py-1 text-xs font-bold text-red-500">
-                    {pdetail.sale}٪ تخفیف
+                  <span className="rounded-full bg-red-500 px-2 py-1  font-bold text-white">
+                    {formatPrice(pdetail.sale)}٪ 
                   </span>
                 </div>
               )}

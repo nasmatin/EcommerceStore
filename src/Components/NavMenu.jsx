@@ -17,6 +17,7 @@ import AddressForm from "../Components/AddressForm";
 import Orders from "../Components/Orders";
 import OrderDetail from "../Components/OrderDetail";
 import ProtectedRoute from "./ProtectedRoute";
+import Blog from "./Blog";
 function NavMenu() {
   return (
     <Routes>
@@ -39,6 +40,8 @@ function NavMenu() {
       <Route path="/orders" element={<Orders />} />
       <Route path="/orders/ordersdetail" element={<OrderDetail />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/tags" element={<Products />} />
+            <Route path="/blog" element={<Blog />} />
     </Routes>
   );
 }

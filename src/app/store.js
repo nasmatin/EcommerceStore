@@ -16,7 +16,7 @@ import provinceReducer from "../Features/ProvinceSlice";
 import cityReducer from "../Features/CitySlice";
 import orderReducer from "../Features/OrderListSlice";
 import orderdetailReducer from "../Features/OrderDetailSlice";
-
+import producttagReducer from "../Features/ProductTagSlice";
 import paymentReducer from "../Features/PaymentSlice";
 
 export const store = configureStore({
@@ -36,10 +36,9 @@ export const store = configureStore({
     city: cityReducer,
     deleteaddress: deleteaddressReducer,
     editaddress: editaddressReducer,
-    order:orderReducer,
-        payment:paymentReducer,
-        orderdetail:orderdetailReducer,
-
+    order: orderReducer,
+    payment: paymentReducer,
+    orderdetail: orderdetailReducer,
+    producttag: producttagReducer,
   },
 });
-

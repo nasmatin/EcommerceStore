@@ -22,7 +22,7 @@ function CartCard({
       dir="rtl"
       data-product-id={id}
       onClick={handleClick}
-      className="flex flex-col gap-4 rounded-2xl bg-fuchsia-50 border cursor-pointer border-gray-200 p-4 shadow-xl transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
+      className="flex flex-col gap-4 rounded-2xl bg-fuchsia-50 border  cursor-pointer border-fuchsia-200 p-4 shadow-xl transition hover:shadow-md sm:flex-row sm:items-center sm:gap-5"
     >
       {/* تصویر محصول */}
       <a href={link} className="shrink-0 self-center sm:self-auto">
