@@ -39,17 +39,23 @@ function BestFestival() {
         </div>
 
         {/* Products Grid */}
-        <div className="bg-fuchsia-800 px-3 py-3 rounded-xl grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
-          {productfestival.map((product) => (
+        <div
+          className="bg-fuchsia-800 px-3 py-3 rounded-xl
+          flex overflow-x-auto   
+          lg:grid grid-cols-4 lg:overflow-x-visible xl:grid-cols-4 gap-4 md:gap-5  
+          scrollbar-hide"
+        >
+          {productfestival.slice(0, 4).map((product) => (
             <div
               key={product.id}
-              className=" animate-in fade-in slide-in-from-bottom-2 duration-300"
+              className=" animate-in fade-in slide-in-from-bottom-2 duration-300 "
             >
               <ProductCard
                 id={product.id}
                 image={product.img1}
                 label={product.name}
                 sale={product.sale}
+                brand={product.brand}
                 price={formatPrice(product.price)}
                 link={`/store/products/productdetail?id=${product.id}`}
               />

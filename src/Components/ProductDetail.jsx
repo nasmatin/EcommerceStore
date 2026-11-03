@@ -14,14 +14,11 @@ import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add, decrement, increment } from "../Features/AddToCartSlice";
-import {
-  loadFavorites,
-  toggleFavorite,
-} from "../Features/FavoriteSlice";
+import { loadFavorites, toggleFavorite } from "../Features/FavoriteSlice";
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
   const [showUsage, setShowUsage] = useState(false);
-const [loginAction, setLoginAction] = useState(null);
+  const [loginAction, setLoginAction] = useState(null);
 
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const navigate = useNavigate();
@@ -31,6 +28,8 @@ const [loginAction, setLoginAction] = useState(null);
   const Id = Number(searchParams.get("id"));
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const account = useSelector((state) => state.login);
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const userId = user?.id ?? null;
   const [showCartPopup, setShowCartPopup] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const favorites = useSelector((state) => state.favorite.items);
@@ -70,7 +69,12 @@ const [loginAction, setLoginAction] = useState(null);
 
     let isActive = true;
 
-    dispatch(GetProductDetail(Id))
+    dispatch(
+      GetProductDetail({
+        id: Id,
+        userId: userId,
+      })
+    )
       .unwrap()
       .catch(() => {
         if (isActive) {
@@ -91,11 +95,11 @@ const [loginAction, setLoginAction] = useState(null);
   const pdetail = ProDetails ?? {};
 
   const handleclick = () => {
-   if (!account.isLoggedIn) {
-  setLoginAction("cart");
-  setShowLoginPopup(true);
-  return;
-}
+    if (!account.isLoggedIn) {
+      setLoginAction("cart");
+      setShowLoginPopup(true);
+      return;
+    }
 
     if (account.isLoggedIn) {
       dispatch(
@@ -114,61 +118,61 @@ const [loginAction, setLoginAction] = useState(null);
     }
   };
 
-const handlefavorite = () => {
-  if (!pdetail.id) return;
+  const handlefavorite = () => {
+    if (!pdetail.id) return;
 
-  const product = {
-    id: pdetail.id,
-    title: pdetail.name,
-    price: pdetail.price,
-    image: pdetail.img1,
-    link: `/products/productdetail?id=${pdetail.id}`,
-  };
-
-  if (!account.isLoggedIn) {
-    setLoginAction("favorite");
-    setShowLoginPopup(true);
-    return;
-  }
-
-  dispatch(toggleFavorite(product));
-};
-  const closeLoginPopup = () => {
-    setShowLoginPopup(false);
-    setLoginAction(null);
-  };
-
-const handlepopupclick = () => {
-  setShowLoginPopup(false);
-
-  const state = {
-    from: location.pathname + location.search,
-  };
-
-  if (loginAction === "cart") {
-    state.pendingProduct = {
-      id: pdetail.id,
-      name: pdetail.name,
-      price: pdetail.price,
-      quantity: quantity,
-      stock: pdetail.quantity,
-      image: pdetail.img1,
-      link: `/products/productdetail?id=${pdetail.id}`,
-    };
-  }
-
-  if (loginAction === "favorite") {
-    state.pendingFavorite = {
+    const product = {
       id: pdetail.id,
       title: pdetail.name,
       price: pdetail.price,
       image: pdetail.img1,
       link: `/products/productdetail?id=${pdetail.id}`,
     };
-  }
 
-  navigate("/login", { state });
-};
+    if (!account.isLoggedIn) {
+      setLoginAction("favorite");
+      setShowLoginPopup(true);
+      return;
+    }
+
+    dispatch(toggleFavorite(product));
+  };
+  const closeLoginPopup = () => {
+    setShowLoginPopup(false);
+    setLoginAction(null);
+  };
+
+  const handlepopupclick = () => {
+    setShowLoginPopup(false);
+
+    const state = {
+      from: location.pathname + location.search,
+    };
+
+    if (loginAction === "cart") {
+      state.pendingProduct = {
+        id: pdetail.id,
+        name: pdetail.name,
+        price: pdetail.price,
+        quantity: quantity,
+        stock: pdetail.quantity,
+        image: pdetail.img1,
+        link: `/products/productdetail?id=${pdetail.id}`,
+      };
+    }
+
+    if (loginAction === "favorite") {
+      state.pendingFavorite = {
+        id: pdetail.id,
+        title: pdetail.name,
+        price: pdetail.price,
+        image: pdetail.img1,
+        link: `/products/productdetail?id=${pdetail.id}`,
+      };
+    }
+
+    navigate("/login", { state });
+  };
 
   const getCategoryPath = (categoryId) => {
     const path = [];
@@ -303,10 +307,14 @@ const handlepopupclick = () => {
 
             {/* اطلاعات محصول */}
             <div className="flex min-w-0 flex-col font-myfont">
+              {/* نام محصول */}
               <h1 className="text-xl font-bold leading-9 text-gray-900 transition-colors duration-200 sm:text-2xl">
                 {pdetail.name}
               </h1>
-
+              {/* برند محصول */}
+              <p className="mt-2 text-normal font-medium text-gray-400">
+                {pdetail.brand}
+              </p>
               {/* موجودی */}
               <div className="mt-4">
                 <span
@@ -332,7 +340,7 @@ const handlepopupclick = () => {
                     {formatPrice(pdetail.price)} تومان
                   </span>
                   <span className="rounded-full bg-red-500 px-2 py-1  font-bold text-white">
-                    {formatPrice(pdetail.sale)}٪ 
+                    {formatPrice(pdetail.sale)}٪
                   </span>
                 </div>
               )}

@@ -3,11 +3,12 @@ import api from "../services/api.js";
 
 export const GetProductDetail = createAsyncThunk(
   "GetProductDetail",
-  async (id, { rejectWithValue }) => {
+  async ({id,userId}, { rejectWithValue }) => {
     try {
       const response = await api.get("/products/productdetail", {
         params: {
           id: id,
+          userId:userId,
         },
       });
 

@@ -1,22 +1,23 @@
 import ProductCard from "./ProductCard";
 import { Link } from "react-router";
 import { useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetProductTag } from "../Features/ProductTagSlice";
 function BestSelling() {
-    const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-const tag="sell";
-const count=4;
-      const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
+  const tag = "sell";
+  const count = 4;
+  const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
-    const productsale=useSelector((state) =>
-         state.producttag?.productstags?.[tag]|| []);
-console.log("PRODUCT SALE:", productsale);
+  const productsale = useSelector(
+    (state) => state.producttag?.productstags?.[tag] || []
+  );
+  console.log("PRODUCT SALE:", productsale);
 
-    useEffect(()=>{
-dispatch(GetProductTag({tag,count}))
-    },[dispatch,tag,count]);
+  useEffect(() => {
+    dispatch(GetProductTag({ tag, count }));
+  }, [dispatch, tag, count]);
   return (
     <section className="w-full py-10 font-myfont" dir="rtl">
       <div className="container mx-auto px-4">
@@ -38,27 +39,33 @@ dispatch(GetProductTag({tag,count}))
         </div>
 
         {/* Products Grid */}
-        <div className=" px-3 py-3 rounded-xl grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
-        { productsale.map((product) => (
-                <div
-                  key={product.id}
-                  className="animate-in fade-in slide-in-from-bottom-2  duration-300"
-                >
-                  <ProductCard
-                    id={product.id}
-                    image={product.img1}
-                    label={product.name}
-                    sale={product.sale}
-                    price={formatPrice(product.price)}
-                    link={`/store/products/productdetail?id=${product.id}`}
-                  />
-                </div>
-              ))}
-             
+        <div
+          className=" px-3 py-3 rounded-xl 
+        flex overflow-x-auto lg:grid grid-cols-4 lg:overflow-x-visible 
+        xl:grid-cols-4  
+        gap-4 md:gap-4
+        scrollbar-hide"
+        >
+          {productsale.slice(0, 4).map((product) => (
+            <div
+              key={product.id}
+              className="animate-in fade-in slide-in-from-bottom-2  duration-300"
+            >
+              <ProductCard
+                id={product.id}
+                image={product.img1}
+                label={product.name}
+                sale={product.sale}
+                price={formatPrice(product.price)}
+                brand={product.brand}
+                link={`/store/products/productdetail?id=${product.id}`}
+              />
+            </div>
+          ))}
         </div>
         <div className="flex justify-end mt-7">
           <Link
-  to="/tags?tag=sell"
+            to="/tags?tag=sell"
             className="group flex items-center gap-2 px-5 py-2.5 border rounded-xl  text-fuchsia-600  font-bold hover:bg-fuchsia-600 hover:text-white hover:border-fuchsia-600 transition-all duration-300"
           >
             مشاهده همه

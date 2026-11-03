@@ -6,6 +6,7 @@ import BestFestival from "./BestFestival";
 import Category from "../Components/Category";
 import Footer from "../Components/Footer";
 import BlogView from "../Components/BlogView";
+import BestTrend from "./BestTrend";
 
 function Home() {
   return (
@@ -13,12 +14,11 @@ function Home() {
       <Header />
       <Menu />
       <Slider />
-         
       <Category />
-       <BlogView/>
+      <BlogView />
       <BestSelling />
-      <BestFestival/>
-  
+      <BestFestival />
+      <BestTrend />
       <Footer />
     </>
   );

@@ -1,5 +1,4 @@
-
-function ProductCard({ id, image, link, label, price, sale }) {
+function ProductCard({ id, image, link, label, price, sale, brand }) {
   // تبدیل قیمت فارسی به عدد قابل محاسبه
   const numericPrice = Number(
     String(price)
@@ -11,13 +10,15 @@ function ProductCard({ id, image, link, label, price, sale }) {
   const discountAmount = (numericPrice * discountPercent) / 100;
   const finalPrice = numericPrice - discountAmount;
 
-  const formatPrice = (value) =>
-    Math.round(value).toLocaleString("fa-IR");
+  const formatPrice = (value) => Math.round(value).toLocaleString("fa-IR");
 
   return (
     <div
       dir="rtl"
-      className="relative cursor-pointer font-myfont border border-fuchsia-200 bg-fuchsia-50 rounded-2xl shadow-md p-2 sm:p-3 flex flex-col items-center text-center transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl"
+      className="relative cursor-pointer font-myfont
+       border border-fuchsia-200 bg-fuchsia-50 rounded-2xl shadow-md 
+       p-2 sm:p-3 flex flex-col items-center text-center transition-all 
+       duration-300 ease-out hover:-translate-y-1 hover:shadow-xl"
       data-product-id={id}
       onClick={() => (window.location.href = link)}
     >
@@ -28,6 +29,9 @@ function ProductCard({ id, image, link, label, price, sale }) {
       />
 
       <div className="flex flex-col items-center w-full mt-1 sm:mt-2">
+        <p className="text-gray-400 text-[10px] sm:text-sm font-medium mb-1">
+          {brand}
+        </p>
         <h3 className="font-extrabold text-xs sm:text-sm leading-5 line-clamp-2 h-10 px-1">
           {label}
         </h3>
@@ -36,16 +40,15 @@ function ProductCard({ id, image, link, label, price, sale }) {
           <div className="flex flex-col items-center justify-center flex-1 gap-1 min-w-0">
             <p
               className={`text-[10px] sm:text-xs font-bold ${
-                discountPercent > 0
-                  ? "text-gray-400 line-through"
-                  : "invisible"
+                discountPercent > 0 ? "text-gray-400 line-through" : "invisible"
               }`}
             >
               {formatPrice(numericPrice)} تومان
             </p>
 
             <p className="text-fuchsia-700 font-extrabold text-sm sm:text-base md:text-lg whitespace-nowrap">
-              {formatPrice(discountPercent > 0 ? finalPrice : numericPrice)} تومان
+              {formatPrice(discountPercent > 0 ? finalPrice : numericPrice)}{" "}
+              تومان
             </p>
           </div>
 

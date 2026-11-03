@@ -297,6 +297,7 @@ function Products() {
                     image={product.img1}
                     label={product.name}
                     sale={product.sale}
+                    brand={product.brand}
                     price={formatPrice(product.price)}
                     link={`/store/products/productdetail?id=${product.id}`}
                   />
