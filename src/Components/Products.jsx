@@ -104,7 +104,6 @@ function Products() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   const sortedProducts = [...(products ?? [])].sort((a, b) => {
     switch (sortBy) {
       case "priceLow":
@@ -115,6 +114,12 @@ function Products() {
 
       case "oldest":
         return new Date(a.createdAt ?? 0) - new Date(b.createdAt ?? 0);
+
+      case "mostViewed":
+        return Number(b.viewCount ?? 0) - Number(a.viewCount ?? 0);
+
+      case "bestSelling":
+        return Number(b.soldCount ?? 0) - Number(a.soldCount ?? 0);
 
       case "newest":
       default:
@@ -170,6 +175,25 @@ function Products() {
               dir="rtl"
               className="absolute left-0 top-full z-48 w-30 origin-top-left rounded-lg border border-fuchsia-300 bg-white font-myfont shadow-lg animate-in fade-in zoom-in-95 duration-200"
             >
+              <button
+                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
+                onClick={() => {
+                  setSortBy("mostViewed");
+                  setIsOpen(false);
+                }}
+              >
+                پربازدیدترین
+              </button>
+
+              <button
+                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
+                onClick={() => {
+                  setSortBy("bestSelling");
+                  setIsOpen(false);
+                }}
+              >
+                پرفروش‌ترین
+              </button>
               <button
                 className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
                 onClick={() => {

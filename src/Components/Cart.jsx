@@ -38,7 +38,7 @@ function Cart() {
       await dispatch(GetPayment(paymentdata)).unwrap();
 
       dispatch(clear());
-      navigate("/");
+      navigate(`/successpayment`);
     } catch (error) {
       console.log("خطا در ثبت سفارش:", error);
     }
