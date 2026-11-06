@@ -15,6 +15,7 @@ import Menu from "../Components/Menu";
 import Footer from "./Footer";
 import { add, decrement, increment } from "../Features/AddToCartSlice";
 import { loadFavorites, toggleFavorite } from "../Features/FavoriteSlice";
+
 function ProductDetail() {
   const [showDescription, setShowDescription] = useState(false);
   const [showUsage, setShowUsage] = useState(false);
@@ -43,6 +44,7 @@ function ProductDetail() {
       dispatch(loadFavorites(user.id));
     }
   }, [dispatch, account.isLoggedIn]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState(false);
 
@@ -68,7 +70,8 @@ function ProductDetail() {
     }
 
     let isActive = true;
-
+    // setIsLoading(true);
+    // setLoadError(false);
     dispatch(
       GetProductDetail({
         id: Id,
@@ -90,7 +93,7 @@ function ProductDetail() {
     return () => {
       isActive = false;
     };
-  }, [dispatch, Id, ProDetails]);
+  }, [dispatch, Id, userId, ProDetails]);
 
   const pdetail = ProDetails ?? {};
 
@@ -137,6 +140,7 @@ function ProductDetail() {
 
     dispatch(toggleFavorite(product));
   };
+
   const closeLoginPopup = () => {
     setShowLoginPopup(false);
     setLoginAction(null);
@@ -195,10 +199,10 @@ function ProductDetail() {
   const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
 
   const descriptionCardClass =
-    "rounded-2xl border-2 border-gray-300 bg-white p-5 shadow-sm transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md sm:p-6";
+    "rounded-2xl border border-purple-100 bg-white p-5 shadow-sm shadow-purple-100/40 transition-all duration-300 hover:-translate-y-1 hover:border-fuchsia-200 hover:shadow-lg hover:shadow-purple-100/60 sm:p-6";
 
   const toggleButtonClass =
-    "mt-3 flex w-full items-center justify-end gap-2 text-sm font-semibold text-fuchsia-800 transition-all duration-200 hover:gap-3 hover:text-fuchsia-950";
+    "mt-4 flex w-full items-center justify-end gap-2 text-sm font-bold text-fuchsia-800 transition-all duration-200 hover:gap-3 hover:text-purple-950";
 
   if (!Id) {
     return (
@@ -207,9 +211,14 @@ function ProductDetail() {
         <Menu />
         <main
           dir="rtl"
-          className="flex min-h-screen items-center justify-center bg-gray-100 font-myfont"
+          className="flex min-h-[60vh] flex-col items-center justify-center gap-4 bg-[#faf8fc] px-4 font-myfont"
         >
-          <p className="text-red-600">شناسه محصول معتبر نیست.</p>
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+            <i className="fa-solid fa-triangle-exclamation text-2xl" />
+          </div>
+          <p className="text-sm font-bold text-red-600">
+            شناسه محصول معتبر نیست.
+          </p>
         </main>
         <Footer />
       </>
@@ -223,13 +232,18 @@ function ProductDetail() {
         <Menu />
         <main
           dir="rtl"
-          className="flex min-h-screen items-center justify-center bg-gray-100"
+          className="flex min-h-[60vh] items-center justify-center bg-[#faf8fc]"
         >
-          <div
-            role="status"
-            aria-label="در حال بارگذاری محصول"
-            className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800"
-          />
+          <div className="flex flex-col items-center gap-4 rounded-3xl border border-purple-100 bg-white px-12 py-10 shadow-sm">
+            <div
+              role="status"
+              aria-label="در حال بارگذاری محصول"
+              className="size-11 animate-spin rounded-full border-4 border-purple-100 border-t-fuchsia-700"
+            />
+            <p className="text-sm font-medium text-gray-500">
+              در حال دریافت اطلاعات محصول...
+            </p>
+          </div>
         </main>
         <Footer />
       </>
@@ -243,14 +257,20 @@ function ProductDetail() {
         <Menu />
         <main
           dir="rtl"
-          className="flex min-h-screen flex-col items-center justify-center gap-4 bg-gray-100 font-myfont"
+          className="flex min-h-[60vh] flex-col items-center justify-center gap-5 bg-[#faf8fc] px-4 font-myfont"
         >
-          <p className="text-red-600">دریافت اطلاعات محصول با خطا مواجه شد.</p>
+          <div className="flex size-16 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+            <i className="fa-solid fa-triangle-exclamation text-2xl" />
+          </div>
+          <p className="text-center text-sm text-red-600">
+            دریافت اطلاعات محصول با خطا مواجه شد.
+          </p>
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="rounded-lg bg-fuchsia-700 px-5 py-2 text-white transition-colors duration-200 hover:bg-fuchsia-800"
+            className="rounded-xl bg-linear-to-l from-purple-900 to-fuchsia-800 px-6 py-3 text-sm font-bold text-white shadow-md shadow-purple-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-95"
           >
+            <i className="fa-solid fa-rotate-left ml-2" />
             تلاش مجدد
           </button>
         </main>
@@ -263,37 +283,48 @@ function ProductDetail() {
     <>
       <Header />
       <Menu />
-      <main dir="rtl" className="min-h-screen bg-gray-100 py-8 font-myfont">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+
+      <main
+        dir="rtl"
+        className="min-h-screen bg-[#faf8fc] py-6 font-myfont sm:py-9"
+      >
+        <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 lg:px-8">
+          {/* مسیر دسته‌بندی */}
+          <div className="mb-6 flex flex-wrap items-center gap-2 rounded-2xl border border-purple-100 bg-white px-4 py-3 text-xs text-gray-500 shadow-sm sm:text-sm">
             <span
-              className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-800"
+              className="cursor-pointer transition-colors hover:text-fuchsia-700"
               onClick={() => navigate("/")}
             >
               خانه
             </span>
-            <span>/</span>
+
+            <i className="fa-solid fa-chevron-left text-[10px] text-purple-300" />
+
             <span>محصولات</span>
 
             {categoryPath.map((category) => (
               <Fragment key={category.id}>
-                <span>/</span>
+                <i className="fa-solid fa-chevron-left text-[10px] text-purple-300" />
                 <span
                   onClick={() => navigate(`/products?catId=${category.id}`)}
-                  className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-800"
+                  className="cursor-pointer transition-colors hover:text-fuchsia-700"
                 >
                   {category.name}
                 </span>
               </Fragment>
             ))}
 
-            <span>/</span>
-            <span className="font-medium text-fuchsia-800">{pdetail.name}</span>
+            <i className="fa-solid fa-chevron-left text-[10px] text-purple-300" />
+
+            <span className="max-w-full truncate font-bold text-purple-800">
+              {pdetail.name}
+            </span>
           </div>
 
           {/* گالری و اطلاعات خرید */}
-          <section className="grid grid-cols-1 gap-8 rounded-2xl border border-fuchsia-200 bg-fuchsia-50 p-4 shadow-lg transition-shadow duration-300 hover:shadow-xl sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8">
-            <div className="min-w-0 overflow-hidden rounded-xl [&_img:first-of-type]:transition-transform [&_img:first-of-type]:duration-300 [&_img:first-of-type]:ease-out [&_img:first-of-type:hover]:scale-110">
+          <section className="grid grid-cols-1 gap-6 overflow-hidden rounded-3xl border border-purple-100 bg-white p-3 shadow-md shadow-purple-100/50 sm:gap-8 sm:p-5 lg:grid-cols-2 lg:gap-10 lg:p-7">
+            {/* گالری تصاویر */}
+            <div className="min-w-0 overflow-hidden rounded-2xl border border-purple-100 bg-linear-to-br from-purple-50 to-fuchsia-50 p-2 sm:p-4 [&_img:first-of-type]:transition-transform [&_img:first-of-type]:duration-500 [&_img:first-of-type]:ease-out [&_img:first-of-type:hover]:scale-105">
               <Gallery
                 images={[
                   pdetail.img1,
@@ -306,24 +337,34 @@ function ProductDetail() {
             </div>
 
             {/* اطلاعات محصول */}
-            <div className="flex min-w-0 flex-col font-myfont">
-              {/* نام محصول */}
-              <h1 className="text-xl font-bold leading-9 text-gray-900 transition-colors duration-200 sm:text-2xl">
-                {pdetail.name}
-              </h1>
-              {/* برند محصول */}
-              <p className="mt-2 text-normal font-medium text-gray-400">
-                {pdetail.brand}
-              </p>
-              {/* موجودی */}
-              <div className="mt-4">
+            <div className="flex min-w-0 flex-col px-1 py-2 sm:px-2 sm:py-3">
+              {/* نام و برند */}
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-lg bg-purple-50 px-3 py-1.5 text-[11px] font-bold text-purple-700">
+                  <i className="fa-solid fa-sparkles text-fuchsia-600" />
+                  مشخصات محصول
+                </span>
+
+                <h1 className="mt-4 text-lg font-black leading-9 text-purple-950 sm:text-2xl">
+                  {pdetail.name}
+                </h1>
+
+                <p className="mt-2 text-sm font-medium text-gray-400">
+                  {pdetail.brand}
+                </p>
+              </div>
+
+              {/* وضعیت موجودی */}
+              <div className="mt-5">
                 <span
-                  className={`inline-flex items-center gap-2 text-sm ${
-                    pdetail.quantity > 0 ? "text-emerald-600" : "text-red-500"
+                  className={`inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-bold ${
+                    pdetail.quantity > 0
+                      ? "bg-emerald-50 text-emerald-700"
+                      : "bg-red-50 text-red-600"
                   }`}
                 >
                   <span
-                    className={`h-2 w-2 rounded-full ${
+                    className={`size-2 rounded-full ${
                       pdetail.quantity > 0 ? "bg-emerald-500" : "bg-red-500"
                     }`}
                   />
@@ -331,142 +372,176 @@ function ProductDetail() {
                 </span>
               </div>
 
-              <div className="my-6 border-t border-gray-200" />
+              <div className="my-6 border-t border-dashed border-purple-200" />
 
-              {/* تخفیف */}
-              {pdetail.sale > 0 && (
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="text-sm text-gray-400 line-through">
-                    {formatPrice(pdetail.price)} تومان
+              {/* قیمت و تخفیف */}
+              <div className="rounded-2xl bg-linear-to-l from-purple-50 to-fuchsia-50 p-4 sm:p-5">
+                {pdetail.sale > 0 && (
+                  <div className="mb-3 flex flex-wrap items-center gap-3">
+                    <span className="text-sm font-medium text-gray-400 line-through">
+                      {formatPrice(pdetail.price)} تومان
+                    </span>
+
+                    <span className="rounded-lg bg-red-500 px-3 py-1 text-xs font-extrabold text-white shadow-sm">
+                      {formatPrice(pdetail.sale)}٪ تخفیف
+                    </span>
+                  </div>
+                )}
+
+                <p className="mb-2 text-xs font-medium text-gray-500">
+                  قیمت محصول
+                </p>
+
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <span className="text-2xl font-black text-purple-950 sm:text-3xl">
+                    {formatPrice(pdetail.price)}
                   </span>
-                  <span className="rounded-full bg-red-500 px-2 py-1  font-bold text-white">
-                    {formatPrice(pdetail.sale)}٪
+                  <span className="text-sm font-medium text-gray-500">
+                    تومان
                   </span>
                 </div>
-              )}
-
-              {/* قیمت */}
-              <div className="text-2xl font-extrabold text-fuchsia-900">
-                {formatPrice(pdetail.price)}
-                <span className="mr-2 text-sm font-normal text-gray-500">
-                  تومان
-                </span>
               </div>
 
               {/* خرید، علاقه‌مندی و اشتراک‌گذاری */}
-              <div className="mt-4 flex items-center gap-6">
-                <div className="min-w-0 flex-1">
-                  <div className="mb-3 flex items-center gap-3">
-                    <span className="text-sm font-medium text-gray-700">
-                      تعداد:
+              <div className="mt-6 flex flex-col gap-5">
+                {/* انتخاب تعداد */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="text-sm font-bold text-purple-950">
+                    تعداد:
+                  </span>
+
+                  <div className="inline-flex items-center overflow-hidden rounded-xl border border-purple-200 bg-white shadow-sm">
+                    <button
+                      type="button"
+                      disabled={quantity >= 5}
+                      onClick={() => {
+                        if (existingInCart) {
+                          dispatch(increment(Id));
+                        } else {
+                          setSelectedQuantity((q) => Math.min(q + 1, 5));
+                        }
+                      }}
+                      aria-label="افزایش تعداد"
+                      className="flex size-10 items-center justify-center text-lg font-bold text-purple-800 transition-all hover:bg-purple-50 hover:text-fuchsia-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      +
+                    </button>
+
+                    <span className="flex h-10 min-w-12 items-center justify-center border-x border-purple-100 px-3 text-sm font-extrabold text-purple-950">
+                      {quantity}
                     </span>
 
-                    <div className="inline-flex items-center overflow-hidden rounded-xl border border-gray-400 bg-white">
-                      <button
-                        type="button"
-                        disabled={quantity >= 5}
-                        onClick={() => {
-                          if (existingInCart) {
-                            dispatch(increment(Id));
-                          } else {
-                            setSelectedQuantity((q) => Math.min(q + 1, 5));
-                          }
-                        }}
-                        aria-label="افزایش تعداد"
-                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-fuchsia-50 hover:text-fuchsia-800 active:scale-95 disabled:opacity-40"
-                      >
-                        <span className="text-xl leading-none">+</span>
-                      </button>
-
-                      <span className="flex h-10 min-w-10 items-center justify-center border-x border-gray-400 px-2 text-sm font-semibold text-gray-800">
-                        {quantity}
-                      </span>
-
-                      <button
-                        type="button"
-                        disabled={quantity <= 1}
-                        onClick={() => {
-                          if (existingInCart) {
-                            dispatch(decrement(Id));
-                          } else {
-                            setSelectedQuantity((q) => Math.max(1, q - 1));
-                          }
-                        }}
-                        aria-label="کاهش تعداد"
-                        className="flex h-10 w-10 items-center justify-center text-gray-700 transition-all duration-200 hover:scale-105 hover:bg-fuchsia-50 hover:text-fuchsia-800 active:scale-95 disabled:opacity-40"
-                      >
-                        <span className="text-xl leading-none">−</span>
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      disabled={quantity <= 1}
+                      onClick={() => {
+                        if (existingInCart) {
+                          dispatch(decrement(Id));
+                        } else {
+                          setSelectedQuantity((q) => Math.max(1, q - 1));
+                        }
+                      }}
+                      aria-label="کاهش تعداد"
+                      className="flex size-10 items-center justify-center text-lg font-bold text-purple-800 transition-all hover:bg-purple-50 hover:text-fuchsia-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      −
+                    </button>
                   </div>
-
-                  {existingInCart ? (
-                    <Button
-                      onClick={() => navigate("/cart")}
-                      label="مشاهده سبد خرید"
-                    />
-                  ) : (
-                    <Button onClick={handleclick} label="افزودن به سبد خرید" />
-                  )}
                 </div>
 
-                <div className="flex shrink-0 items-center gap-2">
-                  <FavoriteButton
-                    isFavorite={isFavorite}
-                    onClick={handlefavorite}
-                  />
-                  <ShareButton productName={pdetail.name} />
+                {/* دکمه‌های خرید و علاقه‌مندی */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="min-w-0 flex-1">
+                    {existingInCart ? (
+                      <Button
+                        onClick={() => navigate("/cart")}
+                        label="مشاهده سبد خرید"
+                      />
+                    ) : (
+                      <Button
+                        onClick={handleclick}
+                        label="افزودن به سبد خرید"
+                      />
+                    )}
+                  </div>
+
+                  <div className="flex shrink-0 items-center gap-2">
+                    <FavoriteButton
+                      isFavorite={isFavorite}
+                      onClick={handlefavorite}
+                    />
+
+                    <ShareButton productName={pdetail.name} />
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
           {/* توضیحات محصول و روش استفاده */}
-          <section className="mt-8 space-y-5 font-myfont">
+          <section className="mt-7 space-y-4 sm:mt-9 sm:space-y-5">
+            {/* توضیحات */}
             <div className={descriptionCardClass}>
-              <h2 className="mb-3 text-lg font-bold text-gray-900">
-                توضیحات محصول
-              </h2>
+              <div className="flex items-center gap-3">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-purple-700">
+                  <i className="fa-solid fa-file-lines" />
+                </span>
 
-              <p
-                className={`text-sm leading-8 text-gray-600 ${
-                  showDescription ? "" : "line-clamp-2"
-                }`}
-              >
-                {pdetail.description}
-              </p>
+                <h2 className="text-base font-extrabold text-purple-950 sm:text-lg">
+                  توضیحات محصول
+                </h2>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => setShowDescription((prev) => !prev)}
-                className={toggleButtonClass}
-              >
-                {showDescription ? "مشاهده کمتر" : "ادامه توضیحات"}
-                <ArrowIcon isOpen={showDescription} />
-              </button>
+              <div className="mt-4 border-t border-purple-100 pt-4">
+                <p
+                  className={`text-sm leading-8 text-gray-600 ${
+                    showDescription ? "" : "line-clamp-2"
+                  }`}
+                >
+                  {pdetail.description}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setShowDescription((prev) => !prev)}
+                  className={toggleButtonClass}
+                >
+                  {showDescription ? "مشاهده کمتر" : "ادامه توضیحات"}
+                  <ArrowIcon isOpen={showDescription} />
+                </button>
+              </div>
             </div>
 
+            {/* روش استفاده */}
             <div className={descriptionCardClass}>
-              <h2 className="mb-3 text-lg font-bold text-gray-900">
-                روش استفاده
-              </h2>
+              <div className="flex items-center gap-3">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-fuchsia-100 text-fuchsia-700">
+                  <i className="fa-solid fa-wand-magic-sparkles" />
+                </span>
 
-              <p
-                className={`text-sm leading-8 text-gray-600 ${
-                  showUsage ? "" : "line-clamp-2"
-                }`}
-              >
-                {pdetail.usage}
-              </p>
+                <h2 className="text-base font-extrabold text-purple-950 sm:text-lg">
+                  روش استفاده
+                </h2>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => setShowUsage((prev) => !prev)}
-                className={toggleButtonClass}
-              >
-                {showUsage ? "مشاهده کمتر" : "ادامه توضیحات"}
-                <ArrowIcon isOpen={showUsage} />
-              </button>
+              <div className="mt-4 border-t border-purple-100 pt-4">
+                <p
+                  className={`text-sm leading-8 text-gray-600 ${
+                    showUsage ? "" : "line-clamp-2"
+                  }`}
+                >
+                  {pdetail.usage}
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setShowUsage((prev) => !prev)}
+                  className={toggleButtonClass}
+                >
+                  {showUsage ? "مشاهده کمتر" : "ادامه توضیحات"}
+                  <ArrowIcon isOpen={showUsage} />
+                </button>
+              </div>
             </div>
           </section>
         </div>
@@ -474,31 +549,35 @@ function ProductDetail() {
         {/* پنجره ورود */}
         {showLoginPopup && (
           <div
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 transition-opacity duration-200"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-purple-950/50 px-4 backdrop-blur-sm"
             onClick={closeLoginPopup}
           >
             <div
               dir="rtl"
-              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl transition-all duration-200 hover:shadow-2xl"
+              className="w-full max-w-sm rounded-3xl border border-purple-100 bg-white p-6 font-myfont shadow-2xl shadow-purple-950/20 sm:p-7"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="mb-4 text-center text-lg font-bold">
+              <div className="mx-auto mb-5 flex size-16 items-center justify-center rounded-2xl bg-linear-to-br from-purple-800 to-fuchsia-700 text-white shadow-lg shadow-purple-200">
+                <i className="fa-solid fa-user-lock text-2xl" />
+              </div>
+
+              <h3 className="text-center text-lg font-black text-purple-950">
                 ورود به حساب کاربری
               </h3>
 
-              <p className="mb-5 text-center text-sm">
+              <p className="mb-6 mt-3 text-center text-sm leading-7 text-gray-500">
                 برای استفاده از امکانات حساب کاربری، ابتدا وارد شوید.
               </p>
 
               <button
-                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white transition-all duration-200 hover:bg-fuchsia-800 active:scale-[0.98]"
+                className="w-full rounded-xl bg-linear-to-l from-purple-900 to-fuchsia-800 px-4 py-3.5 text-sm font-bold text-white shadow-md shadow-purple-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-[0.98]"
                 onClick={handlepopupclick}
               >
                 ورود به حساب کاربری
               </button>
 
               <button
-                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 transition-colors duration-200 hover:bg-fuchsia-100"
+                className="mt-3 w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm font-bold text-purple-800 transition-colors duration-200 hover:bg-purple-50"
                 onClick={closeLoginPopup}
               >
                 انصراف
@@ -510,28 +589,28 @@ function ProductDetail() {
         {/* پنجره افزودن به سبد خرید */}
         {showCartPopup && (
           <div
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 transition-opacity duration-200"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-purple-950/50 px-4 backdrop-blur-sm"
             onClick={() => setShowCartPopup(false)}
           >
             <div
               dir="rtl"
-              className="w-80 rounded-xl bg-white p-6 font-myfont shadow-xl transition-all duration-200 hover:shadow-2xl"
+              className="w-full max-w-sm rounded-3xl border border-purple-100 bg-white p-6 font-myfont shadow-2xl shadow-purple-950/20 sm:p-7"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="mb-3 text-center text-3xl text-green-600">
-                <i className="fa-solid fa-circle-check" />
+              <div className="mx-auto mb-5 flex size-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                <i className="fa-solid fa-circle-check text-3xl" />
               </div>
 
-              <h3 className="mb-3 text-center text-lg font-bold">
+              <h3 className="text-center text-lg font-black text-purple-950">
                 محصول به سبد خرید اضافه شد
               </h3>
 
-              <p className="mb-5 text-center text-sm text-gray-600">
+              <p className="mb-6 mt-3 text-center text-sm leading-7 text-gray-500">
                 {pdetail.name}
               </p>
 
               <button
-                className="w-full rounded-lg bg-fuchsia-700 px-4 py-3 text-white transition-all duration-200 hover:bg-fuchsia-800 active:scale-[0.98]"
+                className="w-full rounded-xl bg-linear-to-l from-purple-900 to-fuchsia-800 px-4 py-3.5 text-sm font-bold text-white shadow-md shadow-purple-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg active:scale-[0.98]"
                 onClick={() => {
                   setShowCartPopup(false);
                   navigate("/cart");
@@ -541,7 +620,7 @@ function ProductDetail() {
               </button>
 
               <button
-                className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 transition-colors duration-200 hover:bg-fuchsia-100"
+                className="mt-3 w-full rounded-xl border border-purple-200 bg-white px-4 py-3 text-sm font-bold text-purple-800 transition-colors duration-200 hover:bg-purple-50"
                 onClick={() => setShowCartPopup(false)}
               >
                 ادامه خرید
@@ -550,6 +629,7 @@ function ProductDetail() {
           </div>
         )}
       </main>
+
       <Footer />
     </>
   );

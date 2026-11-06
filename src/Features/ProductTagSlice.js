@@ -10,7 +10,6 @@ export const GetProductTag = createAsyncThunk(
           tag: tag
         },
       });
-      console.log("API trend:", response.data);
       return {
         tag,
         data: response.data,
@@ -39,7 +38,6 @@ const ProductTagSlice = createSlice({
       .addCase(GetProductTag.fulfilled, (state, action) => {
         state.statusbar = "succeeded";
         const { tag, data } = action.payload;
-          console.log("FULFILLED DATA trend:", data);
 
         state.productstags[tag] = data.productstags; // داده‌های آمده از سرور
       })

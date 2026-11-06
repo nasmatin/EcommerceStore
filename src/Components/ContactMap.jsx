@@ -18,11 +18,12 @@ const ContactMap = () => {
   const position = [35.6892, 51.389];
 
   return (
-    <div className="w-full h-96">
+    <div className="h-96 w-full overflow-hidden sm:h-112 lg:h-128">
       <MapContainer
         center={position}
-        zoom={13}
-        style={{ width: "100%", height: "100%" }}
+        zoom={16}
+        scrollWheelZoom={false}
+        className="h-full w-full"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

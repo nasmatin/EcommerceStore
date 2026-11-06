@@ -15,19 +15,13 @@ function CategoryItem({ item, rootItems }) {
 
   const children = item.id === 0 ? rootItems || [] : category[item.id] || [];
 
-  // آیا اطلاعات این دسته از قبل دریافت شده؟
   const isLoaded = item.id === 0 || category[item.id] !== undefined;
-
-  // فقط وقتی اطلاعات را داریم تصمیم می‌گیریم فلش باشد یا نه
   const hasChildren = isLoaded && children.length > 0;
 
   const handleMouseEnter = () => {
     clearTimeout(closeTimer.current);
-
     setOpen(true);
 
-    // این فقط حالت پشتیبان است.
-    // معمولاً اطلاعات قبلاً preload شده است.
     if (item.id !== 0 && category[item.id] === undefined) {
       dispatch(GetCategory(item.id));
     }
@@ -36,13 +30,15 @@ function CategoryItem({ item, rootItems }) {
   const handleMouseLeave = () => {
     closeTimer.current = setTimeout(() => {
       setOpen(false);
-    }, 150);
+    }, 180);
   };
+
   const handleclick = (catId) => {
     setOpen(false);
     if (!catId || products[catId] !== undefined) return;
     dispatch(GetProduct(catId));
   };
+
   useEffect(() => {
     return () => {
       clearTimeout(closeTimer.current);
@@ -51,58 +47,65 @@ function CategoryItem({ item, rootItems }) {
 
   return (
     <li
-      className="relative list-none "
+      className="relative list-none"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => handleclick(item.id)}
     >
       {/* عنوان دسته */}
-
       <div
         className="
-          flex
-          font-myfont
-          cursor-pointer
-          items-center
-          justify-between
-          gap-3
-          rounded-md
-          px-3
-          py-2
-          text-fuchsia-100
-          hover:bg-fuchsia-800
-          hover:text-fuchsia-300
+          group flex cursor-pointer items-center justify-between
+          gap-3 rounded-xl px-4 py-3
+          font-myfont text-base font-medium text-purple-100
+          transition-all duration-200
+          hover:bg-white/10 hover:text-white
         "
       >
-        {item.id === 0 ? (
-          <span>{item.name}</span>
-        ) : (
-          <Link to={`/products?catId=${item.id}`}>{item.name}</Link>
+        <div className="flex min-w-0 items-center gap-2.5">
+          {item.id === 0 && (
+            <i className="fa-solid fa-layer-group text-base text-fuchsia-300" />
+          )}
+
+          {item.id === 0 ? (
+            <span className="truncate">{item.name}</span>
+          ) : (
+            <Link to={`/products?catId=${item.id}`} className="truncate">
+              {item.name}
+            </Link>
+          )}
+        </div>
+
+        {hasChildren && (
+          <i
+            className="
+              fa-solid fa-angle-left shrink-0
+              text-base text-fuchsia-300
+              transition-transform duration-200 ease-out
+              group-hover:-translate-x-1
+            "
+          />
         )}
-
-        {/* فقط دسته دارای زیرمجموعه فلش دارد */}
-
-        {hasChildren && <i className="fa-solid fa-angle-left text-xs"></i>}
       </div>
 
-      {/* ================= زیرمنو ================= */}
-
+      {/* زیرمنو */}
       {open && hasChildren && (
         <div
           className={`
-            absolute
+            absolute z-50 min-w-60
             font-myfont
-            z-50
-            ${item.id === 0 ? "right-0 top-full" : "right-full top-0 "}
+            ${item.id === 0 ? "right-0 top-full pt-2" : "right-full top-0 pl-2"}
           `}
         >
           <ul
             className="
-              w-52
-              rounded-md
-              bg-fuchsia-800
+              overflow-visible rounded-2xl
+              border border-white/10
+              bg-linear-to-br from-purple-900 to-fuchsia-950
               p-2
-              shadow-lg
+              shadow-xl shadow-purple-950/30
+              ring-1 ring-white/10
+              animate-in fade-in duration-200
             "
           >
             {children.map((child) => (

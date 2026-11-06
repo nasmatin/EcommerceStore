@@ -142,7 +142,7 @@ function AddressForm() {
                   <DROPDOWN
                     name="provinceId"
                     options={provinces.map((province) => ({
-                      value: province.id,
+                      value: String(province.id),
                       label: province.name,
                     }))}
                     value={form.provinceId}
@@ -160,7 +160,7 @@ function AddressForm() {
                   <DROPDOWN
                     name="cityId"
                     options={cityOptions.map((city) => ({
-                      value: city.id,
+                      value: String(city.id),
                       label: city.name,
                     }))}
                     value={form.cityId}

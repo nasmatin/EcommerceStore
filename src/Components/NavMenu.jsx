@@ -18,8 +18,8 @@ import Orders from "../Components/Orders";
 import OrderDetail from "../Components/OrderDetail";
 import ProtectedRoute from "./ProtectedRoute";
 import Blog from "./Blog";
-import Success from "./SuccessPayment";
-import Welcome from "./Welcome";
+import Success from "../Components/SuccessPayment";
+import Welcome from "../Components/Welcome";
 function NavMenu() {
   return (
     <Routes>
@@ -44,9 +44,8 @@ function NavMenu() {
       <Route path="*" element={<NotFound />} />
       <Route path="/tags" element={<Products />} />
       <Route path="/blog" element={<Blog />} />
-            <Route path="/successpayment" element={<Success />} />
-            <Route path="/welcome" element={<Welcome />} />
-
+      <Route path="/successpayment" element={<Success />} />
+      <Route path="/welcome" element={<Welcome />} />
     </Routes>
   );
 }

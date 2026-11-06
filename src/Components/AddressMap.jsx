@@ -46,7 +46,7 @@ function AddressMap({ onLocationChange, latitude, longitude }) {
     <div className="relative h-full w-full">
       <MapContainer
         center={initialCenter}
-        zoom={15}
+        zoom={16}
         style={{ width: "100%", height: "100%", zIndex: 0 }}
       >
         <TileLayer

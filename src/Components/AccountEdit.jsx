@@ -21,8 +21,6 @@ function AccountEdit() {
     username: account.username || "",
   });
 
-  dispatch(updateUserInfo(formdata));
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -49,7 +47,7 @@ function AccountEdit() {
     );
 
     if (PutAccountEdit.fulfilled.match(result)) {
-      dispatch(updateUserInfo(formdata)); // اینجا
+      dispatch(updateUserInfo(formdata));
       navigate("/account", { replace: true });
     }
   };
@@ -59,86 +57,169 @@ function AccountEdit() {
       <Header />
       <Menu />
 
-      <div
+      <main
         dir="rtl"
-        className="font-myfont flex justify-center bg-fuchsia-100 px-4 py-8"
+        className="
+          min-h-[65vh] bg-[#faf8fc]
+          px-4 py-10 font-myfont sm:py-14
+        "
       >
-        <form
-          onSubmit={handleSubmit}
-          className="w-full rounded-2xl p-5 transition-shadow duration-300 hover:shadow-lg sm:p-8"
-        >
-          {/* عنوان */}
-          <div className="mb-8 border-b border-gray-400 pb-5">
-            <h2 className="text-xl font-bold text-gray-800 transition-colors duration-300 hover:text-fuchsia-800">
+        <div className="mx-auto max-w-4xl">
+          {/* عنوان صفحه */}
+          <div className="mb-8 text-center">
+            <div
+              className="
+                mx-auto mb-4 flex size-16 items-center
+                justify-center rounded-2xl
+                bg-linear-to-br from-purple-900 to-fuchsia-700
+                text-2xl text-white
+                shadow-lg shadow-purple-200
+              "
+            >
+              <i className="fa-solid fa-user-pen" />
+            </div>
+
+            <h1 className="text-2xl font-extrabold text-purple-950 sm:text-3xl">
               ویرایش حساب کاربری
-            </h2>
+            </h1>
+
+            <p className="mt-3 text-sm text-gray-500">
+              اطلاعات حساب کاربری خود را ویرایش کن
+            </p>
+
+            <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-linear-to-l from-purple-800 to-fuchsia-600" />
           </div>
 
-          {/* اطلاعات کاربر */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-            <div className="flex flex-wrap items-center gap-3">
-              <label className="whitespace-nowrap font-bold text-black">
-                نام:
-              </label>
-              <Input
-                type="text"
-                name="name"
-                value={formdata.name}
-                placeholder="نام "
-                onChange={handleChange}
-              />
+          {/* فرم ویرایش */}
+          <form
+            onSubmit={handleSubmit}
+            className="
+              overflow-hidden rounded-3xl
+              border border-purple-100
+              bg-white shadow-lg shadow-purple-100/60
+            "
+          >
+            <div
+              className="
+                flex items-center gap-3
+                border-b border-purple-100
+                bg-purple-50/60 px-5 py-5 sm:px-8
+              "
+            >
+              <div className="flex size-11 items-center justify-center rounded-xl bg-white text-lg text-purple-800 shadow-sm">
+                <i className="fa-solid fa-id-card" />
+              </div>
+
+              <div>
+                <h2 className="font-extrabold text-purple-950">مشخصات شخصی</h2>
+                <p className="mt-1 text-xs text-gray-500">
+                  اطلاعات موردنظر را تغییر بده
+                </p>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <label className="whitespace-nowrap font-bold text-black">
-                نام خانوادگی:
-              </label>
-              <Input
-                type="text"
-                name="familyname"
-                value={formdata.familyname}
-                placeholder="نام خانوادگی"
-                onChange={handleChange}
-              />
+            <div className="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 sm:gap-6 sm:p-8">
+              {/* نام */}
+              <div className="min-w-0">
+                <label className="mb-2 block text-sm font-bold text-purple-950">
+                  نام
+                </label>
+
+                <Input
+                  type="text"
+                  name="name"
+                  value={formdata.name}
+                  placeholder="نام خود را وارد کن"
+                  onChange={handleChange}
+                  className="my-0"
+                />
+              </div>
+
+              {/* نام خانوادگی */}
+              <div className="min-w-0">
+                <label className="mb-2 block text-sm font-bold text-purple-950">
+                  نام خانوادگی
+                </label>
+
+                <Input
+                  type="text"
+                  name="familyname"
+                  value={formdata.familyname}
+                  placeholder="نام خانوادگی خود را وارد کن"
+                  onChange={handleChange}
+                  className="my-0"
+                />
+              </div>
+
+              {/* نام کاربری */}
+              <div className="min-w-0">
+                <label className="mb-2 block text-sm font-bold text-purple-950">
+                  نام کاربری
+                </label>
+
+                <Input
+                  type="text"
+                  name="username"
+                  value={formdata.username}
+                  readOnly
+                  placeholder="نام کاربری"
+                  className="my-0 cursor-not-allowed bg-purple-50 text-gray-400"
+                />
+
+                <p className="mt-2 text-xs text-gray-400">
+                  نام کاربری قابل تغییر نیست.
+                </p>
+              </div>
+
+              {/* موبایل */}
+              <div className="min-w-0">
+                <label className="mb-2 block text-sm font-bold text-purple-950">
+                  شماره موبایل
+                </label>
+
+                <Input
+                  type="number"
+                  name="mobile"
+                  value={formdata.mobile}
+                  placeholder="شماره موبایل خود را وارد کن"
+                  onChange={handleChange}
+                  className="my-0"
+                />
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <label className="whitespace-nowrap font-bold text-black">
-                نام کاربری:
-              </label>
-              <Input
-                type="text"
-                name="username"
-                placeholder="نام کاربری"
-                value={formdata.username}
-                readOnly
-                className="cursor-not-allowed bg-gray-100 text-gray-400"
-                onChange={handleChange}
-              />
-            </div>
+            {/* دکمه ثبت */}
 
-            <div className="flex flex-wrap items-center gap-3">
-              <label className="whitespace-nowrap font-bold text-black">
-                شماره موبایل:
-              </label>
-              <Input
-                type="number"
-                name="mobile"
-                value={formdata.mobile}
-                placeholder="شماره موبایل"
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+            <div
+              className="
+  grid grid-cols-1 gap-3
+  border-t border-purple-100
+  bg-purple-50/40 p-5
+  sm:grid-cols-2 sm:justify-end sm:px-8
+"
+            >
+              <button
+                type="button"
+                onClick={() => navigate("/account")}
+                className="
+      flex min-h-12 w-full items-center justify-center
+      rounded-xl border border-purple-200
+      bg-white px-6 py-3
+      text-sm font-bold text-purple-800
+      transition-all duration-300
+      hover:border-fuchsia-300 hover:bg-purple-50
+    "
+              >
+                انصراف
+              </button>
 
-          {/* ثبت تغییرات */}
-          <div className="mt-8 flex justify-center">
-            <div className="transition-transform duration-300 hover:scale-[1.03] active:scale-95">
-              <Button label="ثبت تغییرات"></Button>
+              <div className="w-full">
+                <Button label="ثبت تغییرات" />
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </main>
 
       <Footer />
     </>

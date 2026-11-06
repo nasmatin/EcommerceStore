@@ -3,41 +3,85 @@ import icon from "../assets/—Pngtree—shop logo vector template design_414647
 
 function Category() {
   return (
-    <div
+    <section
       dir="rtl"
       className="
-        flex
-        flex-wrap
-        justify-center
-        gap-6 sm:gap-10 md:gap-16 lg:gap-28
-        m-5 sm:m-10 md:m-20
+        relative overflow-hidden
+        px-4 py-12 sm:py-16 lg:py-20
         font-myfont
       "
     >
-      <CategoryCard
-        image={icon}
-        link="/store/products?catId=2003"
-        label="مراقبت پوست"
+      {/* Background Decoration */}
+
+      <div
+        className="
+        absolute top-10 right-0
+        size-40 rounded-full
+        bg-fuchsia-100/50 blur-3xl
+        pointer-events-none
+      "
       />
 
-      <CategoryCard
-        image={icon}
-        link="/store/products?catId=2004"
-        label="مراقبت مو"
-      />
+      <div className="relative z-10 mx-auto max-w-6xl">
+        {/* Section Title */}
 
-      <CategoryCard
-        image={icon}
-        link="/store/products?catId=2005"
-        label="آرایشی"
-      />
+        <div className="mb-12 text-center">
+          <h2
+            className="
+            mt-2 text-2xl sm:text-3xl
+            font-extrabold text-gray-800
+          "
+          >
+            دسته‌بندی محصولات
+          </h2>
 
-      <CategoryCard
-        image={icon}
-        link="/store/products?catId=2006"
-        label="بهداشتی"
-      />
-    </div>
+          <div
+            className="
+            mx-auto mt-4 h-1 w-16
+            rounded-full bg-linear-to-l
+            from-fuchsia-700 to-purple-400
+          "
+          />
+        </div>
+
+        {/* Categories */}
+
+        <div
+          className="
+          grid grid-cols-2
+          gap-x-4 gap-y-10
+          sm:grid-cols-4
+          sm:gap-8
+          lg:gap-14
+          justify-items-center
+        "
+        >
+          <CategoryCard
+            image={icon}
+            link="/store/products?catId=2014"
+            label="مراقبت پوست"
+          />
+
+          <CategoryCard
+            image={icon}
+            link="/store/products?catId=2015"
+            label="مراقبت مو"
+          />
+
+          <CategoryCard
+            image={icon}
+            link="/store/products?catId=2017"
+            label="آرایشی"
+          />
+
+          <CategoryCard
+            image={icon}
+            link="/store/products?catId=2016"
+            label="بهداشتی"
+          />
+        </div>
+      </div>
+    </section>
   );
 }
 

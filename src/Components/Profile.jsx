@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router";
 import { logout } from "../Features/LoginSlice";
 import { clearCurrentCart } from "../Features/AddToCartSlice";
 
+
 function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,18 +38,49 @@ function Profile() {
 
   const totalCount = useSelector((state) => state.cart.totalCount);
 
+  const menuItems = [
+    {
+      to: "/favorite",
+      label: "علاقه‌مندی‌ها",
+      icon: "fa-heart",
+    },
+    {
+      to: "/orders",
+      label: "سفارش‌های من",
+      icon: "fa-box-open",
+    },
+    {
+      to: "/address",
+      label: "آدرس‌های من",
+      icon: "fa-location-dot",
+    },
+    {
+      to: "/support",
+      label: "پشتیبانی",
+      icon: "fa-headset",
+    },
+  ];
+
   return (
-    <div dir="ltr" className="flex items-center gap-4 sm:gap-5 shrink-0">
+    <div dir="ltr" className="flex shrink-0 items-center gap-4 sm:gap-5">
+      {/* سبد خرید */}
       {account.isLoggedIn ? (
         <Link
           to="/cart"
-          className="flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110"
+          aria-label="سبد خرید"
+          className="
+            group flex h-10 w-10 items-center justify-center
+            rounded-xl text-fuchsia-800
+            transition-all duration-200
+            hover:bg-fuchsia-50 hover:text-fuchsia-600
+            sm:h-11 sm:w-11
+          "
         >
           <span className="relative inline-flex">
-            <i className="fa-solid fa-cart-shopping text-fuchsia-700 text-xl sm:text-2xl"></i>
+            <i className="fa-solid fa-cart-shopping text-xl transition-transform duration-200 group-hover:scale-110 sm:text-2xl"></i>
 
             {totalCount > 0 && (
-              <span className="absolute -bottom-1 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-pink-600 px-1 text-xs font-bold text-white">
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-white bg-fuchsia-600 px-1 text-[10px] font-bold text-white">
                 {totalCount.toLocaleString("fa-IR")}
               </span>
             )}
@@ -57,26 +89,42 @@ function Profile() {
       ) : (
         <button
           onClick={() => setShowLoginPopup(true)}
-          className="flex items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110"
+          aria-label="سبد خرید"
+          className="
+            group flex h-10 w-10 cursor-pointer items-center justify-center
+            rounded-xl text-fuchsia-800
+            transition-all duration-200
+            hover:bg-fuchsia-50 hover:text-fuchsia-600
+            sm:h-11 sm:w-11
+          "
         >
           <span className="relative inline-flex">
-            <i className="fa-solid fa-cart-shopping text-fuchsia-700 text-xl sm:text-2xl"></i>
+            <i className="fa-solid fa-cart-shopping text-xl transition-transform duration-200 group-hover:scale-110 sm:text-2xl"></i>
 
             {totalCount > 0 && (
-              <span className="absolute -bottom-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-bold text-white">
-                {totalCount}
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-white bg-fuchsia-600 px-1 text-[10px] font-bold text-white">
+                {totalCount.toLocaleString("fa-IR")}
               </span>
             )}
           </span>
         </button>
       )}
 
+      {/* پروفایل کاربر */}
       <div className="relative flex items-center justify-center">
         <button
           onClick={handleclickUser}
-          className="p-2 cursor-pointer transition-transform duration-200 hover:scale-110"
+          aria-label="حساب کاربری"
+          aria-expanded={isOpen}
+          className="
+            flex h-10 w-10 cursor-pointer items-center justify-center
+            rounded-xl text-fuchsia-800
+            transition-all duration-200
+            hover:bg-fuchsia-50 hover:text-fuchsia-600
+            sm:h-11 sm:w-11
+          "
         >
-          <i className="fa-solid fa-user-pen text-fuchsia-700 text-xl sm:text-2xl"></i>
+          <i className="fa-solid fa-user-pen text-xl sm:text-2xl"></i>
         </button>
 
         {/* آیتم‌های منو */}
@@ -84,106 +132,162 @@ function Profile() {
           <div
             ref={sortMenuRef}
             dir="rtl"
-            className="absolute top-full mt-2
-                        font-myfont w-66 rounded-lg bg-white shadow-lg
-                        border border-fuchsia-200 z-50
-                        animate-in fade-in slide-in-from-top-1 duration-200"
+            className="
+              absolute left-0 top-full z-50 mt-3
+              w-64 max-w-[calc(100vw-24px)]
+              overflow-hidden rounded-2xl
+              border border-purple-100 bg-white
+              font-myfont shadow-xl shadow-purple-200/40
+              animate-in fade-in slide-in-from-top-2 duration-200
+            "
           >
+            {/* اطلاعات کاربر */}
             <Link
               to="/account"
-              className="flex items-center w-full text-lg font-bold border-b text-fuchsia-800 px-4 py-3 hover:bg-fuchsia-200 transition-colors duration-200"
               onClick={() => setIsOpen(false)}
+              className="
+                flex items-center gap-3
+                bg-linear-to-l from-purple-900 to-fuchsia-800
+                px-4 py-4 text-white
+                transition-all duration-200
+                hover:from-purple-800 hover:to-fuchsia-700
+              "
             >
-              {account.name} {account.familyname}
-              <i className="mr-auto fa-solid fa-caret-left"></i>
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 text-xl">
+                <i className="fa-solid fa-user"></i>
+              </span>
+
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-bold">
+                  {account.name} {account.familyname}
+                </span>
+                <span className="mt-1 block text-xs text-purple-100">
+                  حساب کاربری من
+                </span>
+              </span>
+
+              <i className="fa-solid fa-chevron-left text-xs text-purple-100"></i>
             </Link>
 
-            <Link
-              to="/favorite"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
-              onClick={() => setIsOpen(false)}
-            >
-              علاقه مندی ها
-            </Link>
+            {/* لینک‌های حساب */}
+            <div className="p-2">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setIsOpen(false)}
+                  className="
+                    flex items-center gap-3 rounded-xl
+                    px-3 py-3 text-sm font-semibold text-purple-900
+                    transition-all duration-200
+                    hover:bg-fuchsia-50 hover:text-fuchsia-700
+                  "
+                >
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-50 text-fuchsia-700">
+                    <i className={`fa-solid ${item.icon}`}></i>
+                  </span>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
 
-            <Link
-              to="/orders"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
-              onClick={() => setIsOpen(false)}
-            >
-              سفارش ها
-            </Link>
+            <div className="mx-3 border-t border-purple-100"></div>
 
-            <Link
-              to="/address"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
-              onClick={() => setIsOpen(false)}
-            >
-              آدرس{" "}
-            </Link>
-
-            <Link
-              to="/support"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
-              onClick={() => setIsOpen(false)}
-            >
-              پشتیبانی{" "}
-            </Link>
-
-            <Link
-              to="/"
-              className="block px-4 py-3 text-fuchsia-700 font-semibold hover:bg-fuchsia-200 transition-colors duration-200"
+            {/* خروج */}
+            <button
               onClick={() => {
                 dispatch(clearCurrentCart());
                 dispatch(logout());
                 setIsOpen(false);
                 navigate("/", { replace: true });
               }}
+              className="
+                flex w-full cursor-pointer items-center gap-3
+                px-5 py-4 text-sm font-bold text-red-500
+                transition-colors duration-200
+                hover:bg-red-50
+              "
             >
-              خروج{" "}
-            </Link>
+              <i className="fa-solid fa-right-from-bracket"></i>
+              خروج از حساب کاربری
+            </button>
           </div>
         )}
       </div>
 
+      {/* پنجره ورود */}
       {showLoginPopup && (
         <div
-          className="fixed inset-0 z-100 flex items-center justify-center bg-black/40"
+          className="
+  fixed inset-0 z-index: 9999;
+  flex items-center justify-center
+  bg-purple-950/40 p-4 backdrop-blur-sm
+  animate-in fade-in duration-200
+"
           onClick={() => setShowLoginPopup(false)}
         >
           <div
             dir="rtl"
-            className="w-80 rounded-xl bg-white p-6 shadow-xl font-myfont animate-in fade-in zoom-in-95 duration-200"
+            className="
+              w-full max-w-sm overflow-hidden rounded-3xl
+              border border-purple-100 bg-white
+              font-myfont shadow-2xl shadow-purple-950/20
+              animate-in fade-in zoom-in-95 duration-200
+            "
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="mb-4 text-center text-lg font-bold">
-              ورود به حساب کاربری
-            </h3>
+            <div className="relative overflow-hidden bg-linear-to-l from-purple-900 to-fuchsia-800 px-6 py-7 text-center text-white">
+              <div className="absolute -left-8 -top-10 h-28 w-28 rounded-full bg-white/10 blur-xl"></div>
 
-            <p className="mb-5 text-center text-sm">
-              برای استفاده از امکانات حساب کاربری، ابتدا وارد شوید.
-            </p>
+              <div className="relative mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/15 text-2xl">
+                <i className="fa-solid fa-user-lock"></i>
+              </div>
 
-            <button
-              className="w-full rounded-lg bg-fuchsia-800 px-4 py-3 text-white hover:bg-fuchsia-700 transition-colors duration-200"
-              onClick={() => {
-                setShowLoginPopup(false);
-                navigate("/login", {
-                  state: {
-                    from: location.pathname + location.search,
-                  },
-                });
-              }}
-            >
-              ورود به حساب کاربری
-            </button>
+              <h3 className="relative text-lg font-bold">
+                ورود به حساب کاربری
+              </h3>
 
-            <button
-              className="mt-3 w-full rounded-lg border border-fuchsia-300 px-4 py-2 hover:bg-fuchsia-100 transition-colors duration-200"
-              onClick={() => setShowLoginPopup(false)}
-            >
-              انصراف
-            </button>
+              <p className="relative mt-2 text-xs text-purple-100">
+                برای دسترسی به امکانات فروشگاه وارد حساب خود شوید.
+              </p>
+            </div>
+
+            <div className="p-6">
+              <button
+                className="
+                  w-full cursor-pointer rounded-xl
+                  bg-linear-to-l from-purple-900 to-fuchsia-800
+                  px-4 py-3.5 text-sm font-bold text-white
+                  shadow-md shadow-purple-200/60
+                  transition-all duration-200
+                  hover:-translate-y-0.5 hover:shadow-lg
+                  active:scale-95
+                "
+                onClick={() => {
+                  setShowLoginPopup(false);
+                  navigate("/login", {
+                    state: {
+                      from: location.pathname + location.search,
+                    },
+                  });
+                }}
+              >
+                ورود به حساب کاربری
+              </button>
+
+              <button
+                className="
+                  mt-3 w-full cursor-pointer rounded-xl
+                  border border-purple-200 bg-white
+                  px-4 py-3 text-sm font-semibold text-purple-800
+                  transition-all duration-200
+                  hover:border-fuchsia-300 hover:bg-fuchsia-50
+                "
+                onClick={() => setShowLoginPopup(false)}
+              >
+                انصراف
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -131,54 +131,48 @@ function Menu() {
       <nav
         dir="rtl"
         className="
-          hidden
-          md:flex
-          w-full
-          items-center
-          gap-10
-          bg-fuchsia-800
-          px-10
-          py-3
+          hidden md:flex
+          w-full items-center gap-10
+          bg-linear-to-l from-fuchsia-900 via-fuchsia-800 to-purple-900
+          px-6 lg:px-10 py-3
           text-white
-          shadow-sm
-          font-myfont
-          font-bold
+          shadow-[0_5px_20px_rgba(112,26,117,0.18)]
+          font-myfont font-bold
         "
       >
-        <CategoryItem
-          item={{
-            id: 0,
-            name: "محصولات",
-          }}
-          rootItems={categories}
-        />
+        <div className="group relative">
+          <CategoryItem
+            item={{
+              id: 0,
+              name: "محصولات",
+            }}
+            rootItems={categories}
+          />
+        </div>
 
-        <Link
-          to="/aboutus"
-          className="transition-colors duration-200 hover:text-fuchsia-200"
-        >
-          درباره ما
-        </Link>
-
-        <Link
-          to="/contactus"
-          className="transition-colors duration-200 hover:text-fuchsia-200"
-        >
-          تماس ما
-        </Link>
-
-        <Link
-          to="/support"
-          className="transition-colors duration-200 hover:text-fuchsia-200"
-        >
-          پشتیبانی
-        </Link>
+        {[
+          { to: "/aboutus", label: "درباره ما" },
+          { to: "/contactus", label: "تماس ما" },
+          { to: "/support", label: "پشتیبانی" },
+          { to: "/blog", label: "وبلاگ" },
+        ].map((item) => (
           <Link
-          to="/blog"
-          className="transition-colors duration-200 hover:text-fuchsia-200"
-        >
-          وبلاگ
-        </Link>
+            key={item.to}
+            to={item.to}
+            className="
+              relative py-2
+              text-white/90 hover:text-white
+              transition-colors duration-300
+              after:absolute after:right-0 after:bottom-0
+             after:h-0.5 after:w-0
+              after:bg-fuchsia-200
+              after:transition-all after:duration-300
+              hover:after:w-full
+            "
+          >
+            {item.label}
+          </Link>
+        ))}
       </nav>
 
       {/* ================= MOBILE BUTTON ================= */}
@@ -186,28 +180,29 @@ function Menu() {
       <div
         dir="rtl"
         className="
-          md:hidden
-          w-full
-          bg-fuchsia-800
-          px-4
-          py-3
-          text-white
-          font-myfont
+          md:hidden w-full
+          bg-linear-to-l from-fuchsia-900 to-purple-900
+          px-4 py-3
+          text-white font-myfont
+          shadow-md
         "
       >
         <button
           type="button"
           onClick={() => setMobileMenuOpen(true)}
+          aria-expanded={mobileMenuOpen}
+          aria-label="باز کردن منو"
           className="
-            flex
-            items-center
-            gap-2
-            text-lg
-          font-myfont transition-colors duration-200 hover:text-fuchsia-200"
+            flex items-center gap-3
+            rounded-xl px-4 py-2
+            bg-white/10 border border-white/10
+            transition-all duration-300
+            hover:bg-white/20
+            active:scale-95
+          "
         >
-          <i className="fa-solid fa-bars"></i>
-
-          <span>منو</span>
+          <i className="fa-solid fa-bars text-lg"></i>
+          <span className="font-bold">منو</span>
         </button>
       </div>
 
@@ -216,12 +211,10 @@ function Menu() {
       {mobileMenuOpen && (
         <div
           className="
-            fixed
-            inset-0
-            z-40
-            bg-black/40
+            fixed inset-0 z-40
+            bg-black/50 backdrop-blur-sm
             md:hidden
-          font-myfont"
+          "
           onClick={closeMobileMenu}
         ></div>
       )}
@@ -230,21 +223,14 @@ function Menu() {
 
       <div
         dir="rtl"
+        aria-hidden={!mobileMenuOpen}
         className={`
-          fixed
-          right-0
-          top-0
-          z-50
-          h-full
-          w-80
-          max-w-[85%]
-          bg-fuchsia-800
-          text-white
-          shadow-2xl
-          transition-transform
-          duration-300
+          fixed right-0 top-0 z-50
+          h-full w-80 max-w-[85%]
+          bg-linear-to-b from-fuchsia-900 via-fuchsia-800 to-purple-950
+          text-white shadow-2xl
+          transition-transform duration-300 ease-out
           md:hidden
-
           ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}
         `}
       >
@@ -252,41 +238,57 @@ function Menu() {
 
         <div
           className="
-            flex
+            flex items-center justify-between
+            border-b border-white/15
+            bg-white/5 backdrop-blur-md
+            px-4 py-5
             font-myfont
-            items-center
-            justify-between
-            border-b
-            border-fuchsia-700
-            px-4
-            py-4
-          transition-transform
-duration-300"
+          "
         >
           {/* بستن */}
 
-          <button type="button" onClick={closeMobileMenu} className="text-xl">
-            <i className="fa-solid fa-xmark"></i>
+          <button
+            type="button"
+            onClick={closeMobileMenu}
+            aria-label="بستن منو"
+            className="
+              flex h-9 w-9 items-center justify-center
+              rounded-full bg-white/10
+              transition-all duration-300
+              hover:bg-white/20 hover:rotate-90
+            "
+          >
+            <i className="fa-solid fa-xmark text-lg"></i>
           </button>
 
           {/* عنوان */}
 
-          <div className="font-myfont font-bold">{currentTitle}</div>
+          <div className="font-myfont font-bold text-lg">{currentTitle}</div>
 
           {/* برگشت */}
 
           {menuStack.length > 1 ? (
-            <button type="button" onClick={goBack} className="text-xl">
+            <button
+              type="button"
+              onClick={goBack}
+              aria-label="بازگشت"
+              className="
+                flex h-9 w-9 items-center justify-center
+                rounded-full bg-white/10
+                transition-all duration-300
+                hover:bg-white/20
+              "
+            >
               <i className="fa-solid fa-arrow-right"></i>
             </button>
           ) : (
-            <div className="w-5"></div>
+            <div className="w-9"></div>
           )}
         </div>
 
         {/* DRAWER CONTENT */}
 
-        <div className="font-myfont p-3">
+        <div className="font-myfont p-4">
           {/* ================= MAIN MENU ================= */}
 
           {currentParentId === null && (
@@ -295,75 +297,39 @@ duration-300"
                 type="button"
                 onClick={openProducts}
                 className="
-                  flex
-                  w-full
-                  items-center
-                  justify-between
-                  rounded-md
-                  px-3
-                  py-3
-                  hover:bg-fuchsia-700
-               font-myfont "
+                  flex w-full items-center justify-between
+                  rounded-xl px-4 py-3
+                  bg-white/10 border border-white/10
+                  hover:bg-white/20
+                  transition-all duration-300
+                  font-myfont
+                "
               >
                 <span>محصولات</span>
-
                 <i className="fa-solid fa-angle-left text-sm"></i>
               </button>
 
-              <Link
-                to="/about"
-                onClick={closeMobileMenu}
-                className="
-                  block
-                  rounded-md
-                  px-3
-                  py-3
-                  hover:bg-fuchsia-700
-                "
-              >
-                درباره ما
-              </Link>
-
-              <Link
-                to="/contactus"
-                onClick={closeMobileMenu}
-                className="
-                  block
-                  rounded-md
-                  px-3
-                  py-3
-                  hover:bg-fuchsia-700
-                "
-              >
-                تماس ما
-              </Link>
-
-              <Link
-                to="/support"
-                onClick={closeMobileMenu}
-                className="
-                  block
-                  rounded-md
-                  px-3
-                  py-3
-                  hover:bg-fuchsia-700
-                "
-              >
-                پشتیبانی
-              </Link>
-              <Link
-                to="/blog"
-                onClick={closeMobileMenu}
-                className="
-                  block
-                  rounded-md
-                  px-3
-                  py-3
-                  hover:bg-fuchsia-700
-                "
-              >
-                وبلاگ
-              </Link>
+              {[
+                { to: "/about", label: "درباره ما" },
+                { to: "/contactus", label: "تماس ما" },
+                { to: "/support", label: "پشتیبانی" },
+                { to: "/blog", label: "وبلاگ" },
+              ].map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={closeMobileMenu}
+                  className="
+                    flex items-center
+                    rounded-xl px-4 py-3 mt-2
+                    text-white/90
+                    hover:bg-white/10 hover:text-white
+                    transition-all duration-300
+                  "
+                >
+                  {item.label}
+                </Link>
+              ))}
             </>
           )}
 
@@ -379,7 +345,14 @@ duration-300"
                   return (
                     <div
                       key={item.id}
-                      className="flex w-full items-center justify-between rounded-md px-3 py-3 hover:bg-fuchsia-700"
+                      className="
+                        flex w-full items-center justify-between
+                        rounded-xl px-4 py-3 mb-2
+                        border border-white/10
+                        bg-white/5
+                        hover:bg-white/15
+                        transition-all duration-300
+                      "
                     >
                       <Link
                         to={`/products?catId=${item.id}`}
@@ -393,8 +366,14 @@ duration-300"
                         <button
                           type="button"
                           onClick={() => openCategory(item)}
-                          className="mr-3"
                           aria-label={`نمایش زیرمجموعه‌های ${item.name}`}
+                          className="
+                            mr-3 flex h-8 w-8
+                            items-center justify-center
+                            rounded-full bg-white/10
+                            hover:bg-white/20
+                            transition-all duration-300
+                          "
                         >
                           <i className="fa-solid fa-angle-left text-sm"></i>
                         </button>

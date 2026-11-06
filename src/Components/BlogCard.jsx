@@ -4,32 +4,91 @@ function BlogCard({ title, image, link }) {
   return (
     <Link
       to={link}
-className="relative block w-full h-28 md:h-48 rounded-lg group overflow-visible font-myfont" >
+      className="
+        relative block w-full
+        h-64 sm:h-72 md:h-80
+        rounded-2xl
+        overflow-hidden
+        group
+        font-myfont
+        border border-purple-200/70
+        bg-white
+        shadow-[0_5px_20px_rgba(139,92,246,0.10)]
+        transition-all duration-500
+        hover:-translate-y-2
+        hover:border-purple-400/70
+        hover:shadow-[0_15px_35px_rgba(139,92,246,0.20)]
+      "
+    >
       {/* Background Image */}
-      <div className="absolute inset-0 rounded-2xl overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
 
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
-      </div>
+      <img
+        src={image}
+        alt={title}
+        className="
+          absolute inset-0
+          w-full h-full
+          object-cover
+          transition-transform duration-700
+          group-hover:scale-110
+        "
+      />
 
-      {/* Title */}
-      <div className="absolute bottom-5 right-5 text-white z-10 ">
-        <h3 className="text-lg md:text-xl font-bold text-center">{title}</h3>
-      </div>
+      {/* Gradient */}
 
-      {/* Arrow */}
-      {/* <div
-        className="absolute bottom-4 left-4 z-20 w-6 h-6 rounded-full bg-white shadow-lg
-flex items-center justify-center
-transition-all duration-300 group-hover:bg-fuchsia-600 group-hover:text-white"
+      <div
+        className="
+        absolute inset-0
+        bg-linear-to-t
+        from-purple-950/90
+        via-purple-900/20
+        to-transparent
+        opacity-90
+        transition-opacity duration-500
+        group-hover:opacity-100
+      "
+      />
+
+      {/* Glass Label */}
+
+      <div
+        className="
+        absolute bottom-4 right-4 left-4
+        z-10
+        rounded-xl
+        border border-white/30
+        bg-white/15
+        backdrop-blur-md
+        px-4 py-3
+        transition-all duration-500
+        group-hover:bg-purple-700/40
+      "
       >
-        <span className="text-2xl">←</span>
-      </div> */}
+        <h3
+          className="
+          text-base sm:text-lg md:text-xl
+          font-bold text-white
+          text-center
+          transition-transform duration-300
+          group-hover:-translate-y-0.5
+        "
+        >
+          {title}
+        </h3>
+      </div>
+
+      {/* Hover Border */}
+
+      <div
+        className="
+        absolute inset-2
+        rounded-xl
+        border border-white/0
+        pointer-events-none
+        transition-all duration-500
+        group-hover:border-white/40
+      "
+      />
     </Link>
   );
 }

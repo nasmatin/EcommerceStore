@@ -17,8 +17,8 @@ function BlogView() {
   ];
 
   return (
-<div className="grid grid-cols-2 gap-4 px-8 py-10">  
-        {blogItems.map((item, index) => (
+    <div className="grid grid-cols-2 gap-4 px-8 py-10">
+      {blogItems.map((item, index) => (
         <BlogCard key={index} {...item} />
       ))}
     </div>

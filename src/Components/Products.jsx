@@ -17,17 +17,17 @@ function Products() {
   const [isOpen, setIsOpen] = useState(false);
   const [sortBy, setSortBy] = useState("newest");
 
-  const formatPrice = (price) => Math.round(price).toLocaleString("fa-IR");
+  const formatPrice = (price) =>
+    Math.round(Number(price) || 0).toLocaleString("fa-IR");
 
   const catId = Number(searchParams.get("catId"));
   const query = searchParams.get("search");
   const tag = searchParams.get("tag");
   const isTagPage = Boolean(tag);
-  console.log("tag:", tag);
+
   const categoryProducts = useSelector(
     (state) => state.product?.products?.[catId]
   );
-  console.log("categoryProducts :", categoryProducts);
 
   const tagProducts = useSelector(
     (state) => state.producttag?.productstags?.[tag]
@@ -37,7 +37,6 @@ function Products() {
   const errorbar = useSelector((state) => state.product.errorbar);
 
   const tagStatus = useSelector((state) => state.producttag?.statusbar);
-
   const tagError = useSelector((state) => state.producttag?.errorbar);
 
   const searchProducts = useSelector(
@@ -104,6 +103,7 @@ function Products() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const sortedProducts = [...(products ?? [])].sort((a, b) => {
     switch (sortBy) {
       case "priceLow":
@@ -149,188 +149,248 @@ function Products() {
       ? "نتایج جست‌وجو"
       : "محصولات";
 
+  const sortOptions = [
+    { value: "newest", label: "جدیدترین", icon: "fa-clock" },
+    { value: "oldest", label: "قدیمی‌ترین", icon: "fa-clock-rotate-left" },
+    { value: "mostViewed", label: "پربازدیدترین", icon: "fa-eye" },
+    { value: "bestSelling", label: "پرفروش‌ترین", icon: "fa-fire" },
+    {
+      value: "priceLow",
+      label: "ارزان‌ترین",
+      icon: "fa-arrow-down-wide-short",
+    },
+    { value: "priceHigh", label: "گران‌ترین", icon: "fa-arrow-up-wide-short" },
+  ];
+
+  const selectedSort = sortOptions.find((item) => item.value === sortBy);
+
   return (
     <>
       <Header />
       <Menu />
 
-      <div
-        dir="ltr"
-        className="font-myfont flex items-start justify-between gap-4 px-10"
+      <main
+        dir="rtl"
+        className="min-h-screen bg-[#faf8fc] py-6 font-myfont sm:py-9"
       >
-        {/* منوی مرتب‌سازی */}
-        <div className="relative order-1 mt-6 shrink-0">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="cursor-pointer rounded-lg p-2 transition-all duration-200 hover:scale-110 hover:bg-fuchsia-50"
-            aria-label="باز کردن منو"
-            aria-expanded={isOpen}
-          >
-            <i className="fa-solid fa-filter text-xl text-fuchsia-600 sm:text-2xl"></i>
-          </button>
+        <div className="mx-auto w-full max-w-7xl px-3 sm:px-6 lg:px-8">
+          {/* سربرگ صفحه */}
+          <section className="relative mb-6 overflow-hidden rounded-3xl bg-linear-to-l from-purple-950 via-purple-800 to-fuchsia-800 px-5 py-7 text-white shadow-lg shadow-purple-200/50 sm:px-8 sm:py-9">
+            {/* تزئینات پس‌زمینه */}
+            <div className="pointer-events-none absolute -left-16 -top-20 size-56 rounded-full bg-fuchsia-400/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 right-1/3 size-52 rounded-full bg-purple-300/20 blur-3xl" />
 
-          {isOpen && (
-            <div
-              ref={sortMenuRef}
-              dir="rtl"
-              className="absolute left-0 top-full z-48 w-30 origin-top-left rounded-lg border border-fuchsia-300 bg-white font-myfont shadow-lg animate-in fade-in zoom-in-95 duration-200"
-            >
-              <button
-                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => {
-                  setSortBy("mostViewed");
-                  setIsOpen(false);
-                }}
-              >
-                پربازدیدترین
-              </button>
+            <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-purple-100 backdrop-blur-sm">
+                  <i className="fa-solid fa-sparkles text-fuchsia-200" />
+                  دنیای زیبایی و مراقبت
+                </div>
 
-              <button
-                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => {
-                  setSortBy("bestSelling");
-                  setIsOpen(false);
-                }}
-              >
-                پرفروش‌ترین
-              </button>
-              <button
-                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => {
-                  setSortBy("newest");
-                  setIsOpen(false);
-                }}
-              >
-                جدیدترین
-              </button>
+                <h1 className="text-xl font-black leading-9 sm:text-3xl">
+                  {pageTitle}
+                </h1>
 
-              <button
-                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => {
-                  setSortBy("oldest");
-                  setIsOpen(false);
-                }}
-              >
-                قدیمی ترین
-              </button>
+                <p className="mt-2 max-w-xl text-xs leading-7 text-purple-100 sm:text-sm">
+                  محصولات مورد علاقه‌ات رو پیدا کن و با خیال راحت انتخاب کن.
+                </p>
+              </div>
 
-              <button
-                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => {
-                  setSortBy("priceLow");
-                  setIsOpen(false);
-                }}
-              >
-                ارزان‌ترین
-              </button>
+              <div className="flex size-16 shrink-0 items-center justify-center self-end rounded-2xl border border-white/20 bg-white/10 text-3xl text-fuchsia-100 shadow-inner backdrop-blur-sm sm:size-20 sm:self-center">
+                <i className="fa-solid fa-bag-shopping" />
+              </div>
+            </div>
+          </section>
 
-              <button
-                className="block w-full px-4 py-3 font-semibold text-fuchsia-800 transition-colors duration-200 hover:bg-fuchsia-100"
-                onClick={() => {
-                  setSortBy("priceHigh");
-                  setIsOpen(false);
-                }}
-              >
-                گران‌ترین
-              </button>
+          {/* مسیر دسته‌بندی و مرتب‌سازی */}
+          <section className="mb-6 rounded-2xl border border-purple-100 bg-white p-3 shadow-sm shadow-purple-100/40 sm:p-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              {/* مسیر دسته‌بندی‌ها */}
+              <div className="flex min-w-0 flex-wrap items-center gap-2 text-xs text-gray-500 sm:text-sm">
+                <span
+                  className="cursor-pointer transition-colors hover:text-fuchsia-700"
+                  onClick={() => navigate("/")}
+                >
+                  خانه
+                </span>
+
+                <i className="fa-solid fa-chevron-left text-[9px] text-purple-300" />
+
+                <span>محصولات</span>
+
+                {query && (
+                  <>
+                    <i className="fa-solid fa-chevron-left text-[9px] text-purple-300" />
+                    <span className="max-w-full break-all font-bold text-purple-800">
+                      نتایج جست‌وجو: {query}
+                    </span>
+                  </>
+                )}
+
+                {isTagPage && (
+                  <>
+                    <i className="fa-solid fa-chevron-left text-[9px] text-purple-300" />
+                    <span className="font-bold text-purple-800">
+                      {pageTitle}
+                    </span>
+                  </>
+                )}
+
+                {categoryPath.map((category) => (
+                  <Fragment key={category.id}>
+                    <i className="fa-solid fa-chevron-left text-[9px] text-purple-300" />
+                    <span
+                      className="cursor-pointer transition-colors hover:text-fuchsia-700"
+                      onClick={() => {
+                        if (category.id !== catId) {
+                          navigate(`/products?catId=${category.id}`);
+                        }
+                      }}
+                    >
+                      {category.name}
+                    </span>
+                  </Fragment>
+                ))}
+              </div>
+
+              {/* منوی مرتب‌سازی */}
+              <div ref={sortMenuRef} className="relative z-20 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(!isOpen)}
+                  aria-label="باز کردن منوی مرتب‌سازی"
+                  aria-expanded={isOpen}
+                  className="
+                    flex w-full items-center justify-between gap-3
+                    rounded-xl border border-purple-200
+                    bg-purple-50/70 px-4 py-3
+                    text-sm font-bold text-purple-900
+                    transition-all duration-200
+                    hover:border-fuchsia-300 hover:bg-fuchsia-50
+                    sm:w-auto sm:min-w-48
+                  "
+                >
+                  <span className="flex items-center gap-2">
+                    <i className="fa-solid fa-sliders text-fuchsia-700" />
+                    مرتب‌سازی:
+                    <span className="text-fuchsia-800">
+                      {selectedSort?.label}
+                    </span>
+                  </span>
+
+                  <i
+                    className={`fa-solid fa-chevron-down text-xs text-purple-500 transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div
+                    dir="rtl"
+                    className="
+                      absolute right-0 top-full z-50 mt-2
+                      w-full min-w-52 overflow-hidden
+                      rounded-2xl border border-purple-100
+                      bg-white p-1.5 shadow-xl shadow-purple-200/40
+                      animate-in fade-in zoom-in-95 duration-200
+                    "
+                  >
+                    {sortOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => {
+                          setSortBy(option.value);
+                          setIsOpen(false);
+                        }}
+                        className={`
+                          flex w-full items-center gap-3
+                          rounded-xl px-3 py-3 text-right text-sm
+                          font-medium transition-colors duration-200
+                          ${
+                            sortBy === option.value
+                              ? "bg-purple-100 font-extrabold text-purple-900"
+                              : "text-gray-600 hover:bg-purple-50 hover:text-fuchsia-800"
+                          }
+                        `}
+                      >
+                        <i
+                          className={`fa-solid ${option.icon} w-5 text-center text-fuchsia-700`}
+                        />
+                        {option.label}
+
+                        {sortBy === option.value && (
+                          <i className="fa-solid fa-check mr-auto text-fuchsia-700" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          {/* تعداد محصولات */}
+          {!isLoading && !hasError && products?.length > 0 && (
+            <div className="mb-4 flex items-center justify-between px-1">
+              <p className="text-sm font-bold text-purple-950">
+                <i className="fa-solid fa-box-open ml-2 text-fuchsia-700" />
+                فهرست محصولات
+              </p>
+
+              <span className="rounded-lg bg-purple-100 px-3 py-1.5 text-xs font-bold text-purple-800">
+                {products.length.toLocaleString("fa-IR")} کالا
+              </span>
             </div>
           )}
-        </div>
 
-        {/* مسیر دسته‌بندی‌ها */}
-        <div
-          dir="rtl"
-          className="order-2 mt-8 mb-6 flex min-w-0 flex-wrap items-center justify-end gap-2 text-normal text-fuchsia-600"
-        >
-          <span
-            className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-900"
-            onClick={() => navigate("/")}
-          >
-            خانه
-          </span>
-
-          <span>/</span>
-          <span>محصولات</span>
-
-          {query && (
-            <>
-              <span>/</span>
-              <span className="font-semibold text-fuchsia-800">
-                نتایج جست‌وجو: {query}
-              </span>
-            </>
-          )}
-
-          {isTagPage && (
-            <>
-              <span>/</span>
-              <span className="font-semibold text-fuchsia-800">
-                {pageTitle} ({products?.length.toLocaleString("fa-IR") ?? 0}{" "}
-                کالا)
-              </span>
-            </>
-          )}
-
-          {categoryPath.map((category) => (
-            <Fragment key={category.id}>
-              <span>/</span>
-              <span
-                className="cursor-pointer transition-colors duration-200 hover:text-fuchsia-800"
-                onClick={() => {
-                  if (category.id !== catId) {
-                    navigate(`/products?catId=${category.id}`);
-                  }
-                }}
-              >
-                {category.name}
-              </span>
-            </Fragment>
-          ))}
-          {!isTagPage && (
-            <>
-              <span>/</span>
-              <span className="font-semibold text-fuchsia-800">
-                {pageTitle} ({(products?.length ?? 0).toLocaleString("fa-IR")}{" "}
-                کالا)
-              </span>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* نمایش محصولات */}
-      <div dir="rtl" className="font-myfont text-center">
-        {isLoading ? (
-          <div className="flex items-center justify-center py-16">
-            <div className="h-10 w-10 animate-spin rounded-full border-4 border-purple-200 border-t-purple-800"></div>
-          </div>
-        ) : hasError ? (
-          <p className="py-10 text-red-600">دریافت محصولات با خطا مواجه شد.</p>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-3 lg:grid-cols-5">
-            {!products || products.length === 0 ? (
-              <NoProducts />
-            ) : (
-              sortedProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="animate-in fade-in slide-in-from-bottom-2 duration-300"
-                >
-                  <ProductCard
-                    id={product.id}
-                    image={product.img1}
-                    label={product.name}
-                    sale={product.sale}
-                    brand={product.brand}
-                    price={formatPrice(product.price)}
-                    link={`/store/products/productdetail?id=${product.id}`}
-                  />
+          {/* نمایش محصولات */}
+          <section>
+            {isLoading ? (
+              <div className="flex min-h-80 flex-col items-center justify-center gap-4 rounded-3xl border border-purple-100 bg-white shadow-sm">
+                <div className="size-12 animate-spin rounded-full border-4 border-purple-100 border-t-fuchsia-700" />
+                <p className="text-sm font-medium text-gray-500">
+                  در حال دریافت محصولات...
+                </p>
+              </div>
+            ) : hasError ? (
+              <div className="flex min-h-80 flex-col items-center justify-center gap-4 rounded-3xl border border-red-100 bg-white px-5 text-center shadow-sm">
+                <div className="flex size-16 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+                  <i className="fa-solid fa-triangle-exclamation text-2xl" />
                 </div>
-              ))
+
+                <p className="text-sm font-bold text-red-600">
+                  دریافت محصولات با خطا مواجه شد.
+                </p>
+              </div>
+            ) : !products || products.length === 0 ? (
+              <div className="rounded-3xl border border-purple-100 bg-white p-4 shadow-sm">
+                <NoProducts />
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {sortedProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="min-w-0 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                  >
+                    <ProductCard
+                      id={product.id}
+                      image={product.img1}
+                      label={product.name}
+                      sale={product.sale}
+                      brand={product.brand}
+                      price={formatPrice(product.price)}
+                      link={`/store/products/productdetail?id=${product.id}`}
+                    />
+                  </div>
+                ))}
+              </div>
             )}
-          </div>
-        )}
-      </div>
+          </section>
+        </div>
+      </main>
 
       <Footer />
     </>
