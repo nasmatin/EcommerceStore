@@ -1,11 +1,13 @@
+
 import Header from "../Components/Header";
 import Menu from "../Components/Menu";
 import Footer from "../Components/Footer";
 import { useSelector } from "react-redux";
 import { Link } from "react-router";
 
+// Displays the current user's account information.
 function Account() {
-  const account = useSelector((state) => state.login);
+  const account = useSelector((state) => state.auth);
 
   const details = [
     {
@@ -45,7 +47,7 @@ function Account() {
         "
       >
         <div className="mx-auto max-w-4xl">
-          {/* عنوان صفحه */}
+          {/* Page title */}
           <div className="mb-8 text-center">
             <div
               className="
@@ -70,7 +72,7 @@ function Account() {
             <div className="mx-auto mt-5 h-1 w-16 rounded-full bg-linear-to-l from-purple-800 to-fuchsia-600" />
           </div>
 
-          {/* کارت اطلاعات */}
+          {/* Account information card */}
           <div
             className="
               overflow-hidden rounded-3xl
@@ -140,7 +142,7 @@ function Account() {
               ))}
             </div>
 
-            {/* دکمه ویرایش */}
+            {/* Edit account button */}
             <div
               className="
                 flex justify-center border-t border-purple-100

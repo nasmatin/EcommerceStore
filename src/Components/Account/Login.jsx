@@ -7,6 +7,7 @@ import Button from "../Components/Button";
 import { loadCart, add } from "../Features/AddToCartSlice";
 import { loadFavorites, toggleFavorite } from "../Features/FavoriteSlice";
 
+// Handles user login and pending actions.
 function LoginClient() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function LoginClient() {
     password: "",
   });
 
+  // Updates login form fields.
   const inputchange = (e) => {
     const { name, value } = e.target;
 
@@ -32,6 +34,7 @@ function LoginClient() {
     }));
   };
 
+  // Authenticates the user and restores pending actions.
   const inputsubmit = async (e) => {
     e.preventDefault();
 
@@ -59,6 +62,7 @@ function LoginClient() {
     }
   };
 
+    // Redirects authenticated users.
   useEffect(() => {
     if (isLoggedIn) {
       navigate(from, { replace: true });

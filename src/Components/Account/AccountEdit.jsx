@@ -9,6 +9,7 @@ import { PutAccountEdit } from "../Features/AccountSlice";
 import { updateUserInfo } from "../Features/LoginSlice";
 import { useNavigate } from "react-router";
 
+// Handles user account information updates.
 function AccountEdit() {
   const account = useSelector((state) => state.login);
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function AccountEdit() {
     username: account.username || "",
   });
 
+  // Updates form fields when their values change.
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -30,6 +32,7 @@ function AccountEdit() {
     }));
   };
 
+   // Submits updated account information.
   const handleSubmit = async (e) => {
     e.preventDefault();
 

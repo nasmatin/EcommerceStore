@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router";
 import Input from "../Components/Input";
 import Button from "../Components/Button";
-import { PostRegister } from "../Features/RegisterSlice";
+import { PostRegister } from "../Features/AuthSlice";
 import { login } from "../Features/LoginSlice";
 import { loadCart, add } from "../Features/AddToCartSlice";
 import { loadFavorites, toggleFavorite } from "../Features/FavoriteSlice";

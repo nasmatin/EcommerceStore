@@ -54,7 +54,7 @@ function CategoryCard({ image, link, label }) {
         className="
           mt-5 min-w-32
           rounded-full
-          border border-fuchsia-100
+         
           bg-white px-5 py-2.5
           shadow-sm
           transition-all duration-300
